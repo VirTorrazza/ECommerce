@@ -1,0 +1,81 @@
+[
+	{
+		"id": 3,
+		"title": "Producto 3",
+		"description": "Descripcion del producto 3",
+		"code": "P003",
+		"price": 1300,
+		"status": true,
+		"stock": 105,
+		"category": "categoria C",
+		"thumbnails": [
+			"imagen 1"
+		]
+	},
+	{
+		"id": 4,
+		"title": "Producto 4",
+		"description": "Descripcion del producto 4",
+		"code": "P004",
+		"price": 900,
+		"status": true,
+		"stock": 85,
+		"category": "categoria C",
+		"thumbnails": [
+			"imagen 1"
+		]
+	},
+	{
+		"id": 5,
+		"title": "Producto 5",
+		"description": "Descripcion del producto 5",
+		"code": "P005",
+		"price": 1340,
+		"status": true,
+		"stock": 64,
+		"category": "categoria A",
+		"thumbnails": [
+			"imagen 1",
+			"imagen 2",
+			"imagen 3"
+		]
+	},
+	{
+		"id": 6,
+		"title": "Producto 6",
+		"description": "Descripcion del producto 6",
+		"code": "P006",
+		"price": 490,
+		"status": true,
+		"stock": 34,
+		"category": "categoria B",
+		"thumbnails": [
+			"imagen 1",
+			"imagen 2",
+			"imagen 3"
+		]
+	},
+	{
+		"title": "producto 22",
+		"description": "descr",
+		"code": "p022",
+		"price": 203,
+		"stock": 23,
+		"category": "categoria3",
+		"id": 7
+	},
+	{
+		"title": "Producto 008",
+		"description": "Descripcion del producto 002",
+		"code": "P008",
+		"price": 5000,
+		"status": false,
+		"stock": 763,
+		"category": "categoria A",
+		"thumbnails": [
+			"imagen 1",
+			"imagen 3"
+		],
+		"id": 8
+	}
+]

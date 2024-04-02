@@ -1,0 +1,19 @@
+{
+  "name": "entrega1",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon .",
+    "test": "mocha test/supertest.test.js"
+  },
+  "keywords": [],
+  "author": "Virginia Torrazza",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  },
+  "devDependencies": {},
+  "description": ""
+}
