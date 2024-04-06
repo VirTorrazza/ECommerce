@@ -34,8 +34,6 @@ class ProductManager {
     async getProducts(){
         if(!this.#fileExists()) return 'Error - File error';
         let data = await fs.promises.readFile(this.#path, 'utf-8');
-        console.log("path" +this.#path);
-        console.log ("data" + data);
         this.#products = JSON.parse(data);
         return this.#products;
     }
