@@ -8,6 +8,7 @@
         <th scope="col">Code</th>
         <th scope="col">Price</th>
         <th scope="col">Stock</th>
+        <th scope="col">Category</th>
       </tr>
     </thead>
     <tbody>
@@ -18,18 +19,7 @@
           <td>{{code}}</td>
           <td>{{price}}</td>
           <td>{{#if stock}}{{stock}}{{else}}Out of stock{{/if}}</td> 
-          <td>
-            <div class="btn-group" role="group" aria-label="Product Actions">
-              <button class="btn btn-outline-danger" data-product-id="delete-{{id}}" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-            <td>
-              <button class="btn btn-outline-primary" data-product-id="add-{{id}}" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
-                <i class="fas fa-plus"></i>
-              </button>
-            </td>
-          </div>
+          <td>{{category}}</td>
         </tr>
       {{/each}}
     </tbody>
