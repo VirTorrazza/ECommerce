@@ -1,6 +1,43 @@
 <div class="container">
+  <div id="add-product-form" style="display: none;">
+    <h2>Add Product</h2>
+    <form id="newProductForm">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title:</label>
+      <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    
+    <div class="mb-3">
+      <label for="description" class="form-label">Description:</label>
+      <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+    </div>
+    
+    <div class="mb-3">
+      <label for="code" class="form-label">Code:</label>
+      <input type="text" class="form-control" id="code" name="code" required>
+    </div>
+    
+    <div class="mb-3">
+      <label for="price" class="form-label">Price:</label>
+      <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+    </div>
+    
+    <div class="mb-3">
+      <label for="stock" class="form-label">Stock:</label>
+      <input type="number" class="form-control" id="stock" name="stock" required>
+    </div>
+    
+    <div class="mb-3">
+      <label for="category" class="form-label">Category:</label>
+      <input type="text" class="form-control" id="category" name="category" required>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Add Product</button>
+    </form>
+  </div>
+
   <h1 class="h1">Products</h1> 
-  <table class="table table-striped">
+  <table class="table table-striped" id="real-time-products-table">
     <thead>
       <tr>
         <th scope="col">Title</th>
@@ -22,12 +59,12 @@
           <td>{{category}}</td>
           <td>
             <div class="btn-group" role="group" aria-label="Product Actions">
-              <button class="btn btn-outline-danger" data-product-id="delete-{{id}}" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+              <button class="btn btn-outline-danger" id="delete-product-button" data-product-id="delete-{{id}}" type="button" data-bs-toggle="tooltip" onclick="delete-product({{this.id}})" data-bs-placement="top" title="Delete">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
             <td>
-              <button class="btn btn-outline-primary" data-product-id="add-{{id}}" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+              <button class="btn btn-outline-primary" id="add-product-button" data-product-id="add-{{id}}" type="button" data-bs-toggle="tooltip" onclick="addProduct()" data-bs-placement="top" title="Add">
                 <i class="fas fa-plus"></i>
               </button>
             </td>
@@ -37,4 +74,5 @@
     </tbody>
   </table>
 </div>
- <script src="/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="index.js"></script>

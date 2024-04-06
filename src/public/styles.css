@@ -1,0 +1,7 @@
+.custom-alert .swal2-popup {
+    font-size: 14px !important;
+  }
+  
+  .custom-alert .swal2-popup.swal2-modal {
+    max-width: 100px !important; 
+  }

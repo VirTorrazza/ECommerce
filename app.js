@@ -7,6 +7,7 @@ import handlebars from 'express-handlebars';
 import cors from 'cors'
 
 const app = express();
+app.use(express.static('src/public'));
 app.engine('handlebars', handlebars.engine()); 
 app.set('views', './src/views');                
 app.set('view engine', 'handlebars');
