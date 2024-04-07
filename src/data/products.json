@@ -77,5 +77,41 @@
 			"imagen 3"
 		],
 		"id": 8
+	},
+	{
+		"title": "producto100",
+		"description": "zzbxv",
+		"price": "1",
+		"code": "hsh",
+		"stock": "1",
+		"category": "hola",
+		"id": 9
+	},
+	{
+		"title": "producto100",
+		"description": "x",
+		"price": "1",
+		"code": "bx",
+		"stock": "1",
+		"category": "hola",
+		"id": 10
+	},
+	{
+		"title": "producto1000",
+		"description": "vsg",
+		"price": "180",
+		"code": "45",
+		"stock": "3",
+		"category": "3",
+		"id": 11
+	},
+	{
+		"title": "producto 2000",
+		"description": "xvxv",
+		"price": "2",
+		"code": "2",
+		"stock": "2",
+		"category": "2",
+		"id": 12
 	}
 ]
