@@ -53,5 +53,23 @@
 			"imagen 2",
 			"imagen 3"
 		]
+	},
+	{
+		"title": "bbs",
+		"description": "bsbs",
+		"price": "2",
+		"code": "13424",
+		"stock": "1",
+		"category": "hola",
+		"id": 7
+	},
+	{
+		"title": "vvs",
+		"description": "sbbs",
+		"price": "1",
+		"code": "bs",
+		"stock": "1",
+		"category": "sv",
+		"id": 8
 	}
 ]

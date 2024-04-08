@@ -6,6 +6,26 @@ function addProduct() {
 
 function addProductToTable(event) {
   event.preventDefault(); 
+  let title = document.getElementById("title").value.trim();
+  let code = document.getElementById("code").value.trim();
+  let price = document.getElementById("price").value.trim();
+  let stock = document.getElementById("stock").value.trim();
+  let category = document.getElementById("category").value.trim();
+  
+  if (title === "" || code === "" || price === "" || stock === "" || category === "") {
+    Swal.fire({
+      title: "Error",
+      text: "All fields must be filled out",
+      icon: "error",
+      width: "40%",
+      allowOutsideClick: false,
+      allowEscapeKey: false ,
+      allowEnterKey :false ,
+      stopKeyDownPropagation :true
+      
+    });
+    return; 
+  }
 
   let body = {
     title: document.getElementById("title").value,
@@ -34,9 +54,11 @@ function addProductToTable(event) {
       title: "Product",
       text: "Product added successfully!",
       icon: "success",
-      width: '300px',
-      height: '110px',
-      allowOutsideClick: false
+      width: "40%",
+      allowOutsideClick: false,
+      allowEscapeKey: false ,
+      allowEnterKey :false ,
+      stopKeyDownPropagation :true
     });
   })
   .catch(err => {
@@ -60,9 +82,11 @@ function deleteProduct(pid) {
           title: "Deleted!",
           text: "The product has been deleted.",
           icon: "success",
-          width: '300px',
-          height: '110px',
-          allowOutsideClick: false
+          width: "40%",
+          allowOutsideClick: false,
+          allowEscapeKey: false ,
+          allowEnterKey :false ,
+          stopKeyDownPropagation :true
         });
       } else {
         console.error("Error deleting product:", result.statusText);
@@ -70,9 +94,11 @@ function deleteProduct(pid) {
           title: "Error",
           text: "An error occurred while deleting the product.",
           icon: "error",
-          width: '300px',
-          height: '110px',
-          allowOutsideClick: false
+          width: "40%",
+          allowOutsideClick: false,
+          allowEscapeKey: false ,
+          allowEnterKey :false ,
+          stopKeyDownPropagation :true
         });
       }
     })
@@ -82,9 +108,11 @@ function deleteProduct(pid) {
         title: "Error",
         text: "An error occurred while deleting the product.",
         icon: "error",
-        width: '300px',
-        height: '110px',
-        allowOutsideClick: false
+        width: "40%",
+        allowOutsideClick: false,
+        allowEscapeKey: false ,
+        allowEnterKey :false ,
+        stopKeyDownPropagation :true
       });
     });
 }
