@@ -45,48 +45,52 @@ function addProductToTable(event) {
   });
 }
 
-async function deleteProduct(pid) {
-  try {
-    const response = await fetch(`/products/${pid}`, {
-      method: 'DELETE'
-    });
-    
-    if (response.ok) {
-      const result = await response.json();
-      
+function deleteProduct(pid) {
+  console.log("El pid dentro de la funcion es", pid);
+
+  fetch(`/products/${pid}`, {
+    method: 'DELETE',
+  })
+    .then(result => {
+      console.log("result.status" + result.status)
+      if (result.status === 204) {
+        socket.emit('deletedProduct');
+        console.log("Product deleted successfully!");
+        Swal.fire({
+          title: "Deleted!",
+          text: "The product has been deleted.",
+          icon: "success",
+          width: '300px',
+          height: '110px',
+          allowOutsideClick: false
+        });
+      } else {
+        console.error("Error deleting product:", result.statusText);
+        Swal.fire({
+          title: "Error",
+          text: "An error occurred while deleting the product.",
+          icon: "error",
+          width: '300px',
+          height: '110px',
+          allowOutsideClick: false
+        });
+      }
+    })
+    .catch(error => {
+      console.error("Error deleting product:", error);
       Swal.fire({
-        title: "Product deletion",
-        text: "Are you sure you want to delete this product?",
-        icon: "warning",
+        title: "Error",
+        text: "An error occurred while deleting the product.",
+        icon: "error",
         width: '300px',
         height: '110px',
-        allowOutsideClick: false,
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          socket.emit('productsList', result.payload);
-          Swal.fire({
-            title: "Deleted!",
-            text: "The product has been deleted.",
-            icon: "success",
-            width: '300px',
-            height: '110px',
-            allowOutsideClick: false
-          });
-        }
+        allowOutsideClick: false
       });
-    } else {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage || 'Failed to delete product');
-    }
-  } catch (error) {
-    console.error('Error deleting product:', error.message);
-    
-  }
+    });
 }
+
+
+
 
 socket.on("updateProducts",(data) =>{
   let table= document.getElementById("real-time-products-table");
@@ -114,7 +118,7 @@ socket.on("updateProducts",(data) =>{
           <td>${element.category}</td>
           <td>
             <div class="btn-group" role="group" aria-label="Product Actions">
-              <button class="btn btn-outline-danger" id="delete-product-button" data-product-id="delete-${element.id}" type="button" data-bs-toggle="tooltip" onclick="deleteProduct(${this.id})" data-bs-placement="top" title="Delete">
+              <button class="btn btn-outline-danger" id="delete-product-button" data-product-id="delete-${element.id}" type="button" data-bs-toggle="tooltip" onclick="deleteProduct((${element.id}))" data-bs-placement="top" title="Delete">
                 <i class="fas fa-trash"></i>
               </button>
             </td>

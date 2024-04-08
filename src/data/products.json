@@ -1,5 +1,45 @@
 [
 	{
+		"id": 2,
+		"title": "Producto 002",
+		"description": "Descripcion del producto 002",
+		"code": "P002",
+		"price": 5000,
+		"status": false,
+		"stock": 142,
+		"category": "categoria A",
+		"thumbnails": [
+			"imagen 1",
+			"imagen 3"
+		]
+	},
+	{
+		"id": 3,
+		"title": "Producto 3",
+		"description": "Descripcion del producto 3",
+		"code": "P003",
+		"price": 1300,
+		"status": true,
+		"stock": 105,
+		"category": "categoria C",
+		"thumbnails": [
+			"imagen 1"
+		]
+	},
+	{
+		"id": 4,
+		"title": "Producto 4",
+		"description": "Descripcion del producto 4",
+		"code": "P004",
+		"price": 900,
+		"status": true,
+		"stock": 85,
+		"category": "categoria C",
+		"thumbnails": [
+			"imagen 1"
+		]
+	},
+	{
 		"id": 6,
 		"title": "Producto 6",
 		"description": "Descripcion del producto 6",
@@ -13,118 +53,5 @@
 			"imagen 2",
 			"imagen 3"
 		]
-	},
-	{
-		"title": "producto 22",
-		"description": "descr",
-		"code": "p022",
-		"price": 203,
-		"stock": 23,
-		"category": "categoria3",
-		"id": 7
-	},
-	{
-		"title": "Producto 008",
-		"description": "Descripcion del producto 002",
-		"code": "P008",
-		"price": 5000,
-		"status": false,
-		"stock": 763,
-		"category": "categoria A",
-		"thumbnails": [
-			"imagen 1",
-			"imagen 3"
-		],
-		"id": 8
-	},
-	{
-		"title": "producto100",
-		"description": "zzbxv",
-		"price": "1",
-		"code": "hsh",
-		"stock": "1",
-		"category": "hola",
-		"id": 9
-	},
-	{
-		"title": "producto100",
-		"description": "x",
-		"price": "1",
-		"code": "bx",
-		"stock": "1",
-		"category": "hola",
-		"id": 10
-	},
-	{
-		"title": "producto1000",
-		"description": "vsg",
-		"price": "180",
-		"code": "45",
-		"stock": "3",
-		"category": "3",
-		"id": 11
-	},
-	{
-		"title": "producto 2000",
-		"description": "xvxv",
-		"price": "2",
-		"code": "2",
-		"stock": "2",
-		"category": "2",
-		"id": 12
-	},
-	{
-		"title": "pro44564",
-		"description": "abba",
-		"price": "2",
-		"code": "a",
-		"stock": "2",
-		"category": "1",
-		"id": 13
-	},
-	{
-		"title": "prod789",
-		"description": "teyye",
-		"price": "2",
-		"code": "eyye",
-		"stock": "2",
-		"category": "1",
-		"id": 14
-	},
-	{
-		"title": "prod235",
-		"description": "235",
-		"price": "13",
-		"code": "cc",
-		"stock": "2",
-		"category": "hola",
-		"id": 15
-	},
-	{
-		"title": "prodivi",
-		"description": "gh",
-		"price": "4",
-		"code": "4",
-		"stock": "3",
-		"category": "c",
-		"id": 16
-	},
-	{
-		"title": "prodiivivivi",
-		"description": "vn",
-		"price": "2",
-		"code": "3",
-		"stock": "2",
-		"category": "s",
-		"id": 17
-	},
-	{
-		"title": "jhjjhjkhlghkjklñlkjhgf",
-		"description": "dfbn",
-		"price": "334",
-		"code": "2355",
-		"stock": "23",
-		"category": "sdf",
-		"id": 18
 	}
 ]

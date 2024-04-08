@@ -24,10 +24,14 @@ const socketServer= new Server (httpServer);
 const productManager= new ProductManager('./src/data/products.json');
 
 socketServer.on('connection', async (clientSocket) => {
-    console.log ("Client connected");
     clientSocket.on('productsList', async data => {
         let newData= await productManager.getProducts();
         console.log("El cliente envia "+ JSON.stringify(data))
         socketServer.emit('updateProducts', newData);
     });
+    clientSocket.on('deletedProduct', async ()=> {
+        let newData= await productManager.getProducts();
+        socketServer.emit('updateProducts', newData);
+    });
+
 });
