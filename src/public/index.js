@@ -49,6 +49,13 @@ function addProductToTable(event) {
       throw new Error(result.error);
     }
     socket.emit('productsList', result.payload);
+    document.getElementById("title").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("code").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("stock").value = "";
+    document.getElementById("category").value = "";
+    
     form.style.display = "none";
     Swal.fire({
       title: "Product",
