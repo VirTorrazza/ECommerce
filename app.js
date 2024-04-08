@@ -30,7 +30,7 @@ socketServer.on('connection', async (clientSocket) => {
         socketServer.emit('updateProducts', newData);
     });
     clientSocket.on('deletedProduct', async ()=> {
-        let newData= await productManager.getProducts();
+        let newData= await productManager.getProducts(); 
         socketServer.emit('updateProducts', newData);
     });
 
