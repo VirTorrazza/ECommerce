@@ -53,21 +53,12 @@
 		"id": 11
 	},
 	{
-		"title": "1",
-		"description": "1",
-		"price": "2",
-		"code": "vsv",
-		"stock": "1",
-		"category": "1",
+		"title": "producto9",
+		"description": "producto",
+		"price": "12",
+		"code": "9",
+		"stock": "2",
+		"category": "3",
 		"id": 12
-	},
-	{
-		"title": "repertira",
-		"description": "gsgs",
-		"price": "5",
-		"code": "code1",
-		"stock": "6",
-		"category": "vvv",
-		"id": 13
 	}
 ]

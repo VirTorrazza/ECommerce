@@ -17,11 +17,14 @@ function addProductToTable(event) {
       title: "Error",
       text: "All fields must be filled out",
       icon: "error",
-      width: "40%",
+      toast: true,
+      position: "center",
       allowOutsideClick: false,
       allowEscapeKey: false ,
       allowEnterKey :false ,
-      stopKeyDownPropagation :true
+      stopKeyDownPropagation :true,
+      confirmButtonColor:'#FA8072',
+      confirmButtonAriaLabel:'Ok'
       
     });
     return; 
@@ -35,11 +38,15 @@ function addProductToTable(event) {
         title: "Error",
         text: "A product with the same code already exists",
         icon: "error",
-        width: "40%",
+        toast: true,
+        position: "center",
         allowOutsideClick: false,
         allowEscapeKey: false ,
         allowEnterKey :false ,
-        stopKeyDownPropagation :true      
+        stopKeyDownPropagation :true,
+        confirmButtonColor:'#FA8072',
+        confirmButtonAriaLabel:'Ok'
+
       });
       document.getElementById("title").value = "";
       document.getElementById("description").value = "";
@@ -86,11 +93,14 @@ function addProductToTable(event) {
       title: "Product",
       text: "Product added successfully!",
       icon: "success",
-      width: "40%",
+      toast: true,
+      position: "center",
       allowOutsideClick: false,
       allowEscapeKey: false ,
       allowEnterKey :false ,
-      stopKeyDownPropagation :true
+      stopKeyDownPropagation :true,
+      confirmButtonColor:'#90EE90',
+      confirmButtonAriaLabel:'Ok'
     });
   })
   .catch(err => {
@@ -100,25 +110,25 @@ function addProductToTable(event) {
 }
 
 function deleteProduct(pid) {
-  console.log("El pid dentro de la funcion es", pid);
 
   fetch(`/products/${pid}`, {
     method: 'DELETE',
   })
     .then(result => {
-      console.log("result.status" + result.status)
       if (result.status === 204) {
         socket.emit('deletedProduct');
-        console.log("Product deleted successfully!");
         Swal.fire({
           title: "Deleted!",
           text: "The product has been deleted.",
           icon: "success",
-          width: "40%",
+          toast: true,
+          position: "center",
           allowOutsideClick: false,
           allowEscapeKey: false ,
           allowEnterKey :false ,
-          stopKeyDownPropagation :true
+          stopKeyDownPropagation :true,
+          confirmButtonColor:'#90EE90',
+          confirmButtonAriaLabel:'Ok'
         });
       } else {
         console.error("Error deleting product:", result.statusText);
@@ -126,11 +136,14 @@ function deleteProduct(pid) {
           title: "Error",
           text: "An error occurred while deleting the product.",
           icon: "error",
-          width: "40%",
+          toast: true,
+          position: "center",
           allowOutsideClick: false,
           allowEscapeKey: false ,
           allowEnterKey :false ,
-          stopKeyDownPropagation :true
+          stopKeyDownPropagation :true,
+          confirmButtonColor:'#FA8072',
+          confirmButtonAriaLabel:'Ok'
         });
       }
     })
@@ -140,17 +153,17 @@ function deleteProduct(pid) {
         title: "Error",
         text: "An error occurred while deleting the product.",
         icon: "error",
-        width: "40%",
+        toast: true,
+        position: "center",
         allowOutsideClick: false,
         allowEscapeKey: false ,
         allowEnterKey :false ,
-        stopKeyDownPropagation :true
+        stopKeyDownPropagation :true,
+        confirmButtonColor:'#FA8072',
+        confirmButtonAriaLabel:'Ok'
       });
     });
 }
-
-
-
 
 socket.on("updateProducts",(data) =>{
   let table= document.getElementById("real-time-products-table");
