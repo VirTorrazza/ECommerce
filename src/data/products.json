@@ -1,19 +1,5 @@
 [
 	{
-		"id": 2,
-		"title": "Producto 002",
-		"description": "Descripcion del producto 002",
-		"code": "P002",
-		"price": 5000,
-		"status": false,
-		"stock": 142,
-		"category": "categoria A",
-		"thumbnails": [
-			"imagen 1",
-			"imagen 3"
-		]
-	},
-	{
 		"id": 3,
 		"title": "Producto 3",
 		"description": "Descripcion del producto 3",
@@ -40,21 +26,6 @@
 		]
 	},
 	{
-		"id": 6,
-		"title": "Producto 6",
-		"description": "Descripcion del producto 6",
-		"code": "P006",
-		"price": 490,
-		"status": true,
-		"stock": 34,
-		"category": "categoria B",
-		"thumbnails": [
-			"imagen 1",
-			"imagen 2",
-			"imagen 3"
-		]
-	},
-	{
 		"title": "bbs",
 		"description": "bsbs",
 		"price": "2",
@@ -62,15 +33,6 @@
 		"stock": "1",
 		"category": "hola",
 		"id": 7
-	},
-	{
-		"title": "vvs",
-		"description": "sbbs",
-		"price": "1",
-		"code": "bs",
-		"stock": "1",
-		"category": "sv",
-		"id": 8
 	},
 	{
 		"title": "1",
@@ -82,15 +44,6 @@
 		"id": 9
 	},
 	{
-		"title": "3",
-		"description": "3",
-		"price": "3",
-		"code": "3",
-		"stock": "3",
-		"category": "3",
-		"id": 10
-	},
-	{
 		"title": "7",
 		"description": "7",
 		"price": "7",
@@ -98,5 +51,23 @@
 		"stock": "7",
 		"category": "7",
 		"id": 11
+	},
+	{
+		"title": "1",
+		"description": "1",
+		"price": "2",
+		"code": "vsv",
+		"stock": "1",
+		"category": "1",
+		"id": 12
+	},
+	{
+		"title": "repertira",
+		"description": "gsgs",
+		"price": "5",
+		"code": "code1",
+		"stock": "6",
+		"category": "vvv",
+		"id": 13
 	}
 ]

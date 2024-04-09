@@ -27,6 +27,31 @@ function addProductToTable(event) {
     return; 
   }
 
+  const tableRows = document.querySelectorAll('#real-time-products-table tbody tr');
+  for (let row of tableRows) {
+    let rowCode = row.cells[2].textContent; 
+    if (rowCode === code) { // Check if a product with the same code already exists
+      Swal.fire({
+        title: "Error",
+        text: "A product with the same code already exists",
+        icon: "error",
+        width: "40%",
+        allowOutsideClick: false,
+        allowEscapeKey: false ,
+        allowEnterKey :false ,
+        stopKeyDownPropagation :true      
+      });
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("code").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("stock").value = "";
+      document.getElementById("category").value = "";
+      return; 
+    }
+  }
+
+
   let body = {
     title: document.getElementById("title").value,
     description: document.getElementById("description").value,
