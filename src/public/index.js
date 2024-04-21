@@ -4,6 +4,7 @@ function addProduct() {
   form.style.display = "block";
 }
 
+
 function addProductToTable(event) {
   event.preventDefault(); 
   let title = document.getElementById("title").value.trim();
@@ -11,6 +12,68 @@ function addProductToTable(event) {
   let price = document.getElementById("price").value.trim();
   let stock = document.getElementById("stock").value.trim();
   let category = document.getElementById("category").value.trim();
+  let description = document.getElementById("description").value.trim();
+
+  let titleInput = document.getElementById("title");
+  let codeInput = document.getElementById("code");
+  let priceInput = document.getElementById("price");
+  let stockInput = document.getElementById("stock");
+  let categoryInput = document.getElementById("category");
+  let descriptionInput = document.getElementById("description");
+
+  titleInput.style.border = '';
+  codeInput.style.border = '';
+  priceInput.style.border = '';
+  stockInput.style.border = '';
+  categoryInput.style.border = '';
+
+
+  if (title === "" || code === "" || price === "" || stock === "" || category === ""|| description === "") {
+    Swal.fire({
+      title: "Error",
+      text: "All fields must be filled out",
+      icon: "error",
+      toast: true,
+      position: "center",
+      allowOutsideClick: false,
+      allowEscapeKey: false ,
+      allowEnterKey :false ,
+      stopKeyDownPropagation :true,
+      confirmButtonColor:'#FA8072',
+      confirmButtonAriaLabel:'Ok'
+      
+    });
+    
+    if (titleInput.value.trim() === "") {
+      titleInput.style.border = '2px solid #FA8072';
+    }
+    if (codeInput.value.trim() === "") {
+      codeInput.style.border = '2px solid #FA8072';
+    }
+    if (priceInput.value.trim() === "") {
+      priceInput.style.border = '2px solid #FA8072';
+    }
+    if (stockInput.value.trim() === "") {
+      stockInput.style.border = '2px solid #FA8072';
+    }
+    if (categoryInput.value.trim() === "") {
+      categoryInput.style.border = '2px solid #FA8072';
+    }
+    if (descriptionInput.value.trim() === "") {
+      descriptionInput.style.border = '1px solid #FA8072';
+    }
+
+    setTimeout(() => {
+      titleInput.style.border = '';
+      codeInput.style.border = '';
+      priceInput.style.border = '';
+      stockInput.style.border = '';
+      categoryInput.style.border = '';
+      descriptionInput.style.border = '';
+    }, 5000);
+
+      return; 
+  }
 
   if ((isNaN(parseFloat(price)) || parseFloat(price) < 0) && (isNaN(parseInt(stock)) || parseInt(stock) < 0)) {
     Swal.fire({
@@ -26,6 +89,13 @@ function addProductToTable(event) {
       confirmButtonColor: '#FA8072',
       confirmButtonAriaLabel: 'Ok'
     });
+    priceInput.style.border = '2px solid #FA8072';
+    stockInput.style.border = '2px solid #FA8072';
+
+    setTimeout(() => {
+      priceInput.style.border = '';
+      stockInput.style.border = '';
+    }, 5000);
     return;
   }
 
@@ -43,10 +113,16 @@ function addProductToTable(event) {
       confirmButtonColor: '#FA8072',
       confirmButtonAriaLabel: 'Ok'
     });
+    priceInput.style.border = '2px solid #FA8072';
+    
+    setTimeout(() => {
+      priceInput.style.border = '';
+    }, 5000);
+
     return;
   }
 
-  if (isNaN(parseInt(stock)) || parseFloat(stock) < 0) {
+  if (isNaN(parseInt(stock)) || parseInt(stock) < 0){
     Swal.fire({
       title: "Error",
       text: "Stock must be a valid numberic value",
@@ -60,29 +136,15 @@ function addProductToTable(event) {
       confirmButtonColor: '#FA8072',
       confirmButtonAriaLabel: 'Ok'
     });
+    stockInput.style.border = '2px solid #FA8072';
+
+    setTimeout(() => {
+      stockInput.style.border = '';
+    }, 5000);
+
     return;
   }
   
- 
-  
-  if (title === "" || code === "" || price === "" || stock === "" || category === "") {
-    Swal.fire({
-      title: "Error",
-      text: "All fields must be filled out",
-      icon: "error",
-      toast: true,
-      position: "center",
-      allowOutsideClick: false,
-      allowEscapeKey: false ,
-      allowEnterKey :false ,
-      stopKeyDownPropagation :true,
-      confirmButtonColor:'#FA8072',
-      confirmButtonAriaLabel:'Ok'
-      
-    });
-    return; 
-  }
-
   const tableRows = document.querySelectorAll('#real-time-products-table tbody tr');
   for (let row of tableRows) {
     let rowCode = row.cells[2].textContent; 

@@ -19,12 +19,12 @@
     
     <div class="mb-3">
       <label for="price" class="form-label">Price:</label>
-      <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+      <input type="number" class="form-control" id="price" name="price" step="0.01" required onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" >
     </div>
     
     <div class="mb-3">
       <label for="stock" class="form-label">Stock:</label>
-      <input type="number" class="form-control" id="stock" name="stock" required>
+      <input type="number" class="form-control" id="stock" name="stock" required onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" >
     </div>
     
     <div class="mb-3">
