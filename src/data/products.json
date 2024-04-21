@@ -1,31 +1,5 @@
 [
 	{
-		"id": 3,
-		"title": "Producto 3",
-		"description": "Descripcion del producto 3",
-		"code": "P003",
-		"price": 1300,
-		"status": true,
-		"stock": 105,
-		"category": "categoria C",
-		"thumbnails": [
-			"imagen 1"
-		]
-	},
-	{
-		"id": 4,
-		"title": "Producto 4",
-		"description": "Descripcion del producto 4",
-		"code": "P004",
-		"price": 900,
-		"status": true,
-		"stock": 85,
-		"category": "categoria C",
-		"thumbnails": [
-			"imagen 1"
-		]
-	},
-	{
 		"title": "bbs",
 		"description": "bsbs",
 		"price": "2",
@@ -60,5 +34,14 @@
 		"stock": "2",
 		"category": "3",
 		"id": 12
+	},
+	{
+		"title": "be",
+		"description": "e",
+		"price": "09",
+		"code": "09",
+		"stock": "1",
+		"category": "w",
+		"id": 13
 	}
 ]

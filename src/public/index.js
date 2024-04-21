@@ -11,6 +11,59 @@ function addProductToTable(event) {
   let price = document.getElementById("price").value.trim();
   let stock = document.getElementById("stock").value.trim();
   let category = document.getElementById("category").value.trim();
+
+  if ((isNaN(parseFloat(price)) || parseFloat(price) < 0) && (isNaN(parseInt(stock)) || parseInt(stock) < 0)) {
+    Swal.fire({
+      title: "Error",
+      text: "Price and stock must be valid non-negative numbers",
+      icon: "error",
+      toast: true,
+      position: "center",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      stopKeyDownPropagation: true,
+      confirmButtonColor: '#FA8072',
+      confirmButtonAriaLabel: 'Ok'
+    });
+    return;
+  }
+
+  if (isNaN(parseFloat(price)) || parseFloat(price) < 0) {
+    Swal.fire({
+      title: "Error",
+      text: "Price must be a valid numberic value",
+      icon: "error",
+      toast: true,
+      position: "center",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      stopKeyDownPropagation: true,
+      confirmButtonColor: '#FA8072',
+      confirmButtonAriaLabel: 'Ok'
+    });
+    return;
+  }
+
+  if (isNaN(parseInt(stock)) || parseFloat(stock) < 0) {
+    Swal.fire({
+      title: "Error",
+      text: "Stock must be a valid numberic value",
+      icon: "error",
+      toast: true,
+      position: "center",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      stopKeyDownPropagation: true,
+      confirmButtonColor: '#FA8072',
+      confirmButtonAriaLabel: 'Ok'
+    });
+    return;
+  }
+  
+ 
   
   if (title === "" || code === "" || price === "" || stock === "" || category === "") {
     Swal.fire({
