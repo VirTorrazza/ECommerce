@@ -39,13 +39,11 @@ function addProductToTable(event) {
       icon: "error",
       toast: true,
       position: "center",
-      allowOutsideClick: false,
       allowEscapeKey: false ,
       allowEnterKey :false ,
       stopKeyDownPropagation :true,
       confirmButtonColor:'#FA8072',
       confirmButtonAriaLabel:'Ok'
-      
     });
     
     if (titleInput.value.trim() === "") {
@@ -86,7 +84,6 @@ function addProductToTable(event) {
       icon: "error",
       toast: true,
       position: "center",
-      allowOutsideClick: false,
       allowEscapeKey: false,
       allowEnterKey: false,
       stopKeyDownPropagation: true,
@@ -110,12 +107,12 @@ function addProductToTable(event) {
       icon: "error",
       toast: true,
       position: "center",
-      allowOutsideClick: false,
       allowEscapeKey: false,
       allowEnterKey: false,
       stopKeyDownPropagation: true,
       confirmButtonColor: '#FA8072',
       confirmButtonAriaLabel: 'Ok'
+     
     });
     priceInput.style.border = '2px solid #FA8072';
     
@@ -133,7 +130,6 @@ function addProductToTable(event) {
       icon: "error",
       toast: true,
       position: "center",
-      allowOutsideClick: false,
       allowEscapeKey: false,
       allowEnterKey: false,
       stopKeyDownPropagation: true,
@@ -159,13 +155,11 @@ function addProductToTable(event) {
         icon: "error",
         toast: true,
         position: "center",
-        allowOutsideClick: false,
         allowEscapeKey: false ,
         allowEnterKey :false ,
         stopKeyDownPropagation :true,
         confirmButtonColor:'#FA8072',
         confirmButtonAriaLabel:'Ok'
-
       });
       document.getElementById("title").value = "";
       document.getElementById("description").value = "";
@@ -214,7 +208,6 @@ function addProductToTable(event) {
       icon: "success",
       toast: true,
       position: "center",
-      allowOutsideClick: false,
       allowEscapeKey: false ,
       allowEnterKey :false ,
       stopKeyDownPropagation :true,
@@ -236,7 +229,6 @@ function deleteProduct(pid) {
     toast: true,
     position: "center",
     showCancelButton: true,
-    allowOutsideClick: false,
     allowEscapeKey: false,
     allowEnterKey: false,
     stopKeyDownPropagation: true,
@@ -244,7 +236,17 @@ function deleteProduct(pid) {
     cancelButtonColor: "#FA8072",
     confirmButtonText: "Yes",
     cancelButtonText: "Cancel",
-    confirmButtonAriaLabel: 'Confirm deletion'
+    confirmButtonAriaLabel: 'Confirm deletion',
+    didOpen: () => { 
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.style.display = 'none';
+      });
+    },
+    didClose: () => {     
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.style.display = '';
+      });
+    }
   }).then((result) => {
     if (result.isConfirmed) {      
       fetch(`/products/${pid}`, {
@@ -259,12 +261,21 @@ function deleteProduct(pid) {
               icon: "success",
               toast: true,
               position: "center",
-              allowOutsideClick: false,
               allowEscapeKey: false,
               allowEnterKey: false,
               stopKeyDownPropagation: true,
               confirmButtonColor: '#90EE90',
-              confirmButtonAriaLabel: 'Ok'
+              confirmButtonAriaLabel: 'Ok',
+              didOpen: () => { // Hide icons when alert is opened
+                document.querySelectorAll('.btn').forEach(btn => {
+                  btn.style.display = 'none';
+                });
+              },
+              didClose: () => {     // Restore icons when alert is closed
+                document.querySelectorAll('.btn').forEach(btn => {
+                  btn.style.display = '';
+                });
+              }              
             });
           } else {
             console.error("Error deleting product:", result.statusText);
@@ -274,7 +285,6 @@ function deleteProduct(pid) {
               icon: "error",
               toast: true,
               position: "center",
-              allowOutsideClick: false,
               allowEscapeKey: false,
               allowEnterKey: false,
               stopKeyDownPropagation: true,
@@ -291,7 +301,6 @@ function deleteProduct(pid) {
             icon: "error",
             toast: true,
             position: "center",
-            allowOutsideClick: false,
             allowEscapeKey: false,
             allowEnterKey: false,
             stopKeyDownPropagation: true,

@@ -1,77 +1,5 @@
 [
 	{
-		"title": "producto9",
-		"description": "producto",
-		"price": "12",
-		"code": "9",
-		"stock": "2",
-		"category": "3",
-		"id": 12
-	},
-	{
-		"title": "be",
-		"description": "e",
-		"price": "09",
-		"code": "09",
-		"stock": "1",
-		"category": "w",
-		"id": 13
-	},
-	{
-		"title": "bzbx",
-		"description": "x",
-		"price": "1",
-		"code": "x",
-		"stock": "1",
-		"category": "1",
-		"id": 14
-	},
-	{
-		"title": "hhwww",
-		"description": "w",
-		"price": "2",
-		"code": "222",
-		"stock": "2",
-		"category": "c",
-		"id": 15
-	},
-	{
-		"title": "nsn",
-		"description": "nsns",
-		"price": "8",
-		"code": "-2",
-		"stock": "9",
-		"category": "2",
-		"id": 16
-	},
-	{
-		"title": "hshs",
-		"description": "bsb",
-		"price": "1",
-		"code": "snns",
-		"stock": "1",
-		"category": "1",
-		"id": 17
-	},
-	{
-		"title": "nsns",
-		"description": "nns",
-		"price": "2",
-		"code": "nsns",
-		"stock": "3",
-		"category": "bbdb",
-		"id": 18
-	},
-	{
-		"title": "ss",
-		"description": "bsb",
-		"price": "2",
-		"code": "sssssssssssssssssss",
-		"stock": "3",
-		"category": "2",
-		"id": 19
-	},
-	{
 		"title": "bsb",
 		"description": "nsbsnn",
 		"price": "24256",
@@ -90,15 +18,6 @@
 		"id": 23
 	},
 	{
-		"title": "     egh",
-		"description": "vxv",
-		"price": "67",
-		"code": "34",
-		"stock": "2",
-		"category": "f ",
-		"id": 24
-	},
-	{
 		"title": "productoMule",
 		"description": "mula",
 		"price": "222",
@@ -106,5 +25,14 @@
 		"stock": "2",
 		"category": "2",
 		"id": 25
+	},
+	{
+		"title": "hello",
+		"description": "hola",
+		"price": "22",
+		"code": "556",
+		"stock": "2",
+		"category": "Wines and Beverages",
+		"id": 26
 	}
 ]
