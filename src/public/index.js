@@ -4,6 +4,10 @@ function addProduct() {
   form.style.display = "block";
 }
 
+function capitalizeFirstLetter(string) {   // Function to standarize data format to be stored
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 
 function addProductToTable(event) {
   event.preventDefault(); 
@@ -314,12 +318,15 @@ socket.on("updateProducts",(data) =>{
   </thead>`
 
   data.forEach(element => {
+    let code = element.code.toUpperCase();
+    let title = capitalizeFirstLetter(element.title);
+    let description = capitalizeFirstLetter(element.description)
 
     HTMLTable += `
     <tr>
-          <td>${element.title}</td>
-          <td>${element.description}</td>
-          <td>${element.code}</td>
+          <td>${title}</td>
+          <td>${description}</td>
+          <td>${code}</td>
           <td>${element.price}</td>
           <td>${element.stock}</td> 
           <td>${element.category}</td>
