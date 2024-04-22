@@ -54,6 +54,7 @@
         <th scope="col">Price</th>
         <th scope="col">Stock</th>
         <th scope="col">Category</th>
+        <th scope="col">Options</th>
       </tr>
     </thead>
     <tbody>
@@ -67,11 +68,9 @@
           <td>{{category}}</td>
           <td>
             <div class="btn-group" role="group" aria-label="Product Actions">
-              <button class="btn btn-outline-danger" id="delete-product-button" data-product-id="delete-{{id}}" type="button" data-bs-toggle="tooltip" onclick="deleteProduct({{this.id}})" data-bs-placement="top" title="Delete">
+              <button class="btn btn-outline-danger" id="delete-product-button" data-product-id="delete-{{id}}" type="button" data-bs-toggle="tooltip" onclick="deleteProduct({{this.id}})" data-bs-placement="top" title="Delete" style="margin-right: 12%">
                 <i class="fas fa-trash"></i>
               </button>
-            </td>
-            <td>
               <button class="btn btn-outline-primary" id="add-product-button" data-product-id="add-{{id}}" type="button" data-bs-toggle="tooltip" onclick="addProduct()" data-bs-placement="top" title="Add">
                 <i class="fas fa-plus"></i>
               </button>
