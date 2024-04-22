@@ -1,32 +1,5 @@
 [
 	{
-		"title": "bbs",
-		"description": "bsbs",
-		"price": "2",
-		"code": "13424",
-		"stock": "1",
-		"category": "hola",
-		"id": 7
-	},
-	{
-		"title": "1",
-		"description": "1",
-		"price": "1",
-		"code": "1",
-		"stock": "1",
-		"category": "1",
-		"id": 9
-	},
-	{
-		"title": "7",
-		"description": "7",
-		"price": "7",
-		"code": "7",
-		"stock": "7",
-		"category": "7",
-		"id": 11
-	},
-	{
 		"title": "producto9",
 		"description": "producto",
 		"price": "12",
@@ -108,12 +81,21 @@
 		"id": 20
 	},
 	{
-		"title": "bebeb",
-		"description": "bsb",
-		"price": "22",
-		"code": "42552",
+		"title": "   fff",
+		"description": " d   d",
+		"price": "3323",
+		"code": " weghj654",
+		"stock": "567",
+		"category": "   gh",
+		"id": 23
+	},
+	{
+		"title": "     egh",
+		"description": "vxv",
+		"price": "67",
+		"code": "34",
 		"stock": "2",
-		"category": "7",
-		"id": 21
+		"category": "f ",
+		"id": 24
 	}
 ]

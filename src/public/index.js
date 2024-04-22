@@ -225,59 +225,78 @@ function addProductToTable(event) {
 }
 
 function deleteProduct(pid) {
-
-  fetch(`/products/${pid}`, {
-    method: 'DELETE',
-  })
-    .then(result => {
-      if (result.status === 204) {
-        socket.emit('deletedProduct');
-        Swal.fire({
-          title: "Deleted!",
-          text: "The product has been deleted.",
-          icon: "success",
-          toast: true,
-          position: "center",
-          allowOutsideClick: false,
-          allowEscapeKey: false ,
-          allowEnterKey :false ,
-          stopKeyDownPropagation :true,
-          confirmButtonColor:'#90EE90',
-          confirmButtonAriaLabel:'Ok'
+  Swal.fire({ // Ask for confirmation before deleting
+    title: "Are you sure you want to delete this product?",
+    text: "This action cannot be undone.",
+    icon: "warning",
+    toast: true,
+    position: "center",
+    showCancelButton: true,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    allowEnterKey: false,
+    stopKeyDownPropagation: true,
+    confirmButtonColor: "#90EE90",
+    cancelButtonColor: "#FA8072",
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+    confirmButtonAriaLabel: 'Confirm deletion'
+  }).then((result) => {
+    if (result.isConfirmed) {      
+      fetch(`/products/${pid}`, {
+        method: 'DELETE',
+      })
+        .then(result => {
+          if (result.status === 204) {
+            socket.emit('deletedProduct');
+            Swal.fire({
+              title: "Deleted!",
+              text: "The product has been deleted.",
+              icon: "success",
+              toast: true,
+              position: "center",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              allowEnterKey: false,
+              stopKeyDownPropagation: true,
+              confirmButtonColor: '#90EE90',
+              confirmButtonAriaLabel: 'Ok'
+            });
+          } else {
+            console.error("Error deleting product:", result.statusText);
+            Swal.fire({
+              title: "Error",
+              text: "An error occurred while deleting the product.",
+              icon: "error",
+              toast: true,
+              position: "center",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              allowEnterKey: false,
+              stopKeyDownPropagation: true,
+              confirmButtonColor: '#FA8072',
+              confirmButtonAriaLabel: 'Ok'
+            });
+          }
+        })
+        .catch(error => {
+          console.error("Error deleting product:", error);
+          Swal.fire({
+            title: "Error",
+            text: "An error occurred while deleting the product.",
+            icon: "error",
+            toast: true,
+            position: "center",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            stopKeyDownPropagation: true,
+            confirmButtonColor: '#FA8072',
+            confirmButtonAriaLabel: 'Ok'
+          });
         });
-      } else {
-        console.error("Error deleting product:", result.statusText);
-        Swal.fire({
-          title: "Error",
-          text: "An error occurred while deleting the product.",
-          icon: "error",
-          toast: true,
-          position: "center",
-          allowOutsideClick: false,
-          allowEscapeKey: false ,
-          allowEnterKey :false ,
-          stopKeyDownPropagation :true,
-          confirmButtonColor:'#FA8072',
-          confirmButtonAriaLabel:'Ok'
-        });
-      }
-    })
-    .catch(error => {
-      console.error("Error deleting product:", error);
-      Swal.fire({
-        title: "Error",
-        text: "An error occurred while deleting the product.",
-        icon: "error",
-        toast: true,
-        position: "center",
-        allowOutsideClick: false,
-        allowEscapeKey: false ,
-        allowEnterKey :false ,
-        stopKeyDownPropagation :true,
-        confirmButtonColor:'#FA8072',
-        confirmButtonAriaLabel:'Ok'
-      });
-    });
+    }
+  });
 }
 
 socket.on("updateProducts",(data) =>{
