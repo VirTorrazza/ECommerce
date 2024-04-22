@@ -29,8 +29,16 @@
     
     <div class="mb-3">
       <label for="category" class="form-label">Category:</label>
-      <input type="text" class="form-control" id="category" name="category" required>
+      <select class="form-select" id="category" name="category" required>
+        <option value="" disabled selected hidden style="color: #aab7c4;">Select Category</option>
+        <option value="Household Essentials">Household Essentials</option>
+        <option value="Wines and Beverages">Wines and Beverages</option>
+        <option value="Dairy and Deli">Dairy and Deli</option>
+        <option value="Meat and Seafood">Meat and Seafood</option>
+        <option value="Fresh Produce">Fresh Produce</option>
+      </select>
     </div>
+
     
     <button id="product-added" type="submit" class="btn btn-primary" onclick="addProductToTable(event)">Add Product</button>
     </form>
