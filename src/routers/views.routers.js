@@ -12,6 +12,7 @@ viewRouter.get('/realtimeproducts', async (req, res)=>{
 })
 
 viewRouter.get('/', async (req, res)=>{
+    let status;
     const limit = req.query.limit || 10;
     const page = req.query.page || 1;
     const filters = {};
@@ -21,8 +22,26 @@ viewRouter.get('/', async (req, res)=>{
     if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
     if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
     let productsPaginated= await productModel.paginate({}, paginateOptions);
+    if (!productsPaginated){
+        status= "success";
+    }
+    else{
+        status="error"
+    }
     console.log(productsPaginated);
-    res.render('home', {products}); 
+    res.render('home', {
+        status,
+        products: productsPaginated.docs,
+        totalPages: productsPaginated.totalPages,
+        prevPage: "http//localhost:8080",
+        nextPage: "http//localhost:8080",
+        page: productsPaginated.page,
+        hasPrevPage: productsPaginated.hasPrevPage,
+        hasNextPage: productsPaginated.hasNextPage,
+        prevLink: null,
+        nextLink: "link"
+
+    }); 
 
 })
 
