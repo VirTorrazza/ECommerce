@@ -18,6 +18,8 @@ viewRouter.get('/', async (req, res)=>{
     if(req.query.category)  filters.category = req.query.category;
     if(req.query.stock)     filters.stock = req.query.stock;
     const paginateOptions = { lean:true, limit, page };
+    if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
+    if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
     let productsPaginated= await productModel.paginate({}, paginateOptions);
     console.log(productsPaginated);
     res.render('home', {products}); 
