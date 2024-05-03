@@ -18,7 +18,7 @@ app.use(express.json());
 app.engine('handlebars', handlebars.engine()); 
 app.set('views', './src/views');                
 app.set('view engine', 'handlebars');
-app.use('/products', productRouter); 
+app.use('/api/products', productRouter); 
 app.use('/api/carts', cartRouter); 
 app.use('/', viewsRouter);  
 app.use(cors()); // enable CORS for all routes
