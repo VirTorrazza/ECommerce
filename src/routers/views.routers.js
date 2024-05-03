@@ -61,8 +61,6 @@ viewRouter.get('/', async (req, res)=>{
         products: productsPaginated.docs,
         paginateInfo: {
             totalPages,
-            prevPage: "http://localhost:8080",
-            nextPage: "http://localhost:8080",
             page: currentPage,
             hasPrevPage: productsPaginated.hasPrevPage,
             hasNextPage: productsPaginated.hasNextPage,
