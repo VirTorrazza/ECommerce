@@ -1,16 +1,82 @@
 
 import { Router } from "express";
 import ProductManager from "../data/productManager.js";
+import productModel from "../models/products.model.js";
 
 const productRouter = Router();
 const productManager= new ProductManager('./src/data/products.json');
 
 
-productRouter.get('/', async (req, res)=>{   //products/
+/*productRouter.get('/', async (req, res)=>{   //products/
     let result = await productManager.getProducts();
     if(!result) return res.status(404).json ({error: "404: Resource not found"})
     return res.status(200).json({payload:result});
  
+})*/
+
+
+productRouter.get('/', async (req, res)=>{
+    let status;
+    const limit = req.query.limit || 10;
+    const page = req.query.page || 1;
+    const filters = {};
+    if(req.query.category)  filters.category = req.query.category;
+    if(req.query.stock)     filters.stock = req.query.stock;
+    const paginateOptions = { lean:true, limit, page };
+    if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
+    if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
+    let productsPaginated= await productModel.paginate({}, paginateOptions);
+    console.log("soy productos paginados" + JSON.stringify(productsPaginated))
+    if (productsPaginated){
+        status= "success";
+    }
+    else{
+        status="error"
+        return res.status(404).json ({error: "404: Resource not found"})
+    }
+
+    let prevLink;
+    if(!req.query.page){
+        prevLink = `http://${req.hostname}:${PORT}${req.originalUrl}&page=${productsPaginated.prevPage}`;
+    }else{
+        let urlMod = req.originalUrl.replace(`page=${req.query.page}`,`page=${productsPaginated.prevPage}`);
+        prevLink = `http://${req.hostname}:8080${urlMod}`;
+    }
+
+    let nextLink;
+    if(!req.query.page){
+        nextLink = `http://${req.hostname}:8080${req.originalUrl}&page=${productsPaginated.nextPage}`;
+    }else{
+        let urlMod = req.originalUrl.replace(`page=${req.query.page}`,`page=${productsPaginated.nextPage}`);
+        nextLink = `http://${req.hostname}:8080${urlMod}`;
+    }
+
+    let totalPages = productsPaginated.totalPages;
+    let currentPage = productsPaginated.page;
+    let pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pages.push({
+            page: i,
+            link: `http://localhost:8080?page=${i}`,
+            isActive: i === currentPage
+        });
+    }
+
+    let result ={
+        status,
+        products: productsPaginated.docs,
+        paginateInfo: {
+            totalPages,
+            page: currentPage,
+            hasPrevPage: productsPaginated.hasPrevPage,
+            hasNextPage: productsPaginated.hasNextPage,
+            prevLink,
+            nextLink
+        },
+        pages
+    }
+    return res.status(200).json({payload:result});
+   
 })
 
 productRouter.get('/:pid', async (req,res)=>{ //products/

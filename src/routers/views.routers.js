@@ -23,7 +23,7 @@ viewRouter.get('/', async (req, res)=>{
     if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
     if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
     let productsPaginated= await productModel.paginate({}, paginateOptions);
-    if (!productsPaginated){
+    if (productsPaginated){
         status= "success";
     }
     else{
