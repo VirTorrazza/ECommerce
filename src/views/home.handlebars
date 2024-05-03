@@ -1,10 +1,37 @@
 <div class="container">
-  <h1>{{totalPages}}</h1>
-  <h1>{{page}}</h1>
-  <h1></h1>
-  <h1></h1>
-  <h1></h1>
   <h1 class="h1">Products</h1> 
+<div class="row">
+    <div class="col-12">
+      <nav aria-label="Pagination">
+      <ul class="pagination justify-content-center">
+          {{#if paginateInfo.hasPrevPage}}
+              <li class="page-item">
+                  <a class="page-link" href="{{paginateInfo.prevLink}}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="visually-hidden">Previous</span>
+                  </a>
+              </li>
+          {{/if}}
+
+          {{#each pages}}
+              <li class="page-item {{#if this.isActive}}active{{/if}}">
+                  <a class="page-link" href="{{this.link}}">{{this.page}}</a>
+              </li>
+          {{/each}}
+
+          {{#if paginateInfo.hasNextPage}}
+              <li class="page-item">
+                  <a class="page-link" href="{{paginateInfo.nextLink}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                      <span class="visually-hidden">Next</span>
+                  </a>
+              </li>
+          {{/if}}
+      </ul>
+    </nav>
+  </div>
+</div>
+
   <table class="table table-striped">
     <thead>
       <tr>

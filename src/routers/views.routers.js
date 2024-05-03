@@ -4,12 +4,13 @@ import productModel from "../models/products.model.js";
 
 const viewRouter =Router();
 const productManager= new ProductManager('./src/data/products.json');
-
+const PORT =8080;
 
 viewRouter.get('/realtimeproducts', async (req, res)=>{
     let products= await productManager.getProducts();
     res.render('realtimeproducts', {products}); // view name
 })
+
 
 viewRouter.get('/', async (req, res)=>{
     let status;
@@ -28,20 +29,49 @@ viewRouter.get('/', async (req, res)=>{
     else{
         status="error"
     }
-    console.log(productsPaginated);
+
+    let prevLink;
+    if(!req.query.page){
+        prevLink = `http://${req.hostname}:${PORT}${req.originalUrl}&page=${productsPaginated.prevPage}`;
+    }else{
+        let urlMod = req.originalUrl.replace(`page=${req.query.page}`,`page=${productsPaginated.prevPage}`);
+        prevLink = `http://${req.hostname}:8080${urlMod}`;
+    }
+
+    let nextLink;
+    if(!req.query.page){
+        nextLink = `http://${req.hostname}:8080${req.originalUrl}&page=${productsPaginated.nextPage}`;
+    }else{
+        let urlMod = req.originalUrl.replace(`page=${req.query.page}`,`page=${productsPaginated.nextPage}`);
+        nextLink = `http://${req.hostname}:8080${urlMod}`;
+    }
+
+    let totalPages = productsPaginated.totalPages;
+    let currentPage = productsPaginated.page;
+    let pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pages.push({
+            page: i,
+            link: `http://localhost:8080?page=${i}`,
+            isActive: i === currentPage
+        });
+    }
     res.render('home', {
         status,
         products: productsPaginated.docs,
-        totalPages: productsPaginated.totalPages,
-        prevPage: "http//localhost:8080",
-        nextPage: "http//localhost:8080",
-        page: productsPaginated.page,
-        hasPrevPage: productsPaginated.hasPrevPage,
-        hasNextPage: productsPaginated.hasNextPage,
-        prevLink: null,
-        nextLink: "link"
-
-    }); 
+        paginateInfo: {
+            totalPages,
+            prevPage: "http://localhost:8080",
+            nextPage: "http://localhost:8080",
+            page: currentPage,
+            hasPrevPage: productsPaginated.hasPrevPage,
+            hasNextPage: productsPaginated.hasNextPage,
+            prevLink,
+            nextLink
+        },
+        pages
+    });
+    
 
 })
 
