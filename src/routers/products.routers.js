@@ -7,14 +7,6 @@ const productRouter = Router();
 const productManager= new ProductManager('./src/data/products.json');
 
 
-/*productRouter.get('/', async (req, res)=>{   //products/
-    let result = await productManager.getProducts();
-    if(!result) return res.status(404).json ({error: "404: Resource not found"})
-    return res.status(200).json({payload:result});
- 
-})*/
-
-
 productRouter.get('/', async (req, res)=>{
     let status;
     const limit = req.query.limit || 10;
@@ -26,7 +18,6 @@ productRouter.get('/', async (req, res)=>{
     if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
     if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
     let productsPaginated= await productModel.paginate({}, paginateOptions);
-    console.log("soy productos paginados" + JSON.stringify(productsPaginated))
     if (productsPaginated){
         status= "success";
     }

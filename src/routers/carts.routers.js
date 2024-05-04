@@ -42,4 +42,57 @@ cartRouter.delete('/:cid/products/:pid', async (req,res)=>{
     return res.status(200).json({payload:updatedCart})
 })
 
+
+cartRouter.put('/:cid', async (req,res)=>{
+    try{
+        let cart;
+        let cid= req.params.cid;
+        
+        try {
+            cart= await cartModel.findById(cid); 
+            if(!cart) return res.status(404).json ({error: "404: Cart not found"})
+
+        } catch(error){
+            return res.status(404).json ({error: "404: Parser Error.Cast Error"+ error});
+        }
+
+        cart.products= req.body.products;
+        let result = await cartModel.findByIdAndUpdate(cid,cart, {returnDocument:'after'});
+        return res.status(200).json({payload:result})
+    }catch(error){
+        return res.status(504).json({error:"Internal Server Error"})
+    }
+})
+
+cartRouter.put('/:cid/products/:pid', async (req, res) => {
+    try {
+        let cid = req.params.cid;
+        let pid = req.params.pid;
+        let cart = await cartModel.findById(cid);
+        if (!cart) {
+            return res.status(404).json({ error: "404: Cart not found" });
+        }
+
+        let updatedProductIndex = cart.products.findIndex(prod => {
+            console.log("prod" + prod);
+            console.log("Product ID:", prod._id);
+            console.log("Requested PID:", pid);
+            return (prod.product._id.toString() === pid)});
+
+        console.log("soy updatedProductIndex" + updatedProductIndex)
+        if (updatedProductIndex === -1) {
+            return res.status(404).json({ error: "404: Product not found" });
+        }
+        let updatedProduct = { ...cart.products[updatedProductIndex] };
+        updatedProduct.quantity = req.body.products.quantity;
+        cart.products[updatedProductIndex] = updatedProduct;
+
+        let result = await cartModel.findByIdAndUpdate(cid, cart, { returnDocument: 'after' });
+
+        return res.status(200).json({ payload: result });
+    } catch (error) {
+        return res.status(500).json({ error: "Internal Server Error: " + error.message });
+    }
+});
+
 export default cartRouter 
