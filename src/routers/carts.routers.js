@@ -2,7 +2,6 @@ import { Router } from "express";
 import CartManager from "../data/cartManager.js";
 import cartModel from "../models/carts.model.js";
 import productModel from "../models/products.model.js";
-import mongoose from "mongoose";
 
 
 const cartRouter = Router();
@@ -42,11 +41,37 @@ cartRouter.post('/', async (req, res) => {
   
 
 cartRouter.post('/:cid/product/:pid', async (req,res)=>{
+
+    try {
+        const cid = req.params.cid;
+        const pid= req.params.pid;
+        const cart = await cartModel.findById(cid);
+      if (!cart) {
+        return res.status(404).json({ error: "404: Cart not found" });
+      }
+      let updatedProductIndex = cart.products.findIndex(prod => {
+        return (prod.product.toString() === pid)});
+
+    if (updatedProductIndex === -1) {
+        cart.products.push({product:pid,quantity:1})
+        const updatedCart = await cartModel.findByIdAndUpdate(
+            cart._id,
+            cart,
+            { returnDocument: 'after' }
+          );
+          return res.status(200).json({ payload:updatedCart });
+    }
+        cart.products[updatedProductIndex].quantity+=1
+
+        let result = await cartModel.findByIdAndUpdate(cid, cart, { returnDocument: 'after' });
+        return res.status(200).json({ payload: result });
+
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
     
-    let cart= await cartManager.addProductCartById(req.params.cid,req.params.pid);
-    if(typeof cart=== 'string') return res.status(404).json ({error: "404: Resource not found"});
-    return res.status(200).json({ payload: cart, message: "Product updated successfully" });
-   
 })
 
 cartRouter.delete('/:cid/products/:pid', async (req, res) => {
@@ -114,24 +139,20 @@ cartRouter.put('/:cid', async (req,res)=>{
 cartRouter.put('/:cid/products/:pid', async (req, res) => {
     try {
         let cid = req.params.cid;
-        let pid = req.params.pid;
+        let pid = req.params.pid; 
         let cart = await cartModel.findById(cid);
         if (!cart) {
             return res.status(404).json({ error: "404: Cart not found" });
         }
 
         let updatedProductIndex = cart.products.findIndex(prod => {
-            console.log("Product ID:", prod.product.type);
-            console.log("Requested PID:", pid);
-            return (prod.product.type.toString() === pid)});
+            return (prod.product.toString() === pid)});
 
-        console.log("soy updatedProductIndex" + updatedProductIndex)
         if (updatedProductIndex === -1) {
             return res.status(404).json({ error: "404: Product not found" });
         }
-        let updatedProduct = { ...cart.products[updatedProductIndex] };
-        updatedProduct.quantity = req.body.products.quantity;
-        cart.products[updatedProductIndex] = updatedProduct;
+        
+        cart.products[updatedProductIndex].quantity = req.body.quantity; 
 
         let result = await cartModel.findByIdAndUpdate(cid, cart, { returnDocument: 'after' });
 
