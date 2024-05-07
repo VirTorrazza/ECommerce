@@ -2,7 +2,6 @@ import { Router } from "express";
 import cartModel from "../models/carts.model.js";
 import productModel from "../models/products.model.js";
 
-
 const cartRouter = Router();
 
 cartRouter.post('/', async (req, res) => {
@@ -68,8 +67,6 @@ cartRouter.post('/:cid/product/:pid', async (req,res)=>{
       console.error("Error fetching cart:", error);
       return res.status(500).json({ error: "Internal Server Error" });
     }
-
-    
 })
 
 cartRouter.delete('/:cid/products/:pid', async (req, res) => {

@@ -1,4 +1,3 @@
-
 import { Router } from "express";
 import ProductManager from "../data/productManager.js";
 import productModel from "../models/products.model.js";
@@ -71,10 +70,19 @@ productRouter.get('/', async (req, res)=>{
 })
 
 productRouter.get('/:pid', async (req,res)=>{ //products/
-   let id= parseInt(req.params.pid);
-   let result = await productManager.getProductById(id);
-   if(!result) return res.status(404).json ({error: "404: Product not found"})
-   return res.status(200).json({payload:result});
+    try{
+        let pid= req.params.pid;
+        let product= await productModel.findById(pid);
+        if (!product) {
+            return res.status(404).json({ error: "404: Product not found" });
+          }
+        
+    return res.status(200).json({payload:product});
+    }catch(error){
+        console.error("Error fetching product:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+   
 })
 
 productRouter.post('/', async (req,res)=>{
