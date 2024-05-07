@@ -1,11 +1,9 @@
 import { Router } from "express";
-import CartManager from "../data/cartManager.js";
 import cartModel from "../models/carts.model.js";
 import productModel from "../models/products.model.js";
 
 
 const cartRouter = Router();
-let cartManager= new CartManager('./src/data/carts.json');
 
 cartRouter.post('/', async (req, res) => {
     try {
