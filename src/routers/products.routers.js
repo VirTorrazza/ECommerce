@@ -87,13 +87,30 @@ productRouter.get('/:pid', async (req,res)=>{ //products/
 
 productRouter.post('/', async (req,res)=>{
     try{
-        let product= req.body;
-        let newProduct= await productManager.addProduct(product);
-        if (typeof newProduct === 'string' && newProduct.startsWith('Error')) {
-            return res.status(400).json({ error: newProduct });
-        } else {
-            return res.status(201).json({ message: 'Product added successfully', payload: newProduct });
+        let { title, description, code, price, stock, category, thumbnails } = req.body;
+        
+        if (!title || !code || !price || !stock || !category||!description) {
+            return res.status(400).json({ error: "Missing required fields" });
         }
+        let existingProduct = await productModel.findOne({ code });
+
+        if (existingProduct) {
+            return res.status(400).json({ error: "Product with this code already exists" });
+        }
+
+        let newProduct = new productModel({
+            title,
+            description,
+            code,
+            price,
+            stock,
+            category,
+            thumbnails
+        });
+
+        await newProduct.save();
+        return res.status(201).json({ message: "Product created successfully", product: newProduct });
+
     }catch (error){
         return res.status(500).json({ error: 'Internal Server Error' })
 }
