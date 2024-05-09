@@ -3,24 +3,28 @@ import mongoose from 'mongoose';
 import productRouter from './src/routers/products.routers.js';
 import cartRouter from './src/routers/carts.routers.js';
 import viewsRouter from './src/routers/views.routers.js';
+import sessionRouter from './src/routers/session.router.js';
 import {Server} from 'socket.io';
 import handlebars from 'express-handlebars';
 import cors from 'cors';
-import ProductManager from './src/data/productManager.js';
-import productModel from './src/models/products.model.js';
+import ProductManager from './src/data/productManager.js'
 
 const MONGOURI="mongodb://localhost:27017";
 const DBNAME= "ECommerce";
 const PORT =8080;
+
 const app = express();
 app.use(express.static('src/public'));
 app.use(express.json());
+
 app.engine('handlebars', handlebars.engine()); 
 app.set('views', './src/views');                
 app.set('view engine', 'handlebars');
+
 app.use('/api/products', productRouter); 
 app.use('/api/carts', cartRouter); 
 app.use('/', viewsRouter);  
+app.use('/login', sessionRouter);
 app.use(cors()); // enable CORS for all routes
           
 try{
