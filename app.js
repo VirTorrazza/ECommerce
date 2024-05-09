@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import productRouter from './src/routers/products.routers.js';
 import cartRouter from './src/routers/carts.routers.js';
 import viewsRouter from './src/routers/views.routers.js';
-import sessionViewsRouter from './src/routers/session.router.js';
+import sessionViewsRouter from './src/routers/session.views.router.js';
 import {Server} from 'socket.io';
 import handlebars from 'express-handlebars';
 import cors from 'cors';
