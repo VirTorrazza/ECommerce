@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Register</h5>
-          <form onsubmit="return validateForm()">
+          <form onsubmit="return validateForm()" method="POST" action="/api/sessions/register">
             <div class="mb-3">
               <label for="firstName" class="form-label">First Name</label>
               <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" required>
