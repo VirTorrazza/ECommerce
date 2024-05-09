@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import productRouter from './src/routers/products.routers.js';
 import cartRouter from './src/routers/carts.routers.js';
 import viewsRouter from './src/routers/views.routers.js';
-import sessionRouter from './src/routers/session.router.js';
+import sessionViewsRouter from './src/routers/session.router.js';
 import {Server} from 'socket.io';
 import handlebars from 'express-handlebars';
 import cors from 'cors';
@@ -24,7 +24,7 @@ app.set('view engine', 'handlebars');
 app.use('/api/products', productRouter); 
 app.use('/api/carts', cartRouter); 
 app.use('/', viewsRouter);  
-app.use('/login', sessionRouter);
+app.use('/login', sessionViewsRouter);
 app.use(cors()); // enable CORS for all routes
           
 try{

@@ -1,12 +1,14 @@
 import {Router} from 'express';
 import { privateRoutes,publicRoutes } from '../middlewares/auth.middleware.js';
 
-const sessionRouter= Router();
+const sessionViewsRouter= Router();
 
-sessionRouter.get('/register',privateRoutes, (req,res)=>{
+sessionViewsRouter.get('/register',(req,res)=>{
     res.render('sessions/register');
 })
 
-sessionRouter.get('/',privateRoutes, (req,res)=>{
+sessionViewsRouter.get('/', (req,res)=>{
     res.render('sessions/login');
 })
+
+export default sessionViewsRouter 
