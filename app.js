@@ -1,13 +1,17 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import MongoStore from 'connect-mongo';
+import session from 'express-session';
 import productRouter from './src/routers/products.routers.js';
 import cartRouter from './src/routers/carts.routers.js';
 import viewsRouter from './src/routers/views.routers.js';
 import sessionViewsRouter from './src/routers/session.views.router.js';
+import sessionRouter from './src/routers/session.router.js';
 import {Server} from 'socket.io';
 import handlebars from 'express-handlebars';
 import cors from 'cors';
-import ProductManager from './src/data/productManager.js'
+import ProductManager from './src/data/productManager.js';
+
 
 const MONGOURI="mongodb://localhost:27017";
 const DBNAME= "ECommerce";
@@ -16,6 +20,17 @@ const PORT =8080;
 const app = express();
 app.use(express.static('src/public'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    store:MongoStore.create({
+        mongoUrl: "mongodb://localhost:27017/Ecommerce", 
+        dbName: "ECommerce",
+        collectionName: "sessions"
+    }),
+    secret:"mysecret",
+    resave:true,
+    saveUninitialized:true
+}))
 
 app.engine('handlebars', handlebars.engine()); 
 app.set('views', './src/views');                

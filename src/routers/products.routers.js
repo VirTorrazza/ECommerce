@@ -2,6 +2,7 @@ import { Router } from "express";
 import productModel from "../models/products.model.js"
 
 const productRouter = Router();
+const PORT =8080;
 
 productRouter.get('/', async (req, res)=>{
     let status;

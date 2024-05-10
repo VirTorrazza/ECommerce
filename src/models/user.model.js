@@ -13,6 +13,6 @@ const userSchema= new mongoose.Schema({ //Schema for users documents
 
 mongoose.set("strictQuery",false);
 
-const userModel=moongose.model(userCollection,userSchema);
+const userModel= mongoose.model(userCollection,userSchema);
 
 export default userModel

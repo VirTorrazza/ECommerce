@@ -4,10 +4,16 @@ import userModel from '../models/user.model.js'
 const sessionRouter= Router();
 
 sessionRouter.post('/register', async(req,res)=>{
-    let userToRegister= req.body;
-    let user = new userModel(userToRegister);
-    await user.save();
-    res.redirect('/login');
+    try {
+        let userToRegister = req.body;
+        console.log("Request Body:", JSON.stringify(req.body));
+        let user = new userModel(userToRegister);
+        await user.save();
+        res.redirect('/login');
+    } catch (error) {
+        console.error("Error occurred while saving user:", error);
+        res.status(500).send("Internal Server Error");
+    }
 })
 
 sessionRouter.post('/login', async(req,res)=>{
@@ -23,7 +29,7 @@ sessionRouter.post('/login', async(req,res)=>{
         user.role='user';
     }
     req.session.user=user;
-    res.redirect('/products');
+    res.redirect('api/products');
 })
 
 sessionRouter.get('/logout', async(req,res)=>{
@@ -37,3 +43,6 @@ sessionRouter.get('/logout', async(req,res)=>{
         }
     })
 })
+
+
+export default sessionRouter;
