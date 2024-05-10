@@ -26,3 +26,14 @@ sessionRouter.post('/login', async(req,res)=>{
     res.redirect('/products');
 })
 
+sessionRouter.get('/logout', async(req,res)=>{
+    req.session.destroy(error=>{
+        if (error){
+            console.log(error);
+            res.send(500).render('/errors/base', {error});
+        }
+        else{
+            res.redirect('/login');
+        }
+    })
+})
