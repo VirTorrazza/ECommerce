@@ -11,18 +11,17 @@ sessionViewsRouter.get('/register',(req,res)=>{
 sessionViewsRouter.get('/', (req,res)=>{
     res.render('sessions/login');
 })
-sessionViewsRouter.get('/profile', async (req, res) => {
+sessionViewsRouter.get('/profile', (req, res) => {
     try {
-        const newUser = await userModel.create({
+        const newUser = {
             first_name: "John",
             last_name: "Doe",
             email: "john.doe@example.com",
             age: 30,
-            password: "password123",
             role: "user"
-        });
+        };
 
-        res.render('sessions/profile', newUser);
+        res.render('sessions/profile', {user: newUser});
     } catch (error) {
         console.error("Error creating user:", error);
         res.status(500).send("Error creating user");
