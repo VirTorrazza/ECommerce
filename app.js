@@ -24,8 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({
     store:MongoStore.create({
         mongoUrl: "mongodb://localhost:27017/Ecommerce", 
-        dbName: "ECommerce",
-        collectionName: "sessions"
+        dbName: "sessions"
     }),
     secret:"mysecret",
     resave:true,

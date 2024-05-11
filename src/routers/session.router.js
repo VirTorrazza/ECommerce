@@ -6,8 +6,7 @@ const sessionRouter= Router();
 sessionRouter.post('/register', async(req,res)=>{
     try {
         let userToRegister = req.body;
-        console.log("Request Body:", JSON.stringify(req.body));
-        let user = new userModel(userToRegister);
+        const user= new userModel(userToRegister);
         await user.save();
         res.redirect('/login');
     } catch (error) {
@@ -29,7 +28,7 @@ sessionRouter.post('/login', async(req,res)=>{
         user.role='user';
     }
     req.session.user=user;
-    res.redirect('api/products');
+    res.redirect('/api/products');
 })
 
 sessionRouter.get('/logout', async(req,res)=>{
@@ -43,6 +42,5 @@ sessionRouter.get('/logout', async(req,res)=>{
         }
     })
 })
-
 
 export default sessionRouter;
