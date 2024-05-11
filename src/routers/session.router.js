@@ -28,7 +28,7 @@ sessionRouter.post('/login', async(req,res)=>{
         user.role='user';
     }
     req.session.user=user;
-    res.redirect('/api/products');
+    res.redirect('/');
 })
 
 sessionRouter.get('/logout', async(req,res)=>{

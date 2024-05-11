@@ -1,10 +1,11 @@
 import { Router } from "express";
-import productModel from "../models/products.model.js"
+import productModel from "../models/products.model.js";
+import { publicRoutes} from '../middlewares/auth.middleware.js'
 
 const productRouter = Router();
 const PORT =8080;
 
-productRouter.get('/', async (req, res)=>{
+productRouter.get('/',publicRoutes, async (req, res)=>{
     let status;
     const limit = req.query.limit || 10;
     const page = req.query.page || 1;
@@ -67,7 +68,7 @@ productRouter.get('/', async (req, res)=>{
    
 })
 
-productRouter.get('/:pid', async (req,res)=>{ //products/
+productRouter.get('/:pid',publicRoutes, async (req,res)=>{ //products/
     try{
         let pid= req.params.pid;
         let product= await productModel.findById(pid);
@@ -83,7 +84,7 @@ productRouter.get('/:pid', async (req,res)=>{ //products/
    
 })
 
-productRouter.post('/', async (req,res)=>{
+productRouter.post('/',publicRoutes, async (req,res)=>{
     try{
         let { title, description, code, price, stock, category, thumbnails } = req.body;
         
@@ -114,7 +115,7 @@ productRouter.post('/', async (req,res)=>{
 }
 })
 
-productRouter.put('/:pid', async (req, res) => {
+productRouter.put('/:pid', publicRoutes,async (req, res) => {
     try {
 
         let updateFields = {};
@@ -136,7 +137,7 @@ productRouter.put('/:pid', async (req, res) => {
     }
 });
 
-productRouter.delete('/:pid', async (req,res)=>{
+productRouter.delete('/:pid', publicRoutes,async (req,res)=>{
     try{
         let pid= req.params.pid;
         try {

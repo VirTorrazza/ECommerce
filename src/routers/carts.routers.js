@@ -1,10 +1,11 @@
 import { Router } from "express";
 import cartModel from "../models/carts.model.js";
 import productModel from "../models/products.model.js";
+import { publicRoutes } from "../middlewares/auth.middleware.js";
 
 const cartRouter = Router();
 
-cartRouter.post('/', async (req, res) => {
+cartRouter.post('/',publicRoutes, async (req, res) => {
     try {
       let newCart = new cartModel({
         products: []
@@ -20,7 +21,7 @@ cartRouter.post('/', async (req, res) => {
   });
   
   
-  cartRouter.get('/:cid', async (req, res) => {
+  cartRouter.get('/:cid', publicRoutes, async (req, res) => {
     try {
         const cid = req.params.cid;
     
@@ -37,7 +38,7 @@ cartRouter.post('/', async (req, res) => {
   });
   
 
-cartRouter.post('/:cid/product/:pid', async (req,res)=>{
+cartRouter.post('/:cid/product/:pid', publicRoutes, async (req,res)=>{
 
     try {
         const cid = req.params.cid;
@@ -69,7 +70,7 @@ cartRouter.post('/:cid/product/:pid', async (req,res)=>{
     }
 })
 
-cartRouter.delete('/:cid/products/:pid', async (req, res) => {
+cartRouter.delete('/:cid/products/:pid', publicRoutes, async (req, res) => {
     try {
       const cart = await cartModel.findById(req.params.cid);
       if (!cart) {
@@ -95,7 +96,7 @@ cartRouter.delete('/:cid/products/:pid', async (req, res) => {
     }
   });
   
-cartRouter.delete('/:cid', async (req, res) => {
+cartRouter.delete('/:cid', publicRoutes, async (req, res) => {
     try {
       const cart = await cartModel.findById(req.params.cid);
       if (!cart) return res.status(404).json({ error: "404: Cart not found" });
@@ -110,7 +111,7 @@ cartRouter.delete('/:cid', async (req, res) => {
   });
   
 
-cartRouter.put('/:cid', async (req,res)=>{
+cartRouter.put('/:cid', publicRoutes ,async (req,res)=>{
     try{
         let cart;
         let cid= req.params.cid;
@@ -131,7 +132,7 @@ cartRouter.put('/:cid', async (req,res)=>{
     }
 })
 
-cartRouter.put('/:cid/products/:pid', async (req, res) => {
+cartRouter.put('/:cid/products/:pid', publicRoutes, async (req, res) => {
     try {
         let cid = req.params.cid;
         let pid = req.params.pid; 
