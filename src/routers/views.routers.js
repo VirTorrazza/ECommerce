@@ -57,8 +57,11 @@ viewRouter.get('/', publicRoutes, async (req, res)=>{
             isActive: i === currentPage
         });
     }
+
+    const user= req.session.user;
     res.render('home', {
         status,
+        user,
         products: productsPaginated.docs,
         paginateInfo: {
             totalPages,

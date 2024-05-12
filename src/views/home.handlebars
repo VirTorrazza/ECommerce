@@ -1,60 +1,75 @@
 <div class="container">
-  <h1 class="h1">Products</h1> 
-<div class="row">
-    <div class="col-12">
-      <nav aria-label="Pagination">
-      <ul class="pagination justify-content-center">
-          {{#if paginateInfo.hasPrevPage}}
-              <li class="page-item">
-                  <a class="page-link" href="{{paginateInfo.prevLink}}" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                      <span class="visually-hidden">Previous</span>
-                  </a>
-              </li>
-          {{/if}}
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <p>Welcome, <strong>{{user.firstName}} {{user.lastName}}</strong> (Role: {{user.role}})</p>
+                    <p>Email: {{user.email}}</p>
+                </div>
+                <div class="col">
+                    <form action="/logout" method="post" style="margin-left: -60%; margin-top: 2%;">
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </div>
+            </div>
+            <h1 class="h1">Products</h1>
+        </div>
+    </div>
 
-          {{#each pages}}
-              <li class="page-item {{#if this.isActive}}active{{/if}}">
-                  <a class="page-link" href="{{this.link}}">{{this.page}}</a>
-              </li>
-          {{/each}}
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    {{#if paginateInfo.hasPrevPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{paginateInfo.prevLink}}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="visually-hidden">Previous</span>
+                            </a>
+                        </li>
+                    {{/if}}
 
-          {{#if paginateInfo.hasNextPage}}
-              <li class="page-item">
-                  <a class="page-link" href="{{paginateInfo.nextLink}}" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                      <span class="visually-hidden">Next</span>
-                  </a>
-              </li>
-          {{/if}}
-      </ul>
-    </nav>
-  </div>
+                    {{#each pages}}
+                        <li class="page-item {{#if this.isActive}}active{{/if}}">
+                            <a class="page-link" href="{{this.link}}">{{this.page}}</a>
+                        </li>
+                    {{/each}}
+
+                    {{#if paginateInfo.hasNextPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{paginateInfo.nextLink}}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="visually-hidden">Next</span>
+                            </a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Code</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>{{title}}</td>
+                <td>{{description}}</td>
+                <td>{{code}}</td>
+                <td>{{price}}</td>
+                <td>{{#if stock}}{{stock}}{{else}}Out of stock{{/if}}</td>
+                <td>{{category}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Description</th>
-        <th scope="col">Code</th>
-        <th scope="col">Price</th>
-        <th scope="col">Stock</th>
-        <th scope="col">Category</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each products}}
-        <tr>
-          <td>{{title}}</td>
-          <td>{{description}}</td>
-          <td>{{code}}</td>
-          <td>{{price}}</td>
-          <td>{{#if stock}}{{stock}}{{else}}Out of stock{{/if}}</td> 
-          <td>{{category}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
