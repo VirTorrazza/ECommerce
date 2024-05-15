@@ -3,11 +3,11 @@
         <div class="col">
             <div class="row">
                 <div class="col">
-                    <p>Welcome, <strong>{{user.firstName}} {{user.lastName}}</strong> (Role: {{user.role}})</p>
+                    <p style=" margin-top:1%">Welcome, <strong>{{user.firstName}} {{user.lastName}}</strong> (Role: {{user.role}})</p>
                     <p>Email: {{user.email}}</p>
                 </div>
-                <div class="col">
-                    <form action="/api/sessions/logout" style="margin-left: -60%; margin-top: 2%;">
+                  <div class="col text-start" style="margin-left: -50%; margin-top:2%">
+                    <form action="/api/sessions/logout">
                         <button type="submit" class="btn btn-danger">Logout</button>
                     </form>
                 </div>
@@ -15,7 +15,11 @@
             <h1 class="h1">Products</h1>
         </div>
     </div>
-
+    <div class="position-absolute top-0 end-0 p-2">
+        <a href="/login/profile" class="btn btn-outline-primary" style="font-size: 1.2rem;" data-bs-toggle="toast" data-bs-placement="bottom" title="Go to profile" data-bs-content="Click here to view your profile">
+            <i class="fas fa-user"></i> 
+        </a>
+    </div>
     <div class="row">
         <div class="col-12">
             <nav aria-label="Pagination">
@@ -47,7 +51,6 @@
             </nav>
         </div>
     </div>
-
     <table class="table table-striped">
         <thead>
             <tr>
