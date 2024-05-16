@@ -9,29 +9,24 @@ sessionRouter.get('/failRegister', (req,res)=>{
     res.send({error: 'Registration fails'});
 })
 
+sessionRouter.get('/failLogin', (req,res)=>{
+    res.send({error: 'Login fails'});
+})
+
 sessionRouter.post('/register', passport.authenticate('register', {failureRedirect:'/api/sessions/failRegister'}), async(req,res)=>{
-  
     res.redirect('/login');
 })
 
-sessionRouter.post('/login', async(req,res)=>{
-    const {email, password}= req.body;
-    const user= await userModel.findOne({email}).lean().exec();
-    if(!user){
-        return res.redirect('/login');
+sessionRouter.post('/login', passport.authenticate('login', {failureRedirect:'/api/sessions/failLogin'}), async(req,res)=>{
+    if(!req.user){
+        return res.status(400).send({status:'error', error : 'Invalid credentials'});
     }
-    if(user.email === 'admin@admin.com' && user.password ==='admin97843'){
-        user.role='admin';
+    req.session.user={
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        email: req.user.email,
+        age:req.user.age
     }
-    else{
-        user.role='user';
-    }
-
-    if(!isValidPassword(user,password)){
-        return res.status(401).send({status:'error', error:'Invalid credentials'});
-
-    }
-    req.session.user=user;
     res.redirect('/');
 })
 
