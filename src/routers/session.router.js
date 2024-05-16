@@ -1,20 +1,17 @@
 import {Router} from 'express';
 import userModel from '../models/user.model.js'
-import { createHash, isValidPassword } from '../utils.js';
+import {isValidPassword } from '../utils.js';
+import passport from 'passport';
 
 const sessionRouter= Router();
 
-sessionRouter.post('/register', async(req,res)=>{
-    try {
-        let userToRegister = req.body;
-        userToRegister.password= createHash(userToRegister.password); //Hash password
-        const user= new userModel(userToRegister);
-        await user.save();
-        res.redirect('/login');
-    } catch (error) {
-        console.error("Error occurred while saving user:", error);
-        res.status(500).send("Internal Server Error");
-    }
+sessionRouter.get('/failRegister', (req,res)=>{
+    res.send({error: 'Registration fails'});
+})
+
+sessionRouter.post('/register', passport.authenticate('register', {failureRedirect:'/api/sessions/failRegister'}), async(req,res)=>{
+  
+    res.redirect('/login');
 })
 
 sessionRouter.post('/login', async(req,res)=>{

@@ -11,6 +11,8 @@ import {Server} from 'socket.io';
 import handlebars from 'express-handlebars';
 import cors from 'cors';
 import ProductManager from './src/data/productManager.js';
+import passport from 'passport';
+import initializePassport from './src/config/passport.config.js';
 
 
 const MONGOURI="mongodb://localhost:27017";
@@ -30,6 +32,10 @@ app.use(session({
     resave:true,
     saveUninitialized:true
 }))
+
+initializePassport(); // Configure passport with custom strategies and settings 
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine('handlebars', handlebars.engine()); 
 app.set('views', './src/views');                
