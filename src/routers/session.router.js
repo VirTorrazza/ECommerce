@@ -1,6 +1,4 @@
 import {Router} from 'express';
-import userModel from '../models/user.model.js'
-import {isValidPassword } from '../utils.js';
 import passport from 'passport';
 
 const sessionRouter= Router();
@@ -12,6 +10,10 @@ sessionRouter.get('/failRegister', (req,res)=>{
 sessionRouter.get('/failLogin', (req,res)=>{
     res.send({error: 'Login fails'});
 })
+
+sessionRouter.get('/github', passport.authenticate('github', { scope: ['user:email']},(req, res)=>{
+
+}));
 
 sessionRouter.post('/register', passport.authenticate('register', {failureRedirect:'/api/sessions/failRegister'}), async(req,res)=>{
     res.redirect('/login');
@@ -41,5 +43,9 @@ sessionRouter.get('/logout', async(req,res)=>{
         }
     })
 })
+
+
+
+
 
 export default sessionRouter;
