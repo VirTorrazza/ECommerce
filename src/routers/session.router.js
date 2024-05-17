@@ -11,7 +11,14 @@ sessionRouter.get('/failLogin', (req,res)=>{
     res.send({error: 'Login fails'});
 })
 
-sessionRouter.get('/github', passport.authenticate('github', { scope: ['user:email']},(req, res)=>{
+sessionRouter.get('/github', passport.authenticate('github',(req, res)=>{
+
+}));
+
+sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect:'/api/sessions/failLogin'},(req, res)=>{
+    console.log("soy callback" + req.user)
+    req.session.user=req.user;
+    res.redirect('/');
 
 }));
 
