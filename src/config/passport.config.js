@@ -49,27 +49,32 @@ const initializePassport=()=>{
 
     }))
 
+
     passport.use('github', new GitHubStrategy({
-        clientID: 'Iv23livbUtqnTMfyCK1l',
-        clientSecret: 'f06c4d41b1357cb53616fbb68d2bd6fa89adfcbf',
-        callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
-    }, async (accessToken,refreshToken,profile,done)=>{
+        clientID:'Iv23li4SNU3OKXjlZYyW',
+        clientSecret:'7152f5a1d7a9254f08e342592ec3c4a1bb17a91a',
+        callbackURL:'http://localhost:8080/api/sessions/githubcallback'
+    }, async (accessToken, refreshToken, profile, done)=>{
+        
         try{
-            const user = await userModel.findOne({email:profile._json.email});
-            console.log("SOY USERRR" +user);
-            if (user) return done(null,user);
-            const newUser= await userModel.create({
+            const user = await userModel.findOne({email:profile._json.email});//await usersModel.findOne({email:profile._json.email});
+            if(user) return done(null,user);
+
+            const newUser = await userModel.create({ //await usersModel.create({
                 firstName:profile._json.name,
-                lastName: '',
-                email: profile._json.email,
-                password: ''
-            })
-            return done(null, newUser);
-        }catch{
-            return done ("Error to login with GitHub");
+                lastName:'',
+                email:profile._json.email,
+                password:''
+            });
+             
+            done(null,newUser);
+
+        }catch(error){
+            return done('Error to login with github');
         }
         
-    }))
+    }));
+
 
     passport.serializeUser((user,done)=>
         done(null,user._id)
