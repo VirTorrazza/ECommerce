@@ -1,10 +1,12 @@
 import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
+import googleStrategy from 'passport-google-oauth20';
 import userModel from '../models/user.model.js';
 import {createHash, isValidPassword} from '../utils.js'
 
 const localStrategy= local.Strategy;
+const GoogleStrategy=googleStrategy.Strategy;
 
 const initializePassport=()=>{
     passport.use('register', new localStrategy({
@@ -75,6 +77,13 @@ const initializePassport=()=>{
         
     }));
 
+    passport.use('google', new GoogleStrategy({
+        clientID:process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL:'http://localhost:8080/auth/google/callback'
+    }, function(accessToken,refreshToken,profile,done){
+        return done(null,profile);
+    }))
 
     passport.serializeUser((user,done)=>
         done(null,user._id)
