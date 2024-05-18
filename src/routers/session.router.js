@@ -21,6 +21,17 @@ sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRed
 
 })
 
+sessionRouter.get('/google', passport.authenticate('github',{scope:['profile','email']}), (req,res) => {
+});
+
+
+sessionRouter.get('/googlecallback', passport.authenticate('google', {failureRedirect: '/login', successRedirect: '/'}), (req,res)=>{
+    console.log("Inside google callback" + req.user);
+    req.session.user= req.user;
+    res.redirect('/');
+
+})
+
 sessionRouter.post('/register', passport.authenticate('register', {failureRedirect:'/api/sessions/failRegister'}), async(req,res)=>{
     res.redirect('/login');
 })

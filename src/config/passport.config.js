@@ -80,7 +80,7 @@ const initializePassport=()=>{
     passport.use('google', new GoogleStrategy({
         clientID:process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL:'http://localhost:8080/auth/google/callback'
+        callbackURL:'http://localhost:8080/api/sessions/googlecallback'
     }, function(accessToken,refreshToken,profile,done){
         return done(null,profile);
     }))
