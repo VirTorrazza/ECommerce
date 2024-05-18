@@ -77,13 +77,29 @@ const initializePassport=()=>{
         
     }));
 
-    passport.use('google', new GoogleStrategy({
-        clientID:process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+   /* passport.use('google', new GoogleStrategy({ //Implementation example
+        clientID:'', 
+        clientSecret: '',
         callbackURL:'http://localhost:8080/api/sessions/googlecallback'
-    }, function(accessToken,refreshToken,profile,done){
-        return done(null,profile);
-    }))
+    }, async function(accessToken,refreshToken,profile,done){
+        
+        try{
+            const user = await userModel.findOne({email:profile._json.email});
+            if(user) return done(null,user);
+
+            const newUser = await userModel.create({ 
+                firstName:profile._json.name,
+                lastName:'',
+                email:profile._json.email,
+                password:''
+            });
+             
+            done(null,newUser);
+
+        }catch(error){
+            return done('Error to login with google');
+        }
+    }))*/
 
     passport.serializeUser((user,done)=>
         done(null,user._id)
