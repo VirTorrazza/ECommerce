@@ -21,7 +21,7 @@ const initializePassport=()=>{
             }
 
             const newUser={
-                firstName,lastName,email, age, password: createHash(password)
+                firstName,lastName,email, age, password: createHash(password),role:"user"
             }
             const result= await userModel.create(newUser);
             return done(null,result);

@@ -22,7 +22,7 @@ sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRed
 })
 
 /*sessionRouter.get('/google', passport.authenticate('github',{scope:['profile','email']}), (req,res) => {
-});/ Implementation example
+});/ Implementation example  //TODO
 
 
 /*sessionRouter.get('/googlecallback', passport.authenticate('google', {failureRedirect: '/login', successRedirect: '/'}), (req,res)=>{
@@ -44,8 +44,10 @@ sessionRouter.post('/login', passport.authenticate('login', {failureRedirect:'/a
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
-        age:req.user.age
+        age:req.user.age,
+        role:req.user.role
     }
+
     res.redirect('/');
 })
 
