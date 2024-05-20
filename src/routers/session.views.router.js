@@ -1,6 +1,4 @@
 import {Router} from 'express';
-import { privateRoutes,publicRoutes } from '../middlewares/auth.middleware.js';
-import userModel from '../models/user.model.js';
 
 const sessionViewsRouter= Router();
 
