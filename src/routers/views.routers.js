@@ -1,14 +1,12 @@
 import { Router } from "express";
-import ProductManager from "../data/productManager.js";
 import productModel from "../models/products.model.js";
 import { publicRoutes } from "../middlewares/auth.middleware.js";
 
 const viewRouter =Router();
-const productManager= new ProductManager('./src/data/products.json');
 const PORT =8080;
 
 viewRouter.get('/realtimeproducts', publicRoutes, async (req, res)=>{
-    let products= await productManager.getProducts();
+    const products = await productModel.find().lean().exec();
     res.render('realtimeproducts', {products}); // view name
 })
 
