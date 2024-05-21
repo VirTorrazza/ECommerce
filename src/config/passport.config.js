@@ -3,6 +3,7 @@ import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import googleStrategy from 'passport-google-oauth20';
 import userModel from '../models/user.model.js';
+import cartModel from '../models/carts.model.js';
 import {createHash, isValidPassword} from '../utils.js'
 
 const localStrategy= local.Strategy;
@@ -20,8 +21,9 @@ const initializePassport=()=>{
                 return done(null,false);
             }
 
+            const cartForNewUser= await cartModel.create({});
             const newUser={
-                firstName,lastName,email, age, password: createHash(password),role:"user"
+                firstName,lastName,email, age, password: createHash(password), cart:cartForNewUser._id,role:"user"
             }
             const result= await userModel.create(newUser);
             return done(null,result);
