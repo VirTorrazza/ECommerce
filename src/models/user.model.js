@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
     email: String,
     age: Number,
     password: String,
+    cart: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "carts" // Reference schema
+    },
     role: { type: String, default: "user" } // Adding a default value for the role field
 });
 
