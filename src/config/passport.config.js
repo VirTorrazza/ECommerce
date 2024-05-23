@@ -2,12 +2,14 @@ import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import googleStrategy from 'passport-google-oauth20';
+import passport_jwt from 'passport-jwt';
 import userModel from '../models/user.model.js';
 import cartModel from '../models/carts.model.js';
-import {createHash, isValidPassword} from '../utils.js'
+import {createHash, extractCookie, generateToken, isValidPassword,JWT_PRIVATE_KEY} from '../utils.js'
 
 const localStrategy= local.Strategy;
 const GoogleStrategy=googleStrategy.Strategy;
+const JWTStrategy=passport_jwt.Strategy;
 
 const initializePassport=()=>{
     passport.use('register', new localStrategy({
@@ -46,6 +48,8 @@ const initializePassport=()=>{
             if(!isValidPassword (user, password)){
                 return done(null,false);
             }
+            const token = generateToken(user);
+            user.token=token;
             return done(null,user);
         } catch(error){
             return done(error);
@@ -78,6 +82,13 @@ const initializePassport=()=>{
         }
         
     }));
+
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: passport_jwt.ExtractJwt.fromExtractors([extractCookie]),
+        secretOrKey: JWT_PRIVATE_KEY
+    }, async (jwtPayload, done) =>{
+        done(null, jwtPayload)
+    } ) );
 
    /* passport.use('google', new GoogleStrategy({ //Implementation example
         clientID:'', 

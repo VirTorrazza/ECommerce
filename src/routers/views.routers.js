@@ -11,7 +11,7 @@ viewRouter.get('/realtimeproducts', publicRoutes, async (req, res)=>{
 })
 
 
-viewRouter.get('/', publicRoutes, async (req, res)=>{
+viewRouter.get('/', async (req, res)=>{
     let status;
     const limit = req.query.limit || 10;
     const page = req.query.page || 1;
@@ -56,7 +56,7 @@ viewRouter.get('/', publicRoutes, async (req, res)=>{
         });
     }
 
-    const user= req.session.user;
+    const user= req.user
     res.render('home', {
         status,
         user,

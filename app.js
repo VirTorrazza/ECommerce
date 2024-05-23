@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
+import cookieParser from 'cookie-parser';
 import productRouter from './src/routers/products.routers.js';
 import cartRouter from './src/routers/carts.routers.js';
 import viewsRouter from './src/routers/views.routers.js';
@@ -13,6 +14,7 @@ import cors from 'cors';
 import ProductManager from './src/data/productManager.js';
 import passport from 'passport';
 import initializePassport from './src/config/passport.config.js';
+import { handlePolicies,passportCall } from './src/utils.js';
 
 
 const MONGOURI="mongodb://localhost:27017";
@@ -23,11 +25,8 @@ const app = express();
 app.use(express.static('src/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(session({
-    store:MongoStore.create({
-        mongoUrl: "mongodb://localhost:27017/Ecommerce", 
-        dbName: "sessions"
-    }),
     secret:"mysecret",
     resave:true,
     saveUninitialized:true
@@ -43,7 +42,7 @@ app.set('view engine', 'handlebars');
 
 app.use('/api/products', productRouter); 
 app.use('/api/carts', cartRouter); 
-app.use('/', viewsRouter);  
+app.use('/',viewsRouter);  
 app.use('/login', sessionViewsRouter);
 app.use('/api/sessions', sessionRouter);
 app.use(cors()); // enable CORS for all routes

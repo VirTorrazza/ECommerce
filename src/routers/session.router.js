@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import passport from 'passport';
+import { JWT_COOKIE_NAME } from '../utils.js';
 
 const sessionRouter= Router();
 
@@ -40,27 +41,12 @@ sessionRouter.post('/login', passport.authenticate('login', {failureRedirect:'/a
     if(!req.user){
         return res.status(400).send({status:'error', error : 'Invalid credentials'});
     }
-    req.session.user={
-        firstName: req.user.firstName,
-        lastName: req.user.lastName,
-        email: req.user.email,
-        age:req.user.age,
-        role:req.user.role
-    }
-
-    res.redirect('/');
+ 
+    res.cookie(JWT_COOKIE_NAME, req.user.token).redirect('/');
 })
 
 sessionRouter.get('/logout', async(req,res)=>{
-    req.session.destroy(error=>{
-        if (error){
-            console.log(error);
-            res.send(500).render('/errors/base', {error});
-        }
-        else{
-            res.redirect('/login');
-        }
-    })
+   res.clearCookie(JWT_COOKIE_NAME).redirect('/login')
 })
 
 

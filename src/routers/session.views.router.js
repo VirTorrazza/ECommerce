@@ -10,7 +10,7 @@ sessionViewsRouter.get('/', (req,res)=>{
     res.render('sessions/login');
 })
 sessionViewsRouter.get('/profile', (req, res) => {
-    res.render('sessions/profile', req.session.user );
+    res.render('sessions/profile', req.user );
 });
 
 
