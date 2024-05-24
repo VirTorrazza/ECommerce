@@ -15,10 +15,12 @@ import ProductManager from './src/data/productManager.js';
 import passport from 'passport';
 import initializePassport from './src/config/passport.config.js';
 import { handlePolicies,passportCall } from './src/utils.js';
+import dotenv from 'dotenv'
 
-
-const MONGOURI="mongodb://localhost:27017";
-const DBNAME= "ECommerce";
+dotenv.config();
+const MONGOURI=process.env.MONGOURI;
+const DBNAME= process.env.DBNAME;
+const SECRET=process.env.SECRET;
 const PORT =8080;
 
 const app = express();
@@ -27,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
-    secret:"mysecret",
+    secret:SECRET,
     resave:true,
     saveUninitialized:true
 }))
