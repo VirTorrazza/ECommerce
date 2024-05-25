@@ -1,6 +1,8 @@
 import { Router } from "express";
 import productModel from "../models/products.model.js";
 import { publicRoutes } from "../middlewares/auth.middleware.js";
+import passport from "passport";
+import { passportCall } from "../utils.js";
 
 const viewRouter =Router();
 const PORT =8080;
@@ -11,7 +13,7 @@ viewRouter.get('/realtimeproducts', publicRoutes, async (req, res)=>{
 })
 
 
-viewRouter.get('/', async (req, res)=>{
+viewRouter.get('/', passportCall('jwt'),async (req, res)=>{
     let status;
     const limit = req.query.limit || 10;
     const page = req.query.page || 1;
@@ -56,7 +58,7 @@ viewRouter.get('/', async (req, res)=>{
         });
     }
 
-    const user= req.user
+    const user= req.user.user;
     res.render('home', {
         status,
         user,

@@ -41,7 +41,7 @@ sessionRouter.post('/login', passport.authenticate('login', {failureRedirect:'/a
         return res.status(400).send({status:'error', error : 'Invalid credentials'});
     }
  
-    res.cookie(JWT_COOKIE_NAME, req.user.token).redirect('/');
+    return res.cookie(JWT_COOKIE_NAME, req.user.token).redirect('/');
 })
 
 sessionRouter.get('/logout', async(req,res)=>{
