@@ -20,7 +20,6 @@ import dotenv from 'dotenv'
 dotenv.config();
 const MONGOURI=process.env.MONGOURI;
 const DBNAME= process.env.DBNAME;
-const SECRET=process.env.SECRET;
 const PORT =8080;
 
 const app = express();
@@ -29,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
-    secret:SECRET,
+    secret:"secret",
     resave:true,
     saveUninitialized:true
 }))
@@ -51,7 +50,7 @@ app.use(cors()); // enable CORS for all routes
           
 try{
 
-    await mongoose.connect(MONGOURI, { dbName: DBNAME } );
+    await mongoose.connect("mongodb://localhost:27017", { dbName: DBNAME } );
     const httpServer= app.listen(PORT,()=>console.log("Server Up")); 
     const socketServer= new Server (httpServer);
     const productManager= new ProductManager('./src/data/products.json');
