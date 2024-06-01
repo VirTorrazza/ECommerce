@@ -1,25 +1,18 @@
 import {Router} from 'express';
 import passport from 'passport';
-import { JWT_COOKIE_NAME } from '../utils.js';
+import { handleLogin, handleLogout, loginFailure, redirectToLogin, registrationFailure, redirectToHomePage } from '../controllers/session.controller.js';
 
 const sessionRouter= Router();
 
-sessionRouter.get('/failRegister', (req,res)=>{
-    res.send({error: 'Registration fails'});
-})
+sessionRouter.get('/failRegister', registrationFailure);
 
-sessionRouter.get('/failLogin', (req,res)=>{
-    res.send({error: 'Login fails'});
-})
+sessionRouter.get('/failLogin', loginFailure);
 
 sessionRouter.get('/github', passport.authenticate('github',{scope:['user:email']}), (req,res) => {
 });
 
 
-sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), (req,res)=>{
-    res.redirect('/');
-
-})
+sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), redirectToHomePage);
 
 /*sessionRouter.get('/google', passport.authenticate('github',{scope:['profile','email']}), (req,res) => {
 });/ Implementation example  //TODO
@@ -32,21 +25,11 @@ sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRed
 
 })*/
 
-sessionRouter.post('/register', passport.authenticate('register', {failureRedirect:'/api/sessions/failRegister'}), async(req,res)=>{
-    res.redirect('/login');
-})
+sessionRouter.post('/register', passport.authenticate('register', {failureRedirect:'/api/sessions/failRegister'}),redirectToLogin)
 
-sessionRouter.post('/login', passport.authenticate('login', {failureRedirect:'/api/sessions/failLogin'}), async(req,res)=>{
-    if(!req.user){
-        return res.status(400).send({status:'error', error : 'Invalid credentials'});
-    }
- 
-    return res.cookie(JWT_COOKIE_NAME, req.user.token).redirect('/');
-})
+sessionRouter.post('/login', passport.authenticate('login', {failureRedirect:'/api/sessions/failLogin'}),handleLogin)
 
-sessionRouter.get('/logout', async(req,res)=>{
-   res.clearCookie(JWT_COOKIE_NAME).redirect('/login')
-})
+sessionRouter.get('/logout', handleLogout)
 
 
 
