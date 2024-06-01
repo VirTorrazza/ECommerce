@@ -14,13 +14,9 @@ import cors from 'cors';
 import ProductManager from './src/data/productManager.js';
 import passport from 'passport';
 import initializePassport from './src/config/passport.config.js';
-import { handlePolicies,passportCall } from './src/utils.js';
-import dotenv from 'dotenv'
+import config from './src/config/config.js';
 
-dotenv.config();
-const MONGOURI=process.env.MONGOURI;
-const DBNAME= process.env.DBNAME;
-const PORT =8080;
+const PORT =config.apiserver.port;
 
 const app = express();
 app.use(express.static('src/public'));
@@ -49,8 +45,11 @@ app.use('/api/sessions', sessionRouter);
 app.use(cors()); // enable CORS for all routes
           
 try{
-
-    await mongoose.connect("mongodb://localhost:27017", { dbName: DBNAME } );
+   // await mongoose.connect("mongodb://localhost:27017/", {
+      //  dbName:config.mongo.dbName,
+       // useUnifiedTopology: true
+    //});
+    await mongoose.connect(config.mongo.uri, { dbName:config.mongo.dbName} );
     const httpServer= app.listen(PORT,()=>console.log("Server Up")); 
     const socketServer= new Server (httpServer);
     const productManager= new ProductManager('./src/data/products.json');
