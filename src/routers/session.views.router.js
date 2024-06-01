@@ -1,17 +1,12 @@
 import {Router} from 'express';
+import { showLoginPage, showProfilePage, showRegisterPage } from '../controllers/sessions.views.controller.js';
 
 const sessionViewsRouter= Router();
 
-sessionViewsRouter.get('/register',(req,res)=>{
-    res.render('sessions/register');
-})
+sessionViewsRouter.get('/register',showRegisterPage);
 
-sessionViewsRouter.get('/', (req,res)=>{
-    res.render('sessions/login');
-})
-sessionViewsRouter.get('/profile', (req, res) => {
-    res.render('sessions/profile', req.user );
-});
+sessionViewsRouter.get('/', showLoginPage);
 
+sessionViewsRouter.get('/profile',showProfilePage);
 
 export default sessionViewsRouter 
