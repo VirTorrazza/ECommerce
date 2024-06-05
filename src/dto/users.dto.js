@@ -1,8 +1,9 @@
-export default  class userDTO{
+export default  class UserDTO{
 
-    constructor (user){
-        this.firstName= user.firstName;
+    constructor (user){ //standarized user related data exchange
+        this.firstName= user.firstName; 
         this.email= user.email;
         this.role= user.role;
+        this.age =user.age;
     }
 }
