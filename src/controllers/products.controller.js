@@ -69,7 +69,7 @@ export async function getProducts (req, res){
 export async function getProductById(req,res){ 
     try{
         let pid= req.params.pid;
-        let product= await productModel.findById(pid);
+        let product= await productModel.findById(pid); // aca va el servicio que usa el daoproductos 
         if (!product) {
             return res.status(404).json({ error: "404: Product not found" });
           }
