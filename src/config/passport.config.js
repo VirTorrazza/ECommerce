@@ -3,13 +3,18 @@ import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import googleStrategy from 'passport-google-oauth20';
 import passport_jwt from 'passport-jwt';
-import userModel from '../models/user.model.js';
-import cartModel from '../models/carts.model.js';
+import userModel from '../dao/models/user.model.js';
+import cartModel from '../dao/models/carts.model.js';
 import {createHash, extractCookie, generateToken, isValidPassword,JWT_PRIVATE_KEY} from '../utils.js'
+import UsersService from '../services/users.service.js';
+import UserDAOMongo from '../dao/models/userDAOMongo.js';
+
 
 const localStrategy= local.Strategy;
 const GoogleStrategy=googleStrategy.Strategy;
 const JWTStrategy=passport_jwt.Strategy;
+const dao = new UserDAOMongo(userModel);
+const service= new UsersService(dao);
 
 const initializePassport=()=>{
     passport.use('register', new localStrategy({
@@ -17,8 +22,8 @@ const initializePassport=()=>{
         usernameField:'email'
     }, async (req,username, password, done)=>{
         const{firstName,lastName,email,age} =req.body;
-        try{
-            const user= await userModel.findOne({email:username});
+        try{  // const user= await userModel.findOne({email:username});
+            const user = await service.getByEmail(username); 
             if(user){
                 return done(null,false);
             }
@@ -27,7 +32,7 @@ const initializePassport=()=>{
             const newUser={
                 firstName,lastName,email, age, password: createHash(password), cart:cartForNewUser._id,role:"user"
             }
-            const result= await userModel.create(newUser);
+            const result= await service.save(newUser);
             return done(null,result);
 
         }catch(error){
@@ -41,7 +46,7 @@ const initializePassport=()=>{
         usernameField:'email',
     }, async (username, password,done)=>{
         try{
-            const user= await userModel.findOne({email:username})
+            const user= await service.getByEmail(username);
             if(!user){
                 return done(null,false);
             }
@@ -119,7 +124,7 @@ const initializePassport=()=>{
     );
 
     passport.deserializeUser(async(id, done)=>{
-        const user=await userModel.findById(id);
+        const user=await service.getById(id);
         done(null,user);
 
     });

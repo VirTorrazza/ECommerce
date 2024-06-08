@@ -1,6 +1,4 @@
 import { Router } from "express";
-import cartModel from "../models/carts.model.js";
-import productModel from "../models/products.model.js";
 import { publicRoutes } from "../middlewares/auth.middleware.js";
 import { addToCart, clearCart, createCart, getCart, removeFromCart, updateCart, updateCartItem } from "../controllers/carts.controller.js";
 

@@ -1,7 +1,5 @@
-import userModel from "./user.model";
-
-export default class userDAOMongo {
-    constructor() {
+export default class UserDAOMongo {
+    constructor(userModel) {
         this.model = userModel;
     }
 
@@ -10,7 +8,7 @@ export default class userDAOMongo {
             const users = await this.model.find();
             return users;
         } catch (error) {
-            throw new Error("Error getting all users.");
+            throw new Error(`Error getting all users: ${error.message}`);
         }
     }
 
@@ -22,28 +20,26 @@ export default class userDAOMongo {
             }
             return user;
         } catch (error) {
-            throw new Error("Error getting user by ID.");
+            throw new Error(`Error getting user by ID: ${error.message}`);
         }
     }
 
     async getByEmail(email) {
         try {
-            const user = await this.model.findOne({ email });
-            if (!user) {
-                throw new Error("User not found.");
-            }
+            const user = await this.model.findOne({email:email});
             return user;
         } catch (error) {
-            throw new Error("Error finding user by email.");
+            throw new Error(`Error finding user by email: ${error.message} in UserDAO`);
         }
     }
+    
 
     async save(userData) {
         try {
             const user = await this.model.create(userData);
             return user;
         } catch (error) {
-            throw new Error("Error creating user.");
+            throw new Error(`Error creating user: ${error.message}`);
         }
     }
 
@@ -55,7 +51,7 @@ export default class userDAOMongo {
             }
             return deletedUser;
         } catch (error) {
-            throw new Error("Error deleting user.");
+            throw new Error(`Error deleting user: ${error.message}`);
         }
     }
 
@@ -67,7 +63,7 @@ export default class userDAOMongo {
             }
             return updatedUser;
         } catch (error) {
-            throw new Error("Error updating user.");
+            throw new Error(`Error updating user: ${error.message}`);
         }
     }
 
@@ -79,7 +75,7 @@ export default class userDAOMongo {
             }
             return updatedUser;
         } catch (error) {
-            throw new Error("Error updating password.");
+            throw new Error(`Error updating password: ${error.message}`);
         }
     }
 
@@ -95,7 +91,7 @@ export default class userDAOMongo {
             }
             return updatedUser;
         } catch (error) {
-            throw new Error("Error updating user role.");
+            throw new Error(`Error updating user role: ${error.message}`);
         }
     }
 
@@ -103,7 +99,7 @@ export default class userDAOMongo {
         try {
             const updatedUser = await this.model.findOneAndUpdate(
                 { email: email },
-                { last_connection: new Date() },
+                { lastConnection: new Date() },
                 { new: true }
             );
             if (!updatedUser) {
@@ -111,7 +107,7 @@ export default class userDAOMongo {
             }
             return updatedUser;
         } catch (error) {
-            throw new Error("Error updating last connection.");
+            throw new Error(`Error updating last connection: ${error.message}`);
         }
     }
 }
