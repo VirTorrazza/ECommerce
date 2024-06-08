@@ -1,4 +1,4 @@
-import productModel from "./products.model";
+import productModel from "./products.model.js";
 
 export default class productDAOMongo{
     constructor(){
@@ -12,10 +12,9 @@ export default class productDAOMongo{
         }catch (error) {
             throw new Error(`Error getting all products: ${error.message}`);
         }
-       
     }
 
-    getProductById= async (id) =>{ 
+    getById= async (id) =>{ 
         try {
             const product = await this.model.findById(id);
             return product;
@@ -57,8 +56,13 @@ export default class productDAOMongo{
             throw new Error(`Error updating product: ${error.message}`);
         }
     }
-    
 
-    
-
+    async getByCode(code) {
+        try {
+            const product = await this.model.findOne({ code:code });
+            return product;
+        } catch (error) {
+            throw new Error(`Error finding product by code: ${error.message} in ProductDAO`);
+        }
+    }
 }

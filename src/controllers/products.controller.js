@@ -1,7 +1,11 @@
-import productModel from "../dao/models/products.model.js";
 import config from "../config/config.js";
+import productDAOMongo from "../dao/models/productDAOMongo.js";
+import productModel from "../dao/models/products.model.js";
+import ProductsService from "../services/products.service.js";
 
 const PORT =config.apiserver.port;
+const dao= new productDAOMongo(productModel);
+const service = new ProductsService(dao);
 
 export async function getProducts (req, res){
     let status;
@@ -13,7 +17,8 @@ export async function getProducts (req, res){
     const paginateOptions = { lean:true, limit, page };
     if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
     if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
-    let productsPaginated= await productModel.paginate({}, paginateOptions);
+    let productsPaginated= await service.getAll({}, paginateOptions);
+    //productModel.paginate({}, paginateOptions);
     if (productsPaginated){
         status= "success";
     }
@@ -69,7 +74,7 @@ export async function getProducts (req, res){
 export async function getProductById(req,res){ 
     try{
         let pid= req.params.pid;
-        let product= await productModel.findById(pid); // aca va el servicio que usa el daoproductos 
+        let product= await service.getById(pid); // aca va el servicio que usa el daoproductos 
         if (!product) {
             return res.status(404).json({ error: "404: Product not found" });
           }
@@ -89,7 +94,8 @@ export async function createProduct(req, res) {
         if (!title || !code || !price || !stock || !category || !description) {
             return res.status(400).json({ error: "Missing required fields" });
         }
-        let existingProduct = await productModel.findOne({ code });
+        let existingProduct = await service.getByCode({ code });
+        // productModel.findOne({ code });
 
         if (existingProduct) {
             return res.status(400).json({ error: "Product with this code already exists" });
@@ -105,7 +111,7 @@ export async function createProduct(req, res) {
             thumbnails
         });
 
-        await newProduct.save();
+        await service.save(newProduct);
         return res.status(201).json({ message: "Product created successfully", product: newProduct });
 
     } catch (error) {
@@ -126,7 +132,8 @@ export async function updateProduct(req, res) {
         if (req.body.thumbnails) updateFields.thumbnails = req.body.thumbnails;
 
         let pid = req.params.pid;
-        let updatedProduct = await productModel.findByIdAndUpdate(pid, updateFields, { returnDocument: 'after' });
+        let updatedProduct = await service.update(pid,updateFields);
+        // productModel.findByIdAndUpdate(pid, updateFields, { returnDocument: 'after' });
 
         return res.status(200).json({ payload: updatedProduct });
         
@@ -140,13 +147,15 @@ export async function deleteProduct (req,res){
     try{
         let pid= req.params.pid;
         try {
-            let product=await productModel.findById(pid);
+            let product=await service.getById(pid);
+            //productModel.findById(pid);
             if(!product) return res.status(404).json ({error: "404: Product not found"})
 
         } catch(error){
             return res.status(404).json ({error: "404: Parser Error.Cast Error"+ error});
         }
-        await productModel.findByIdAndDelete(pid);
+        await service.delete(pid);
+        //productModel.findByIdAndDelete(pid);
         return res.status(200).json({ message: "Product deleted successfully" });
 
     } catch (error){

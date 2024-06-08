@@ -1,7 +1,11 @@
 import productModel from "../dao/models/products.model.js";
+import productDAOMongo from "../dao/models/productDAOMongo.js";
+import ProductsService from "../services/products.service.js";
 import config from "../config/config.js";
 
 const PORT =config.apiserver.port;
+const dao= new productDAOMongo(productModel);
+const service = new ProductsService(dao);
 
 export async function getRealTimeProducts (req, res){
     const products = await productModel.find().lean().exec();
@@ -18,7 +22,8 @@ export async function getHomePage (req, res){
     const paginateOptions = { lean:true, limit, page };
     if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
     if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
-    let productsPaginated= await productModel.paginate({}, paginateOptions);
+    let productsPaginated= service.getAll({}, paginateOptions)
+    //await productModel.paginate({}, paginateOptions);
     if (productsPaginated){
         status= "success";
     }
