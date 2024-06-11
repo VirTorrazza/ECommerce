@@ -74,7 +74,7 @@ export async function getProducts (req, res){
 export async function getProductById(req,res){ 
     try{
         let pid= req.params.pid;
-        let product= await service.getById(pid); // aca va el servicio que usa el daoproductos 
+        let product= await service.getById(pid); 
         if (!product) {
             return res.status(404).json({ error: "404: Product not found" });
           }
@@ -85,6 +85,21 @@ export async function getProductById(req,res){
         return res.status(500).json({ error: "Internal Server Error" });
     }
    
+}
+
+export async function getProductByCode(req,res){
+    try{
+        let code= req.params.code;
+        let product= await service.getByCode(code); 
+        if (!product) {
+            return res.status(404).json({ error:`404: Product with code ${code} not found`});
+          }
+        
+    return res.status(200).json({payload:product});
+    }catch(error){
+        console.error("Error fetching product:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
 }
 
 export async function createProduct(req, res) {
@@ -112,6 +127,7 @@ export async function createProduct(req, res) {
         });
 
         await service.save(newProduct);
+        console.log("soy nuevo producto" + newProduct);
         return res.status(201).json({ message: "Product created successfully", product: newProduct });
 
     } catch (error) {
@@ -132,7 +148,9 @@ export async function updateProduct(req, res) {
         if (req.body.thumbnails) updateFields.thumbnails = req.body.thumbnails;
 
         let pid = req.params.pid;
+        console.log("HERE")
         let updatedProduct = await service.update(pid,updateFields);
+        console.log("updated product"+ JSON.stringify(updatedProduct))
         // productModel.findByIdAndUpdate(pid, updateFields, { returnDocument: 'after' });
 
         return res.status(200).json({ payload: updatedProduct });
