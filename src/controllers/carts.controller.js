@@ -1,5 +1,10 @@
 import cartModel from "../dao/models/carts.model.js";
 import productModel from "../dao/models/products.model.js";
+import cartDAOMongo from "../dao/models/cartDAOMongo.js";
+import CartsService from "../services/carts.service.js";
+
+const dao= new cartDAOMongo(cartModel);
+const service = new CartsService(dao);
 
 export async function createCart(req, res) {
     try {
@@ -20,11 +25,10 @@ export async function getCart (req, res){
     try {
         const cid = req.params.cid;
     
-        const cart = await cartModel.findById(cid);
+        const cart = await service.getById(cid);
       if (!cart) {
         return res.status(404).json({ error: "404: Cart not found" });
       }
-  
       return res.status(200).json({ payload: cart });
     } catch (error) {
       console.error("Error fetching cart:", error);
@@ -37,7 +41,7 @@ export async function addToCart(req, res) {
     try {
         const cid = req.params.cid;
         const pid = req.params.pid;
-        const cart = await cartModel.findById(cid);
+        const cart = await service.getById(cid);
         if (!cart) {
             return res.status(404).json({ error: "404: Cart not found" });
         }
@@ -48,8 +52,8 @@ export async function addToCart(req, res) {
         } else {
             cart.products[updatedProductIndex].quantity += 1;
         }
-
-        const updatedCart = await cartModel.findByIdAndUpdate(cid, cart, { returnDocument: 'after' });
+// cartModel.findByIdAndUpdate(cid, cart, { returnDocument: 'after' });
+        const updatedCart = await service.update(cid,cart);
         return res.status(200).json({ payload: updatedCart });
 
     } catch (error) {
