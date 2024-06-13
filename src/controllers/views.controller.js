@@ -8,7 +8,7 @@ const dao= new productDAOMongo(productModel);
 const service = new ProductsService(dao);
 
 export async function getRealTimeProducts (req, res){
-    const products = await productModel.find().lean().exec();
+    const products = await service.getRealTimeProducts();
     res.render('realtimeproducts', {products}); // view name
 }
 

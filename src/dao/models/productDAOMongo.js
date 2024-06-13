@@ -60,10 +60,19 @@ export default class productDAOMongo{
     async getByCode(code) {
         try {
             const product = await this.model.findOne({ code: code });
-            console.log ("encontre el producto en el dao " +product);
             return product;
         } catch (error) {
             throw new Error(`Error finding product by code: ${error.message} in ProductDAO`);
         }
+    }
+
+    async getRealTimeProducts(){
+        try {
+            const products = await productModel.find().lean().exec();
+            return products;
+        }catch (error) {
+            throw new Error(`Error finding real time products: ${error.message} in ProductDAO`);
+        }
+    
     }
 }

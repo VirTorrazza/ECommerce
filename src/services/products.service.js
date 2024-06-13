@@ -58,4 +58,15 @@ export default class ProductsService extends Repository {
             throw new Error(`Error deleting product: ${error.message}`);
         }
     }
+
+    async getRealTimeProducts(){
+        try {
+            const products = await this.dao.getRealTimeProducts();
+            return products;
+        } catch (error) {
+            console.error("Error getting real-time products:", error);
+            throw new Error(`Error getting real-time products: ${error.message}`);
+        }
+    }
+    
 }
