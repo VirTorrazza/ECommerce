@@ -6,12 +6,23 @@ export default class cartDAOMongo{
     }
       
 
+    createCart= async()=> {
+        try {
+            let newCart = new cartModel({
+                products: []
+            });
+            return await newCart.save();
+        } catch (error) {
+            throw new Error(`Error creating cart in DAO: ${error.message}`);
+        }
+    }
+
     getById= async (id) =>{ 
         try {
             const cart = await this.model.findById(id);
             return cart;
         } catch (error) {
-            throw new Error(`Error getting cart by ID: ${error.message} in cartDAO`);
+            throw new Error(`Error getting cart by ID: ${error.message} in DAO`);
         }
     }
 
@@ -23,7 +34,7 @@ export default class cartDAOMongo{
             }
             return updatedCart;
         } catch (error) {
-            throw new Error(`Error updating cart: ${error.message}`);
+            throw new Error(`Error updating cart un DAO: ${error.message}`);
         }
     }
 

@@ -8,13 +8,8 @@ const service = new CartsService(dao);
 
 export async function createCart(req, res) {
     try {
-        let newCart = new cartModel({
-            products: []
-        });
-
-        let savedCart = await newCart.save();
-        return res.status(201).json({ payload: savedCart });
-
+        const newCart = await service.createCart();
+        return res.status(201).json({ payload: newCart });
     } catch (error) {
         console.error("Error creating cart:", error);
         return res.status(500).json({ error: "Internal Server Error" });
@@ -52,7 +47,6 @@ export async function addToCart(req, res) {
         } else {
             cart.products[updatedProductIndex].quantity += 1;
         }
-// cartModel.findByIdAndUpdate(cid, cart, { returnDocument: 'after' });
         const updatedCart = await service.update(cid,cart);
         return res.status(200).json({ payload: updatedCart });
 
@@ -64,7 +58,7 @@ export async function addToCart(req, res) {
 
 export async function removeFromCart(req, res) {
     try {
-        const cart = await cartModel.findById(req.params.cid);
+        const cart = await service.getById(req.params.cid);
         if (!cart) {
             return res.status(404).json({ error: "404: Cart not found" });
         }
@@ -76,10 +70,9 @@ export async function removeFromCart(req, res) {
 
         cart.products = cart.products.filter(item => item.product.toString() !== req.params.pid);
 
-        const updatedCart = await cartModel.findByIdAndUpdate(
+        const updatedCart = await service.update(
             cart._id,
-            { products: cart.products },
-            { returnDocument: 'after' }
+            { products: cart.products }
         );
 
         return res.status(200).json({ payload: updatedCart });
@@ -117,7 +110,7 @@ export async function updateCart(req, res) {
         let cid = req.params.cid;
 
         try {
-            cart = await cartModel.findById(cid);
+            cart = await service.update(cid);
             if (!cart) return res.status(404).json({ error: "404: Cart not found" });
 
         } catch (error) {
@@ -125,18 +118,17 @@ export async function updateCart(req, res) {
         }
 
         cart.products = req.body.products;
-        let result = await cartModel.findByIdAndUpdate(cid, cart, { returnDocument: 'after' });
+        let result = await service.update(cid, cart);
         return res.status(200).json({ payload: result });
     } catch (error) {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 }
-
 export async function updateCartItem(req, res) {
     try {
         let cid = req.params.cid;
         let pid = req.params.pid; 
-        let cart = await cartModel.findById(cid);
+        let cart = await service.getById(cid);
         if (!cart) {
             return res.status(404).json({ error: "404: Cart not found" });
         }
@@ -146,14 +138,16 @@ export async function updateCartItem(req, res) {
         if (updatedProductIndex === -1) {
             return res.status(404).json({ error: "404: Product not found" });
         }
-        
-        cart.products[updatedProductIndex].quantity = req.body.quantity; 
+      
+        cart.products[updatedProductIndex].quantity = req.body.quantity;
 
-        let result = await cartModel.findByIdAndUpdate(cid, cart, { returnDocument: 'after' });
+        let result = await service.update(cid, { products: cart.products });
 
         return res.status(200).json({ payload: result });
     } catch (error) {
         return res.status(500).json({ error: "Internal Server Error: " + error.message });
     }
 }
+
+
 

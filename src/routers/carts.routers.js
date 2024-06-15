@@ -4,19 +4,17 @@ import { addToCart, clearCart, createCart, getCart, removeFromCart, updateCart, 
 
 const cartRouter = Router();
 
-cartRouter.post('/',publicRoutes, createCart);
+cartRouter.post('/', publicRoutes, createCart);
   
+cartRouter.get('/:cid', publicRoutes, getCart); 
   
-cartRouter.get('/:cid', publicRoutes, getCart);
-  
-
 cartRouter.post('/:cid/product/:pid', publicRoutes, addToCart);
 
-cartRouter.delete('/:cid/products/:pid', publicRoutes,removeFromCart);
+cartRouter.delete('/:cid/products/:pid',publicRoutes, removeFromCart);
   
 cartRouter.delete('/:cid', publicRoutes, clearCart);
   
-cartRouter.put('/:cid', publicRoutes ,updateCart);
+cartRouter.put('/:cid', publicRoutes, updateCart);
 
 cartRouter.put('/:cid/products/:pid', publicRoutes, updateCartItem);
 

@@ -127,7 +127,6 @@ export async function createProduct(req, res) {
         });
 
         await service.save(newProduct);
-        console.log("soy nuevo producto" + newProduct);
         return res.status(201).json({ message: "Product created successfully", product: newProduct });
 
     } catch (error) {
