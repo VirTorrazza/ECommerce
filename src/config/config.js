@@ -2,6 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config = {
+    persistence:{
+        type: process.env.PERSISTENCE
+    },
     apiserver: {
         port: process.env.PORT
     },
