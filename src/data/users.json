@@ -1,0 +1,43 @@
+[
+    {
+      "name": "John Doe",
+      "id": 1,
+      "role": "user"
+    },
+    {
+      "name": "Jane Smith",
+      "id": 2,
+      "role": "admin"
+    },
+    {
+      "name": "Michael Johnson",
+      "id": 3,
+      "role": "user"
+    },
+    {
+      "name": "Emily Davis",
+      "id": 4,
+      "role": "user"
+    },
+    {
+      "name": "David Wilson",
+      "id": 5,
+      "role": "superadmin"
+    },
+    {
+      "name": "Sarah Brown",
+      "id": 6,
+      "role": "user"
+    },
+    {
+      "name": "James Miller",
+      "id": 7,
+      "role": "user"
+    },
+    {
+      "name": "Olivia Garcia",
+      "id": 8,
+      "role": "admin"
+    }
+  ]
+  
