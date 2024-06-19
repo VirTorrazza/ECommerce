@@ -1,16 +1,41 @@
-import config from "../config/config";
+import config from "../config/config.js";
+import userModel from "../dao/models/user.model.js"
+import productModel from "../dao/models/products.model.js";
+import cartModel from "../dao/models/carts.model.js";
+import UserDAOMongo from '../dao/models/userDAOMongo.js'; 
+import ProductDAOMongo from '../dao/models/productDAOMongo.js';
+import CartDAOMongo from '../dao/models/cartDAOMongo.js';
+import UserDAOFile from '../dao/models/userDAOFile.js'; 
+import ProductDAOFile from '../dao/models/productDAOFile.js';
+import CartDAOFile from '../dao/models/cartDAOFile.js';
 
 export default class PersistenceFactory {
-    static getPersistence = async () => {
+    static getPersistence = async (entityType) => {
         try {
             switch (config.persistence.type) {
                 case 'FILE':
-                    let { default: userDAOFile } = await import('../dao/models/userDAOFile.js');
-                    return new userDAOFile();
+                    switch (entityType) {
+                        case 'USER':
+                            return new UserDAOFile();
+                        case 'PRODUCT':
+                            return new ProductDAOFile();
+                        case 'CART':
+                            return new CartDAOFile();
+                        default:
+                            throw new Error(`Unsupported entity type for FILE persistence: ${entityType}`);
+                    }
                 
                 case 'MONGO':
-                    let { default: userDAOMongo } = await import('../dao/models/userDAOMongo.js');
-                    return new userDAOMongo();
+                    switch (entityType) {
+                        case 'USER':
+                            return new UserDAOMongo(userModel);
+                        case 'PRODUCT':
+                            return new ProductDAOMongo(productModel);
+                        case 'CART':
+                            return new CartDAOMongo(cartModel);
+                        default:
+                            throw new Error(`Unsupported entity type for MONGO persistence: ${entityType}`);
+                    }
                 
                 default:
                     throw new Error(`Unsupported persistence type: ${config.persistence.type}`);

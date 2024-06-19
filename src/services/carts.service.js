@@ -1,10 +1,19 @@
-import Repository from "./repository.js";
+import PersistenceFactory from "../dao/persistenceFactory.js";
 
-export default class CartsService extends Repository {
-    constructor(dao) {
-        super(dao);
+export default class CartsService {
+    constructor() {
+        this.init();
     }
 
+
+    init = async () => {
+        try {
+            this.dao = await PersistenceFactory.getPersistence('CART');
+        } catch (error) {
+            console.error('Failed to initialize repository:', error);
+            throw error;
+        }
+    }
 
     async createCart() {
         try {

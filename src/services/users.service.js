@@ -1,8 +1,18 @@
-import Repository from "./repository.js";
+import PersistenceFactory from "../dao/persistenceFactory.js";
 
-export default class UsersService extends Repository {
-    constructor(dao) {
-        super(dao);
+
+export default class UsersService {
+    constructor() {
+        this.init();
+    }
+
+    init = async () => {
+        try {
+            this.dao = await PersistenceFactory.getPersistence('USER')
+        } catch (error) {
+            console.error('Failed to initialize repository:', error);
+            throw error;
+        }
     }
 
     async getAll(filters, paginateOptions) {
