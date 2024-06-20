@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export default class productDAOFile {
+export default class ProductDAOFile {
     constructor() {
         this.path = '/src/data/products.json';
         this.init();

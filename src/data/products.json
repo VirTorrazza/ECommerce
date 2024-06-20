@@ -1,38 +1,110 @@
 [
-	{
-		"title": "bsb",
-		"description": "nsbsnn",
-		"price": "24256",
-		"code": "nss",
-		"stock": "2",
-		"category": "552",
-		"id": 20
-	},
-	{
-		"title": "   fff",
-		"description": " d   d",
-		"price": "3323",
-		"code": " weghj654",
-		"stock": "567",
-		"category": "   gh",
-		"id": 23
-	},
-	{
-		"title": "productoMule",
-		"description": "mula",
-		"price": "222",
-		"code": "este Codigo",
-		"stock": "2",
-		"category": "2",
-		"id": 25
-	},
-	{
-		"title": "hello",
-		"description": "hola",
-		"price": "22",
-		"code": "556",
-		"stock": "2",
-		"category": "Wines and Beverages",
-		"id": 26
-	}
+    {
+        "title": "Laptop",
+        "description": "Powerful laptop for gaming and productivity",
+        "price": 1299.99,
+        "code": "LT10234",
+        "stock": 15,
+        "category": "Electronics",
+        "id": 1
+    },
+    {
+        "title": "Smartphone",
+        "description": "High-end smartphone with advanced features",
+        "price": 899.99,
+        "code": "SP2001",
+        "stock": 20,
+        "category": "Electronics",
+        "id": 2
+    },
+    {
+        "title": "Coffee Maker",
+        "description": "Automatic coffee maker for home and office",
+        "price": 149.99,
+        "code": "CM3356",
+        "stock": 10,
+        "category": "Home Appliances",
+        "id": 3
+    },
+    {
+        "title": "Running Shoes",
+        "description": "Comfortable and durable running shoes",
+        "price": 79.99,
+        "code": "RS5001",
+        "stock": 30,
+        "category": "Sports",
+        "id": 4
+    },
+    {
+        "title": "Desk Lamp",
+        "description": "Adjustable LED desk lamp with USB charging port",
+        "price": 34.99,
+        "code": "DL1100",
+        "stock": 25,
+        "category": "Office Supplies",
+        "id": 5
+    },
+    {
+        "title": "Cookware Set",
+        "description": "Complete stainless steel cookware set for chefs",
+        "price": 199.99,
+        "code": "CS7500",
+        "stock": 8,
+        "category": "Kitchenware",
+        "id": 6
+    },
+    {
+        "title": "Gaming Mouse",
+        "description": "High-precision gaming mouse with customizable buttons",
+        "price": 49.99,
+        "code": "GM3001",
+        "stock": 18,
+        "category": "Gaming Accessories",
+        "id": 7
+    },
+    {
+        "title": "Bluetooth Speaker",
+        "description": "Portable Bluetooth speaker with built-in microphone",
+        "price": 79.99,
+        "code": "BS2201",
+        "stock": 12,
+        "category": "Audio",
+        "id": 8
+    },
+    {
+        "title": "Travel Backpack",
+        "description": "Water-resistant backpack for travel and outdoor activities",
+        "price": 59.99,
+        "code": "TB4300",
+        "stock": 15,
+        "category": "Travel Gear",
+        "id": 9
+    },
+    {
+        "title": "Yoga Mat",
+        "description": "Premium quality yoga mat for fitness enthusiasts",
+        "price": 29.99,
+        "code": "YM1002",
+        "stock": 20,
+        "category": "Fitness",
+        "id": 10
+    },
+    {
+        "title": "Wireless Headphones",
+        "description": "Noise-cancelling wireless headphones for immersive audio experience",
+        "price": 149.99,
+        "code": "WH5500",
+        "stock": 10,
+        "category": "Audio",
+        "id": 11
+    },
+    {
+        "title": "Digital Camera",
+        "description": "Professional DSLR camera with 24MP sensor",
+        "price": 799.99,
+        "code": "DC7701",
+        "stock": 5,
+        "category": "Photography",
+        "id": 12
+    }
 ]

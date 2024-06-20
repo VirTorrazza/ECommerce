@@ -1,0 +1,20 @@
+[
+    {
+        "code": "TICKET001",
+        "products": [
+            { "product": 20, "price": 24256, "quantity": 1 },
+            { "product": 23, "price": 3323, "quantity": 2 }
+        ],
+        "purchaser": "user@example.com",
+        "amount": 30802
+    },
+    {
+        "code": "TICKET002",
+        "products": [
+            { "product": 25, "price": 222, "quantity": 1 },
+            { "product": 26, "price": 22, "quantity": 2 }
+        ],
+        "purchaser": "admin@example.com",
+        "amount": 266
+    }
+]

@@ -1,6 +1,6 @@
-import productModel from "./products.model.js";
+import productModel from "./product.model.js";
 
-export default class productDAOMongo{
+export default class ProductDAOMongo{
     constructor(){
         this.model=productModel; 
     }
