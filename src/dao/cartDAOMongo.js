@@ -1,4 +1,4 @@
-import cartModel from "./cart.model.js";
+import cartModel from "./models/cart.model.js";
 
 export default class CartDAOMongo{
     constructor(){

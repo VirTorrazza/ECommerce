@@ -1,5 +1,5 @@
-import config from "../config/config.js";
-import userModel from "../dao/models/user.model.js"
+import config from "../../config/config.js";
+import userModel from "../models/user.model.js"
 import productModel from "../dao/models/products.model.js";
 import cartModel from "../dao/models/carts.model.js";
 import UserDAOMongo from '../dao/models/userDAOMongo.js'; 
