@@ -8,6 +8,9 @@ import CartDAOMongo from '../dao/models/cartDAOMongo.js';
 import UserDAOFile from '../dao/models/userDAOFile.js'; 
 import ProductDAOFile from '../dao/models/productDAOFile.js';
 import CartDAOFile from '../dao/models/cartDAOFile.js';
+import TicketDAOFile from "./models/TicketDAOFile.js";
+import ticketModel from "./models/tickets.model.js";
+import TicketDAOMongo from "./models/TicketDAOMongo.js";
 
 export default class PersistenceFactory {
     static getPersistence = async (entityType) => {
@@ -21,6 +24,8 @@ export default class PersistenceFactory {
                             return new ProductDAOFile();
                         case 'CART':
                             return new CartDAOFile();
+                        case 'TICKET':
+                            return new TicketDAOFile();
                         default:
                             throw new Error(`Unsupported entity type for FILE persistence: ${entityType}`);
                     }
@@ -33,6 +38,8 @@ export default class PersistenceFactory {
                             return new ProductDAOMongo(productModel);
                         case 'CART':
                             return new CartDAOMongo(cartModel);
+                        case 'TICKET':
+                            return new TicketDAOMongo(ticketModel);
                         default:
                             throw new Error(`Unsupported entity type for MONGO persistence: ${entityType}`);
                     }

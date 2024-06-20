@@ -2,6 +2,8 @@ import cartModel from "../dao/models/carts.model.js";
 import productModel from "../dao/models/products.model.js";
 import cartDAOMongo from "../dao/models/cartDAOMongo.js";
 import CartsService from "../services/carts.service.js";
+import ProductsService from "../services/products.service.js";
+import TicketsService from "../services/tickets.service.js";
 
 const dao= new cartDAOMongo(cartModel);
 const service = new CartsService(dao);
@@ -147,7 +149,57 @@ export async function updateCartItem(req, res) {
     } catch (error) {
         return res.status(500).json({ error: "Internal Server Error: " + error.message });
     }
+
+    
 }
 
+export async function purchaseItems(req,res){
+    try {
+        let cid = req.params.cid;
+        const cart = await CartsService.getById(cid);
+        if (cart === null) {
+            return res.status(404).json({ status: 'error', error: `Cart with id=${cid} Not found` });
+        }
+    
+        let productsToTicket = [];
+        let productsAfterPurchase = cart.products;
+        let amount = 0;
+    
+        await Promise.all(cart.products.map(async (item) => {
+            const productToPurchase = await ProductsService.getById(item.product);
+    
+            if (!productToPurchase) {
+                throw new Error(`Product with id=${item.product} does not exist. Cannot purchase this product`);
+            }
+    
+            if (item.quantity > productToPurchase.stock) { // if cart item purchased quantity > existing item quantity
+                throw new Error(`Insufficient stock for product with id=${item.product}`);
+            }
+    
+            productToPurchase.stock -= item.quantity;
+            await ProductsService.update(productToPurchase._id, { stock: productToPurchase.stock });
+    
+            productsAfterPurchase = productsAfterPurchase.filter(prod => prod.product.toString() !== item.product.toString());
+            amount += (productToPurchase.price * item.quantity);
+    
+            productsToTicket.push({
+                product: productToPurchase._id,
+                price: productToPurchase.price,
+                quantity: item.quantity
+            });
+        }));
 
-
+        await CartsService.update(cid, { products: productsAfterPurchase }); //remaining products
+        
+        const result = await TicketsService.create({
+            code: shortid.generate(),
+            products: productsToTicket,
+            amount,
+            purchaser: req.session.user.email
+        })
+        return res.status(201).json({ status: 'success', payload: result })
+    } catch(err) {
+        return res.status(500).json({ status: 'error', error: err.message })
+    }
+       
+}
