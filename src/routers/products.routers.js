@@ -14,6 +14,6 @@ productRouter.post('/',publicRoutes,handlePolicies(['ADMIN']),createProduct);
 
 productRouter.put('/:pid', publicRoutes,handlePolicies(['ADMIN']),updateProduct);
 
-productRouter.delete('/:pid', publicRoutes,handlePolicies(['ADMIN']),deleteProduct);
+productRouter.delete('/:pid', publicRoutes,handlePolicies(['ADMIN','USER']),deleteProduct);
 
 export default productRouter 
