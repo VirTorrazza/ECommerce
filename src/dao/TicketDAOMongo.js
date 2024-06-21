@@ -1,4 +1,4 @@
-import ticketModel from "./tickets.model";
+import ticketModel from "./models/ticket.model.js";
 
 export default class TicketDAOMongo {
 

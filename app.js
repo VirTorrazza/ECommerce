@@ -1,5 +1,5 @@
 import express from 'express';
-import MongoClient from './src/dao/MongoClient.js';
+import MongoClient from './src/utils/MongoClient.js';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import productRouter from './src/routers/products.routers.js';

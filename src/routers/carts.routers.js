@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { publicRoutes } from "../middlewares/auth.middleware.js";
-import { addToCart, clearCart, createCart, getCart, removeFromCart, updateCart, updateCartItem } from "../controllers/carts.controller.js";
+import { publicRoutes,handlePolicies } from "../middlewares/auth.middleware.js";
+import { addToCart, clearCart, createCart, getCart, removeFromCart, updateCart, updateCartItem ,purchaseItems} from "../controllers/carts.controller.js";
 
 const cartRouter = Router();
 
@@ -14,7 +14,7 @@ cartRouter.delete('/:cid/products/:pid',publicRoutes, handlePolicies(['USER']), 
   
 cartRouter.delete('/:cid', publicRoutes, handlePolicies(['PREMIUM', 'ADMIN', 'USER']),clearCart);
   
-cartRouter.put('/:cid', publicRoutes, (['PREMIUM', 'ADMIN', 'USER']), updateCart);
+cartRouter.put('/:cid', publicRoutes, handlePolicies(['PREMIUM', 'ADMIN', 'USER']), updateCart);
 
 cartRouter.put('/:cid/products/:pid', publicRoutes, handlePolicies(['PREMIUM', 'ADMIN']), updateCartItem);
 

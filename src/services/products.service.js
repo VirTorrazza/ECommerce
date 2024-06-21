@@ -1,4 +1,4 @@
-import PersistenceFactory from "../dao/persistenceFactory.js";
+import PersistenceFactory from "../dao/factory/persistenceFactory.js";
 
 
 export default class ProductsService {

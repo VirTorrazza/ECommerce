@@ -1,4 +1,4 @@
-import { JWT_COOKIE_NAME } from '../utils.js';
+import { JWT_COOKIE_NAME } from '../utils/utils.js';
 
 export const registrationFailure = (req, res) => {
     res.send({ error: 'Registration fails' });

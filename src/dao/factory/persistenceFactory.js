@@ -1,16 +1,16 @@
 import config from "../../config/config.js";
 import userModel from "../models/user.model.js"
-import productModel from "../dao/models/products.model.js";
-import cartModel from "../dao/models/carts.model.js";
-import UserDAOMongo from '../dao/models/userDAOMongo.js'; 
-import ProductDAOMongo from '../dao/models/productDAOMongo.js';
-import CartDAOMongo from '../dao/models/cartDAOMongo.js';
-import UserDAOFile from '../dao/models/userDAOFile.js'; 
-import ProductDAOFile from '../dao/models/productDAOFile.js';
-import CartDAOFile from '../dao/models/cartDAOFile.js';
-import TicketDAOFile from "./models/TicketDAOFile.js";
-import ticketModel from "./models/tickets.model.js";
-import TicketDAOMongo from "./models/TicketDAOMongo.js";
+import productModel from "../models/product.model.js"
+import cartModel from "../models/cart.model.js";
+import UserDAOMongo from '../userDAOMongo.js'; 
+import ProductDAOMongo from '../productDAOMongo.js';
+import CartDAOMongo from '../cartDAOMongo.js';
+import UserDAOFile from '../userDAOFile.js'; 
+import ProductDAOFile from '../productDAOFile.js';
+import CartDAOFile from '../cartDAOFile.js';
+import TicketDAOFile from "../TicketDAOFile.js";
+import ticketModel from "../models/ticket.model.js";
+import TicketDAOMongo from "../TicketDAOMongo.js";
 
 export default class PersistenceFactory {
     static getPersistence = async (entityType) => {

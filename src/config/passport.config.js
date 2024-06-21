@@ -4,10 +4,10 @@ import GitHubStrategy from 'passport-github2';
 import googleStrategy from 'passport-google-oauth20';
 import passport_jwt from 'passport-jwt';
 import userModel from '../dao/models/user.model.js';
-import cartModel from '../dao/models/carts.model.js';
-import {createHash, extractCookie, generateToken, isValidPassword,JWT_PRIVATE_KEY} from '../utils.js'
+import cartModel from '../dao/models/cart.model.js';
+import {createHash, extractCookie, generateToken, isValidPassword,JWT_PRIVATE_KEY} from '../utils/utils.js'
 import UsersService from '../services/users.service.js';
-import UserDAOMongo from '../dao/models/userDAOMongo.js';
+import UserDAOMongo from '../dao/userDAOMongo.js';
 
 
 const localStrategy= local.Strategy;

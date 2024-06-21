@@ -1,6 +1,6 @@
 import config from "../config/config.js";
-import productDAOMongo from "../dao/models/productDAOMongo.js";
-import productModel from "../dao/models/products.model.js";
+import productDAOMongo from "../dao/productDAOMongo.js";
+import productModel from "../dao/models/product.model.js";
 import ProductsService from "../services/products.service.js";
 
 const PORT =config.apiserver.port;
