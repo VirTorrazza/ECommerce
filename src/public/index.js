@@ -222,6 +222,7 @@ function addProductToTable(event) {
 }
 
 function deleteProduct(pid) {
+  console.log("soy el pid" +pid)
   Swal.fire({ // Ask for confirmation before deleting
     title: "Are you sure you want to delete this product?",
     text: "This action cannot be undone.",
@@ -249,10 +250,11 @@ function deleteProduct(pid) {
     }
   }).then((result) => {
     if (result.isConfirmed) {      
-      fetch(`/products/${pid}`, {
+      fetch(`/api/products/${pid}`, {
         method: 'DELETE',
       })
         .then(result => {
+          console.log("soy el result status"+ result.status)
           if (result.status === 204) {
             socket.emit('deletedProduct');
             Swal.fire({

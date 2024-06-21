@@ -1,4 +1,3 @@
-import productModel from "../dao/models/product.model.js";
 import productDAOMongo from "../dao/productDAOMongo.js";
 import ProductsService from "../services/products.service.js";
 import config from "../config/config.js";
@@ -9,6 +8,7 @@ const service = new ProductsService();
 
 export async function getRealTimeProducts (req, res){
     const products = await service.getRealTimeProducts();
+    console.log("productos"+ JSON.stringify(products))
     res.render('realtimeproducts', {products}); // view name
 }
 
