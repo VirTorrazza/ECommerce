@@ -4,9 +4,13 @@ import cartDAOMongo from "../dao/cartDAOMongo.js";
 import CartsService from "../services/carts.service.js";
 import ProductsService from "../services/products.service.js";
 import TicketsService from "../services/tickets.service.js";
+import shortid from 'shortid';
+
 
 const dao= new cartDAOMongo(cartModel);
 const service = new CartsService(dao);
+const productService= new ProductsService()
+const ticketService= new TicketsService();
 
 export async function createCart(req, res) {
     try {
@@ -156,7 +160,7 @@ export async function updateCartItem(req, res) {
 export async function purchaseItems(req,res){
     try {
         let cid = req.params.cid;
-        const cart = await CartsService.getById(cid);
+        const cart = await service.getById(cid);
         if (cart === null) {
             return res.status(404).json({ status: 'error', error: `Cart with id=${cid} Not found` });
         }
@@ -166,7 +170,8 @@ export async function purchaseItems(req,res){
         let amount = 0;
     
         await Promise.all(cart.products.map(async (item) => {
-            const productToPurchase = await ProductsService.getById(item.product);
+            const productToPurchase = await productService.getById(item.product);
+            console.log("productToPurchase" +JSON.stringify(productToPurchase))
     
             if (!productToPurchase) {
                 throw new Error(`Product with id=${item.product} does not exist. Cannot purchase this product`);
@@ -177,7 +182,7 @@ export async function purchaseItems(req,res){
             }
     
             productToPurchase.stock -= item.quantity;
-            await ProductsService.update(productToPurchase._id, { stock: productToPurchase.stock });
+            await productService.update(productToPurchase._id, { stock: productToPurchase.stock });
     
             productsAfterPurchase = productsAfterPurchase.filter(prod => prod.product.toString() !== item.product.toString());
             amount += (productToPurchase.price * item.quantity);
@@ -189,13 +194,14 @@ export async function purchaseItems(req,res){
             });
         }));
 
-        await CartsService.update(cid, { products: productsAfterPurchase }); //remaining products
+        await service.update(cid, { products: productsAfterPurchase }); //remaining products
         
-        const result = await TicketsService.create({
+        console.log ("SOY EL REQ.USER"+ JSON.stringify(req.user));
+        const result = await ticketService.create({
             code: shortid.generate(),
             products: productsToTicket,
             amount,
-            purchaser: req.session.user.email
+            purchaser: req.user.email
         })
         return res.status(201).json({ status: 'success', payload: result })
     } catch(err) {

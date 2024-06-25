@@ -7,6 +7,6 @@ const viewRouter =Router();
 
 viewRouter.get('/realtimeproducts', publicRoutes, handlePolicies(['USER', 'ADMIN']), getRealTimeProducts);
 //viewRouter.get('/chat', publicRoutes, handlePolicies(['USER']), chatViewController);
-viewRouter.get('/', passportCall('jwt'),getHomePage);
+viewRouter.get('/', publicRoutes, passportCall('jwt'), getHomePage);
 
 export default viewRouter;

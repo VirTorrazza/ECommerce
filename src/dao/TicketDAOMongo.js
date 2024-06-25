@@ -6,7 +6,7 @@ export default class TicketDAOMongo {
         this.model = ticketModel;
     }
 
-    save = async (ticket) => {
+    create= async (ticket) => {
         let result = await this.model.create(ticket);
         return result;
     }

@@ -16,9 +16,10 @@ export default class TicketsService {
         }
     }
 
-    async createTicket() {
+    async create(ticket) {
         try {
-            return await this.dao.createTicket();
+            console.log("soy ticket" + JSON.stringify(ticket))
+            return await this.dao.create(ticket);
         } catch (error) {
             console.error("Error in creating ticket in Ticket Service:", error);
             throw new Error(`Error in creating ticket in Ticket  Service: ${error.message}`);
