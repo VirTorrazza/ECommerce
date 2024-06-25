@@ -181,14 +181,25 @@ function addProductToTable(event) {
     category: document.getElementById("category").value
   };
 
-  fetch('/products', {
+  console.log("soy el body"+ JSON.stringify(body))
+  fetch('/api/products', {
     method: 'POST',
-    body: JSON.stringify(body),
+    body: body,
     headers: {
       'Content-Type': 'application/json'
     }
   })
   .then(result => result.json())
+  .then(result => {
+    if (result.status === 'error') {
+      throw new Error(result.error);
+    }})
+  .then(()=>fetch(
+    '/api/products', {
+      method:'GET'
+    }
+  ))
+  .then (result=> result.json())
   .then(result => {
     if (result.status === 'error') {
       throw new Error(result.error);

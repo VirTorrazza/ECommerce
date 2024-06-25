@@ -2,6 +2,7 @@ import config from "../../config/config.js";
 import userModel from "../models/user.model.js"
 import productModel from "../models/product.model.js"
 import cartModel from "../models/cart.model.js";
+import messageModel from "../models/message.model.js";
 import UserDAOMongo from '../userDAOMongo.js'; 
 import ProductDAOMongo from '../productDAOMongo.js';
 import CartDAOMongo from '../cartDAOMongo.js';
@@ -11,6 +12,8 @@ import CartDAOFile from '../cartDAOFile.js';
 import TicketDAOFile from "../TicketDAOFile.js";
 import ticketModel from "../models/ticket.model.js";
 import TicketDAOMongo from "../TicketDAOMongo.js";
+import MessageDAOMongo from "../messageDAOMongo.js";
+import MessageDAOFile from "../messageDAOFile.js";
 
 export default class PersistenceFactory {
     static getPersistence = async (entityType) => {
@@ -26,6 +29,8 @@ export default class PersistenceFactory {
                             return new CartDAOFile();
                         case 'TICKET':
                             return new TicketDAOFile();
+                        case 'MESSAGE':
+                            return new MessageDAOFile();
                         default:
                             throw new Error(`Unsupported entity type for FILE persistence: ${entityType}`);
                     }
@@ -40,6 +45,8 @@ export default class PersistenceFactory {
                             return new CartDAOMongo(cartModel);
                         case 'TICKET':
                             return new TicketDAOMongo(ticketModel);
+                        case 'MESSAGE':
+                            return new MessageDAOMongo(messageModel);
                         default:
                             throw new Error(`Unsupported entity type for MONGO persistence: ${entityType}`);
                     }
