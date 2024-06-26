@@ -12,6 +12,7 @@
   "author": "Virginia Torrazza",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@handlebars/allow-prototype-access": "^1.0.5",
     "bcrypt": "^5.1.1",

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { publicRoutes } from "../middlewares/auth.middleware.js";
 import { passportCall,handlePolicies } from "../utils/utils.js";
-import { getHomePage, getRealTimeProducts } from "../controllers/views.controller.js";
+import { getHomePage, getRealTimeProducts, getMockedProducts} from "../controllers/views.controller.js";
 import { getChatPage } from "../controllers/chat.controller.js";
 
 const viewRouter =Router();
@@ -11,5 +11,7 @@ viewRouter.get('/realtimeproducts', publicRoutes, handlePolicies(['USER', 'ADMIN
 viewRouter.get('/', publicRoutes, passportCall('jwt'), getHomePage);
 
 viewRouter.get('/chat', getChatPage);
+
+viewRouter.get('/mockedproducts',getMockedProducts);
 
 export default viewRouter;

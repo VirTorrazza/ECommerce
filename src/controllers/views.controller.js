@@ -1,6 +1,7 @@
 import productDAOMongo from "../dao/productDAOMongo.js";
 import ProductsService from "../services/products.service.js";
 import config from "../config/config.js";
+import { generateMockedProduct } from "../utils/utils.js";
 
 const PORT =config.apiserver.port;
 const dao= new productDAOMongo();
@@ -10,6 +11,23 @@ export async function getRealTimeProducts (req, res){
     const products = await service.getRealTimeProducts();
     console.log("productos"+ JSON.stringify(products))
     res.render('realtimeproducts', {products}); // view name
+}
+
+
+export function getMockedProducts(req, res) {
+    try {
+        const numberOfProducts = 10; 
+        const mockedProducts = [];
+
+        for (let index = 0; index < numberOfProducts; index++) {
+            mockedProducts.push(generateMockedProduct());
+        }
+
+        return res.status(200).json({ payload: mockedProducts });
+    } catch (error) {
+        console.error('Error generating mocked products:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
 }
 
 export async function getHomePage (req, res){
