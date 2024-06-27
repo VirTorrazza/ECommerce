@@ -1,3 +1,4 @@
+import CustomError from "../services/errors/CustomError.js";
 import productModel from "./models/product.model.js";
 
 export default class ProductDAOMongo{
@@ -59,11 +60,14 @@ export default class ProductDAOMongo{
 
     async getByCode(codeObj) {
         try {
-            console.log("Soy el código" +JSON.stringify(codeObj.code))
             const product = await this.model.findOne({ code: codeObj.code});
             return product;
         } catch (error) {
-            throw new Error(`Error finding product by code: ${error.message} in ProductDAO`);
+            throw new CustomError({
+                name: "DatabaseError",
+                message: `Error finding product by code: ${error.message}`,
+                cause: error
+            });
         }
     }
 

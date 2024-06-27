@@ -2,6 +2,8 @@ import config from "../config/config.js";
 import productDAOMongo from "../dao/productDAOMongo.js";
 import productModel from "../dao/models/product.model.js";
 import ProductsService from "../services/products.service.js";
+import EErros from "../services/errors/EErrors.js";
+import CustomError from "../services/errors/CustomError.js";
 
 const PORT =config.apiserver.port;
 const dao= new productDAOMongo(productModel);
@@ -107,13 +109,23 @@ export async function createProduct(req, res) {
         let { title, description, code, price, stock, category, thumbnails } = req.body;
         
         if (!title || !code || !price || !stock || !category || !description) {
-            return res.status(400).json({ error: "Missing required fields" });
+            let error = CustomError.createError({
+                name: "Product Creation Error",
+                code: EErros.INVALID_TYPES_ERROR,
+                cause: `Product required fields are title, code, price, stock,category and description`
+            });
+            return res.status(400).json({ error});
         }
         let existingProduct = await service.getByCode({ code });
-        // productModel.findOne({ code });
+       
 
         if (existingProduct) {
-            return res.status(400).json({ error: "Product with this code already exists" });
+            const error = CustomError.createError({
+                name: "Duplicate Product Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Product with code '${code}' already exists in the database`
+            });
+            return res.status(400).json( error);
         }
 
         let newProduct = new productModel({
@@ -130,7 +142,6 @@ export async function createProduct(req, res) {
         return res.status(201).json({ message: "Product created successfully", product: newProduct });
 
     } catch (error) {
-        console.error("Error creating product:", error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
@@ -147,15 +158,14 @@ export async function updateProduct(req, res) {
         if (req.body.thumbnails) updateFields.thumbnails = req.body.thumbnails;
 
         let pid = req.params.pid;
-        console.log("HERE")
         let updatedProduct = await service.update(pid,updateFields);
-        console.log("updated product"+ JSON.stringify(updatedProduct))
-        // productModel.findByIdAndUpdate(pid, updateFields, { returnDocument: 'after' });
 
         return res.status(200).json({ payload: updatedProduct });
         
     } catch (error) {
-        console.error("Error updating product:", error);
+        if (error.name === 'DuplicateProductError') {
+            return res.status(400).json({ error: error.message });
+        }
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
@@ -165,7 +175,6 @@ export async function deleteProduct (req,res){
         let pid= req.params.pid;
         try {
             let product=await service.getById(pid);
-            //productModel.findById(pid);
             if(!product) return res.status(404).json ({error: "404: Product not found"})
 
         } catch(error){
