@@ -53,12 +53,7 @@ export default class ProductsService {
     }
 
     async update(id, data) {
-        try {
             return await this.dao.update(id, data);
-        } catch (error) {
-            console.error("Error updating product:", error);
-            throw new Error(`Error updating product: ${error.message}`);
-        }
     }
 
     async delete(id) {

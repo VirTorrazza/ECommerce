@@ -1,4 +1,5 @@
 import CustomError from "../services/errors/CustomError.js";
+import EErros from "../services/errors/EErrors.js";
 import productModel from "./models/product.model.js";
 
 export default class ProductDAOMongo{
@@ -48,15 +49,8 @@ export default class ProductDAOMongo{
     }
     
     update = async (id, newData) => {
-        try {
             const updatedProduct = await this.model.findByIdAndUpdate(id, newData, { new: true });
-            if (!updatedProduct) {
-                return { status: 'error', message: 'Product not found', statusCode: 404 };
-            }
             return updatedProduct;
-        } catch (error) {
-            throw new Error(`Error updating product: ${error.message}`);
-        }
     }
 
     async getByCode(code) {

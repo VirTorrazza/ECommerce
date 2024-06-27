@@ -155,22 +155,33 @@ export async function createProduct(req, res) {
 }
 
 export async function updateProduct(req, res) {
+    let updateFields = {};
+    if (req.body.title) updateFields.title = req.body.title;
+    if (req.body.description) updateFields.description = req.body.description;
+    if (req.body.code) updateFields.code = req.body.code;
+    if (req.body.price) updateFields.price = req.body.price;
+    if (req.body.stock) updateFields.stock = req.body.stock;
+    if (req.body.category) updateFields.category = req.body.category;
+    if (req.body.thumbnails) updateFields.thumbnails = req.body.thumbnails;
+
+    let pid = req.params.pid;
+    console.log("soy pid" +pid)
+
     try {
-        let updateFields = {};
-        if (req.body.title) updateFields.title = req.body.title;
-        if (req.body.description) updateFields.description = req.body.description;
-        if (req.body.code) updateFields.code = req.body.code;
-        if (req.body.price) updateFields.price = req.body.price;
-        if (req.body.stock) updateFields.stock = req.body.stock;
-        if (req.body.category) updateFields.category = req.body.category;
-        if (req.body.thumbnails) updateFields.thumbnails = req.body.thumbnails;
+        let updatedProduct = await service.update(pid, updateFields);
 
-        let pid = req.params.pid;
-        let updatedProduct = await service.update(pid,updateFields);
+        if (!updatedProduct) {
+            const error = CustomError.createError({
+                name: "Update Product Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Product with id '${pid}' does not exists in the database`
+            });
+            return res.status(400).json( error);
+        }
 
-        return res.status(200).json({ payload: updatedProduct });
-        
     } catch (error) {
+     
+        console.error("Error updating product:", error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
@@ -180,7 +191,14 @@ export async function deleteProduct (req,res){
         let pid= req.params.pid;
         try {
             let product=await service.getById(pid);
-            if(!product) return res.status(404).json ({error: "404: Product not found"})
+            if(!product) {
+                const error = CustomError.createError({
+                    name: "Delete Product Error",
+                    code: EErros.DATABASES_ERROR,
+                    cause: `Product with id '${pid}' does not exists in the database`
+                });
+                return res.status(400).json( error);
+            }
 
         } catch(error){
             return res.status(404).json ({error: "404: Parser Error.Cast Error"+ error});
