@@ -10,7 +10,7 @@ productRouter.get('/code/:code',publicRoutes,handlePolicies(['USER', 'ADMIN']),g
 
 productRouter.get('/:pid',publicRoutes,handlePolicies(['USER', 'ADMIN']),getProductById);
 
-productRouter.post('/',publicRoutes,handlePolicies(['ADMIN']),createProduct);
+productRouter.post('/',createProduct);
 
 productRouter.put('/:pid', publicRoutes,handlePolicies(['ADMIN']),updateProduct);
 
