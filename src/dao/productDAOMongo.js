@@ -59,9 +59,9 @@ export default class ProductDAOMongo{
         }
     }
 
-    async getByCode(codeObj) {
+    async getByCode(code) {
         try {
-            const product = await this.model.findOne({ code: codeObj.code});
+            const product = await this.model.findOne({ code: code }).exec();
             return product;
         } catch (error) {
             throw new CustomError({
