@@ -17,7 +17,6 @@ export default class ProductDAOMongo{
     }
 
     getById= async (id) =>{ 
-        console.log("soy id" +id + typeof(id))
         try {
             const product = await this.model.findById(id);
             return product;

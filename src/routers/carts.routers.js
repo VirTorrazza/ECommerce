@@ -6,17 +6,17 @@ const cartRouter = Router();
 
 cartRouter.post('/',createCart);
   
-cartRouter.get('/:cid', publicRoutes, handlePolicies(['PREMIUM', 'ADMIN', 'USER']), getCart); 
+cartRouter.get('/:cid', getCart); 
   
 cartRouter.post('/:cid/product/:pid',addToCart);
 
-cartRouter.delete('/:cid/products/:pid',publicRoutes, handlePolicies(['USER']), removeFromCart);
+cartRouter.delete('/:cid/products/:pid', removeFromCart);
   
-cartRouter.delete('/:cid', publicRoutes, handlePolicies(['PREMIUM', 'ADMIN', 'USER']),clearCart);
+cartRouter.delete('/:cid',clearCart);
   
-cartRouter.put('/:cid', publicRoutes, handlePolicies(['PREMIUM', 'ADMIN', 'USER']), updateCart);
+cartRouter.put('/:cid', updateCart);
 
-cartRouter.put('/:cid/products/:pid', publicRoutes, handlePolicies(['PREMIUM', 'ADMIN']), updateCartItem);
+cartRouter.put('/:cid/products/:pid',updateCartItem);
 
 cartRouter.get('/:cid/purchase', purchaseItems);
 

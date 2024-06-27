@@ -18,12 +18,8 @@ export default class CartDAOMongo{
     }
 
     getById= async (id) =>{ 
-        try {
             const cart = await this.model.findById(id);
             return cart;
-        } catch (error) {
-            throw new Error(`Error getting cart by ID: ${error.message} in DAO`);
-        }
     }
 
     update = async (cid, newData) => {

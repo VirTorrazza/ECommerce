@@ -5,6 +5,8 @@ import CartsService from "../services/carts.service.js";
 import ProductsService from "../services/products.service.js";
 import TicketsService from "../services/tickets.service.js";
 import shortid from 'shortid';
+import CustomError from "../services/errors/CustomError.js";
+import EErros from "../services/errors/EErrors.js";
 
 
 const dao= new cartDAOMongo(cartModel);
@@ -28,7 +30,12 @@ export async function getCart (req, res){
     
         const cart = await service.getById(cid);
       if (!cart) {
-        return res.status(404).json({ error: "404: Cart not found" });
+        let error = CustomError.createError({
+            name: "Cart Get By ID Error",
+            code: EErros.DATABASES_ERROR,
+            cause: `Cart with id ${cid} does not exists`
+        });
+        return res.status(400).json( error);
       }
       return res.status(200).json({ payload: cart });
     } catch (error) {
@@ -44,7 +51,12 @@ export async function addToCart(req, res) {
         const pid = req.params.pid;
         const cart = await service.getById(cid);
         if (!cart) {
-            return res.status(404).json({ error: "404: Cart not found" });
+            let error = CustomError.createError({
+                name: "Cart Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Cart with id ${cid} does not exists`
+            });
+            return res.status(400).json( error);
         }
         let updatedProductIndex = cart.products.findIndex(prod => prod.product.toString() === pid);
 
@@ -61,19 +73,29 @@ export async function addToCart(req, res) {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 }
-
 export async function removeFromCart(req, res) {
     try {
         const cart = await service.getById(req.params.cid);
+        
         if (!cart) {
-            return res.status(404).json({ error: "404: Cart not found" });
+            let error = CustomError.createError({
+                name: "Cart Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Cart with id ${req.params.cid} does not exist`
+            });
+            return res.status(400).json(error);
         }
 
-        const searchedProduct = await productModel.findById(req.params.pid);
+        const searchedProduct = await productService.getById(req.params.pid);
+
         if (!searchedProduct) {
-            return res.status(404).json({ error: "404: Product not found" });
+            let error = CustomError.createError({
+                name: "Product Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Product with id ${req.params.pid} does not exist`
+            });
+            return res.status(404).json(error);
         }
-
         cart.products = cart.products.filter(item => item.product.toString() !== req.params.pid);
 
         const updatedCart = await service.update(
@@ -82,17 +104,24 @@ export async function removeFromCart(req, res) {
         );
 
         return res.status(200).json({ payload: updatedCart });
+
     } catch (error) {
-        console.error("Error deleting product from cart:", error);
+        console.error("Error removing from cart:", error);
         return res.status(500).json({ error: "Internal Server Error" });
     }
 }
+
 
 export async function clearCart(req, res) {
     try {
         const cart = await cartModel.findById(req.params.cid);
         if (!cart) {
-            return res.status(404).json({ error: "404: Cart not found" });
+            let error = CustomError.createError({
+                name: "Cart Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Cart with id ${req.params.cid} does not exist`
+            });
+            return res.status(400).json(error);
         }
 
         cart.products = [];
@@ -117,7 +146,14 @@ export async function updateCart(req, res) {
 
         try {
             cart = await service.update(cid);
-            if (!cart) return res.status(404).json({ error: "404: Cart not found" });
+            if (!cart) {
+                let error = CustomError.createError({
+                    name: "Cart Get By ID Error",
+                    code: EErros.DATABASES_ERROR,
+                    cause: `Cart with id ${cid} does not exist`
+                });
+                return res.status(400).json(error);
+            }
 
         } catch (error) {
             return res.status(404).json({ error: "404: Parser Error.Cast Error" + error });
@@ -136,7 +172,12 @@ export async function updateCartItem(req, res) {
         let pid = req.params.pid; 
         let cart = await service.getById(cid);
         if (!cart) {
-            return res.status(404).json({ error: "404: Cart not found" });
+            let error = CustomError.createError({
+                name: "Cart Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Cart with id ${cid} does not exist`
+            });
+            return res.status(400).json(error);
         }
 
         let updatedProductIndex = cart.products.findIndex(prod => prod.product.toString() === pid);
@@ -161,8 +202,13 @@ export async function purchaseItems(req,res){
     try {
         let cid = req.params.cid;
         const cart = await service.getById(cid);
-        if (cart === null) {
-            return res.status(404).json({ status: 'error', error: `Cart with id=${cid} Not found` });
+        if (!cart) {
+            let error = CustomError.createError({
+                name: "Cart Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Cart with id ${cid} does not exist`
+            });
+            return res.status(400).json(error);
         }
     
         let productsToTicket = [];
@@ -171,7 +217,6 @@ export async function purchaseItems(req,res){
     
         await Promise.all(cart.products.map(async (item) => {
             const productToPurchase = await productService.getById(item.product);
-            console.log("productToPurchase" +JSON.stringify(productToPurchase))
     
             if (!productToPurchase) {
                 throw new Error(`Product with id=${item.product} does not exist. Cannot purchase this product`);
@@ -196,7 +241,6 @@ export async function purchaseItems(req,res){
 
         await service.update(cid, { products: productsAfterPurchase }); //remaining products
         
-        console.log ("SOY EL REQ.USER"+ JSON.stringify(req.user));
         const result = await ticketService.create({
             code: shortid.generate(),
             products: productsToTicket,

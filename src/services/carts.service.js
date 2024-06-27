@@ -25,12 +25,7 @@ export default class CartsService {
     }
 
     async getById(id) {
-        try {
             return await this.dao.getById({_id:id});
-        } catch (error) {
-            console.error("Error getting cart by ID in Cart Service:", error);
-            throw new Error(`Error getting cart by ID in Cart Service: ${error.message}`);
-        }
     }
 
     async save(data) {
