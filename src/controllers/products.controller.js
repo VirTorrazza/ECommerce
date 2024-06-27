@@ -20,7 +20,6 @@ export async function getProducts (req, res){
     if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
     if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
     let productsPaginated= await service.getAll({}, paginateOptions);
-    //productModel.paginate({}, paginateOptions);
     if (productsPaginated){
         status= "success";
     }
@@ -78,10 +77,14 @@ export async function getProductById(req,res){
         let pid= req.params.pid;
         let product= await service.getById(pid); 
         if (!product) {
-            return res.status(404).json({ error: "404: Product not found" });
+            let error = CustomError.createError({
+                name: "Product Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Product with id ${pid} does not exists`
+            });
+            return res.status(400).json( error);
           }
-        
-    return res.status(200).json({payload:product});
+        return res.status(200).json({payload:product});
     }catch(error){
         console.error("Error fetching product:", error);
         return res.status(500).json({ error: "Internal Server Error" });
@@ -94,7 +97,12 @@ export async function getProductByCode(req,res){
         let code= req.params.code;
         let product= await service.getByCode(code); 
         if (!product) {
-            return res.status(404).json({ error:`404: Product with code ${code} not found`});
+            let error = CustomError.createError({
+                name: "Product Get By Code Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Product with code ${code} not found`
+            });
+            return res.status(400).json( error);
           }
         
     return res.status(200).json({payload:product});
@@ -114,7 +122,7 @@ export async function createProduct(req, res) {
                 code: EErros.INVALID_TYPES_ERROR,
                 cause: `Product required fields are title, code, price, stock,category and description`
             });
-            return res.status(400).json({ error});
+            return res.status(400).json(error);
         }
         let existingProduct = await service.getByCode({ code });
        
@@ -163,9 +171,6 @@ export async function updateProduct(req, res) {
         return res.status(200).json({ payload: updatedProduct });
         
     } catch (error) {
-        if (error.name === 'DuplicateProductError') {
-            return res.status(400).json({ error: error.message });
-        }
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
@@ -181,7 +186,7 @@ export async function deleteProduct (req,res){
             return res.status(404).json ({error: "404: Parser Error.Cast Error"+ error});
         }
         await service.delete(pid);
-        //productModel.findByIdAndDelete(pid);
+        
         return res.status(200).json({ message: "Product deleted successfully" });
 
     } catch (error){
