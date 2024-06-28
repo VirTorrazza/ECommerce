@@ -12,6 +12,8 @@ export const handlePolicies = policies => (req, res, next) => {
     if (policies.includes('PUBLIC')) return next();
 
     const user = req.user || null;
+    console.log ("Soy policies" + policies)
+    console.log("Soy request"+ JSON.stringify(user));
     if( !policies.includes(user.role.toUpperCase()) ) 
     {
         return res.status(403).send('<h1>Error: Need Auth</h1>');
