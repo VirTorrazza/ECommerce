@@ -10,7 +10,7 @@ viewRouter.get('/realtimeproducts', publicRoutes, handlePolicies(['USER', 'ADMIN
 
 viewRouter.get('/', publicRoutes, passportCall('jwt'), getHomePage);
 
-viewRouter.get('/chat', getChatPage);
+viewRouter.get('/chat', publicRoutes,handlePolicies(['USER']),getChatPage);
 
 viewRouter.get('/mockedproducts',getMockedProducts);
 
