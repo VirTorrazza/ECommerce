@@ -124,7 +124,7 @@ export async function createProduct(req, res) {
             });
             return res.status(400).json(error);
         }
-        let existingProduct = await service.getByCode({ code });
+        let existingProduct = await service.getByCode(code);
        
 
         if (existingProduct) {
@@ -169,6 +169,7 @@ export async function updateProduct(req, res) {
 
     try {
         let updatedProduct = await service.update(pid, updateFields);
+        console.log("Soy updated p" +updatedProduct)
 
         if (!updatedProduct) {
             const error = CustomError.createError({
@@ -178,7 +179,7 @@ export async function updateProduct(req, res) {
             });
             return res.status(400).json( error);
         }
-
+        return res.status(200).json({ message: "Product updated successfully", payload: updatedProduct });
     } catch (error) {
      
         console.error("Error updating product:", error);

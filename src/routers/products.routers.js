@@ -4,7 +4,7 @@ import { publicRoutes,handlePolicies} from '../middlewares/auth.middleware.js';
 
 const productRouter = Router();
 
-productRouter.get('/',getProducts);
+productRouter.get('/',getProducts); 
 
 productRouter.get('/code/:code',getProductByCode);
 
@@ -12,7 +12,7 @@ productRouter.get('/:pid',getProductById);
 
 productRouter.post('/',createProduct);
 
-productRouter.put('/:pid',updateProduct);
+productRouter.put('/:pid',updateProduct); 
 
 productRouter.delete('/:pid',deleteProduct);
 

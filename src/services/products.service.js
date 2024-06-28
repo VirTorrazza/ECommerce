@@ -27,7 +27,7 @@ export default class ProductsService {
 
     async getById(id) {
         try {
-            return await this.dao.getById(id);
+            return await this.dao.getById({_id:id});
         } catch (error) {
             console.error("Error getting product by ID:", error);
             throw new Error(`Error getting product by ID: ${error.message}`);
