@@ -4,16 +4,16 @@ import { publicRoutes,handlePolicies} from '../middlewares/auth.middleware.js';
 
 const productRouter = Router();
 
-productRouter.get('/',getProducts); 
+productRouter.get('/',publicRoutes,handlePolicies(['USER', 'ADMIN', 'PREMIUM']),getProducts); 
 
-productRouter.get('/code/:code',getProductByCode);
+productRouter.get('/code/:code',publicRoutes,handlePolicies(['USER', 'ADMIN','PREMIUM']),getProductByCode);
 
-productRouter.get('/:pid',getProductById);
+productRouter.get('/:pid',publicRoutes,handlePolicies(['USER', 'ADMIN', 'PREMIUM']),getProductById);
 
-productRouter.post('/',createProduct);
+productRouter.post('/',publicRoutes,handlePolicies(['PREMIUM', 'ADMIN']),createProduct);
 
-productRouter.put('/:pid',updateProduct); 
+productRouter.put('/:pid',publicRoutes,handlePolicies(['ADMIN', 'PREMIUM']),updateProduct); 
 
-productRouter.delete('/:pid',deleteProduct);
+productRouter.delete('/:pid',publicRoutes,handlePolicies(['ADMIN', 'PREMIUM']), deleteProduct);
 
 export default productRouter 
