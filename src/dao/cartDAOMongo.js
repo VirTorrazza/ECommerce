@@ -23,15 +23,8 @@ export default class CartDAOMongo{
     }
 
     update = async (cid, newData) => {
-        try {
             const updatedCart = await this.model.findByIdAndUpdate(cid, newData, { new: true });
-            if (!updatedCart) {
-                return { status: 'error', message: 'Cart not found', statusCode: 404 };
-            }
             return updatedCart;
-        } catch (error) {
-            throw new Error(`Error updating cart un DAO: ${error.message}`);
-        }
     }
 
 }

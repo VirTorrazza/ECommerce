@@ -18,8 +18,13 @@ export async function createCart(req, res) {
         const newCart = await service.createCart();
         return res.status(201).json({ payload: newCart });
     } catch (error) {
-        console.error("Error creating cart:", error);
-        return res.status(500).json({ error: "Internal Server Error" });
+        let creationError = CustomError.createError({
+            name: "Cart Creation Attempt Failed Error",
+            code: EErros.SERVER_ERROR,
+            cause: `Internal Server Error`
+        });
+        return res.status(500).json(creationError);
+       
     }
 }
 
@@ -54,6 +59,15 @@ export async function addToCart(req, res) {
                 name: "Cart Get By ID Error",
                 code: EErros.DATABASES_ERROR,
                 cause: `Cart with id ${cid} does not exists`
+            });
+            return res.status(400).json( error);
+        }
+        let product= await productService.getById(pid);
+        if (!product) {
+            let error = CustomError.createError({
+                name: "Product Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Product with id ${pid} does not exists`
             });
             return res.status(400).json( error);
         }
@@ -113,7 +127,7 @@ export async function removeFromCart(req, res) {
 
 export async function clearCart(req, res) {
     try {
-        const cart = await cartModel.findById(req.params.cid);
+        const cart = await service.getById(req.params.cid);
         if (!cart) {
             let error = CustomError.createError({
                 name: "Cart Get By ID Error",
@@ -124,10 +138,9 @@ export async function clearCart(req, res) {
         }
 
         cart.products = [];
-        const updatedCart = await cartModel.findByIdAndUpdate(
+        const updatedCart = await service.update(
             cart._id,
-            { products: cart.products },
-            { returnDocument: 'after' }
+            { products: cart.products }
         );
 
         return res.status(200).json({ payload: updatedCart });
@@ -144,7 +157,7 @@ export async function updateCart(req, res) {
         let cid = req.params.cid;
 
         try {
-            cart = await service.update(cid);
+            cart = await service.getById(cid);
             if (!cart) {
                 let error = CustomError.createError({
                     name: "Cart Get By ID Error",
@@ -159,7 +172,8 @@ export async function updateCart(req, res) {
         }
 
         cart.products = req.body.products;
-        let result = await service.update(cid, cart);
+        let result = await service.update(cid,{ products: cart.products });
+        
         return res.status(200).json({ payload: result });
     } catch (error) {
         return res.status(500).json({ error: "Internal Server Error" });
@@ -175,6 +189,16 @@ export async function updateCartItem(req, res) {
                 name: "Cart Get By ID Error",
                 code: EErros.DATABASES_ERROR,
                 cause: `Cart with id ${cid} does not exist`
+            });
+            return res.status(400).json(error);
+        }
+
+        let product= await productService.getById(pid);
+        if (!product) {
+            let error = CustomError.createError({
+                name: "Product Get By ID Error",
+                code: EErros.DATABASES_ERROR,
+                cause: `Product with id ${pid} does not exist`
             });
             return res.status(400).json(error);
         }

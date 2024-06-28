@@ -4,19 +4,19 @@ import { addToCart, clearCart, createCart, getCart, removeFromCart, updateCart, 
 
 const cartRouter = Router();
 
-cartRouter.post('/',createCart);
+cartRouter.post('/',createCart);//FUNCIONA
   
-cartRouter.get('/:cid', getCart); 
+cartRouter.get('/:cid', getCart); //FUNCIONA
   
-cartRouter.post('/:cid/product/:pid',addToCart);
+cartRouter.post('/:cid/product/:pid',addToCart);//FUNCIONA
 
-cartRouter.delete('/:cid/products/:pid', removeFromCart);
+cartRouter.delete('/:cid/product/:pid', removeFromCart); //FUNCIONA
   
-cartRouter.delete('/:cid',clearCart);
+cartRouter.delete('/:cid',clearCart); //FUNCIONA
   
-cartRouter.put('/:cid', updateCart);
+cartRouter.put('/:cid', updateCart);// FUNCIONA
 
-cartRouter.put('/:cid/products/:pid',updateCartItem);
+cartRouter.put('/:cid/products/:pid',updateCartItem);//FUNCIONA
 
 cartRouter.get('/:cid/purchase', purchaseItems);
 
