@@ -115,6 +115,12 @@ export async function getProductByCode(req,res){
 export async function createProduct(req, res) {
     try {
         let { title, description, code, price, stock, category, thumbnails } = req.body;
+        console.log("Titulo:"+title)
+        console.log("code:"+code)
+        console.log("price:"+price)
+        console.log("stock:"+stock)
+        console.log("category:"+category)
+        console.log("thumbnails:"+thumbnails)
         
         if (!title || !code || !price || !stock || !category || !description) {
             let error = CustomError.createError({
@@ -147,10 +153,11 @@ export async function createProduct(req, res) {
         });
 
         await service.save(newProduct);
+        console.log("nuevo producto guardado"+ newProduct)
         return res.status(201).json({ message: "Product created successfully", product: newProduct });
 
     } catch (error) {
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
 

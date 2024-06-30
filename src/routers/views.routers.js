@@ -6,7 +6,7 @@ import { getChatPage } from "../controllers/chat.controller.js";
 
 const viewRouter =Router();
 
-viewRouter.get('/realtimeproducts', publicRoutes, handlePolicies(['USER', 'ADMIN']), getRealTimeProducts);
+viewRouter.get('/realtimeproducts', getRealTimeProducts);
 
 viewRouter.get('/', publicRoutes, passportCall('jwt'), getHomePage);
 

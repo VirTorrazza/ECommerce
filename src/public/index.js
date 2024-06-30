@@ -184,25 +184,42 @@ function addProductToTable(event) {
   console.log("soy el body"+ JSON.stringify(body))
   fetch('/api/products', {
     method: 'POST',
-    body: body,
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json'
     }
   })
-  .then(result => result.json())
+  .then(async result =>  {
+    const r = await result.json()
+    console.log("soy el resultado" + JSON.stringify(r) )
+
+    return r
+  })
   .then(result => {
-    if (result.status === 'error') {
-      throw new Error(result.error);
-    }})
+    if (result.message === 'Internal Server Error') {
+      console.log ("Soy result 2" + result)
+      throw new Error(result.message);
+    }
+    let r= result;
+    console.log("segundo episodio" + r);
+  return r
+  })
   .then(()=>fetch(
     '/api/products', {
       method:'GET'
     }
   ))
-  .then (result=> result.json())
+  .then (async result=> {
+    const r = await result.json()
+    console.log("soy el resultado 2episodio2" + JSON.stringify(r) )
+
+    
+   return r
+  })
   .then(result => {
-    if (result.status === 'error') {
-      throw new Error(result.error);
+    console.log("Soy result" + result)
+    if (result.message === ' Internal Server Error') {
+      throw new Error(result.message);
     }
     socket.emit('productsList', result.payload);
     document.getElementById("title").value = "";
@@ -227,7 +244,7 @@ function addProductToTable(event) {
     });
   })
   .catch(err => {
-    console.error('Error:', err);
+    //console.log('Error:'+ err);
     alert('Error: ' + err.message);
   });
 }
@@ -326,6 +343,7 @@ function deleteProduct(pid) {
 }
 
 socket.on("updateProducts",(data) =>{
+  console.log("DATA" +JSON.stringify(data))
   let table= document.getElementById("real-time-products-table");
   let HTMLTable=`
   <thead>
@@ -339,7 +357,7 @@ socket.on("updateProducts",(data) =>{
     </tr>
   </thead>`
 
-  data.forEach(element => {
+  data.docs.forEach(element => {
     let code = element.code.toUpperCase();
     let title = capitalizeFirstLetter(element.title);
     let description = capitalizeFirstLetter(element.description)

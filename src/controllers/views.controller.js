@@ -9,7 +9,6 @@ const service = new ProductsService();
 
 export async function getRealTimeProducts (req, res){
     const products = await service.getRealTimeProducts();
-    console.log("productos"+ JSON.stringify(products))
     res.render('realtimeproducts', {products}); // view name
 }
 
