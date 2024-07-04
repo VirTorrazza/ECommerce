@@ -1,3 +1,13 @@
 {"level":"info","message":"Server Up","timestamp":"2024-07-04T01:44:18.822Z"}
 {"level":"info","message":"Server Up","timestamp":"2024-07-04T01:45:16.980Z"}
 {"level":"info","message":"Products retrieved","timestamp":"2024-07-04T01:46:30.077Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-04T02:01:07.725Z"}
+{"level":"info","message":"Products retrieved","timestamp":"2024-07-04T02:01:15.523Z"}
+{"level":"info","message":"Products retrieved","timestamp":"2024-07-04T02:01:18.797Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-04T02:02:11.424Z"}
+{"level":"info","message":"User {\"_id\":\"6686028f57bda7fcb6de772d\",\"firstName\":\"hotovo\",\"lastName\":\"hotovo\",\"email\":\"hotovo@hotovo\",\"age\":14,\"password\":\"$2b$10$sA6hhpt1waVsncenJntB8u8l.xuNFWZBgm4qpCa4DIjDjF3dSH5Ze\",\"cart\":\"6686028f57bda7fcb6de772b\",\"role\":\"user\",\"__v\":0} already registered","timestamp":"2024-07-04T02:02:16.489Z"}
+{"level":"info","message":"User saved successfully {\"firstName\":\"hotovo\",\"lastName\":\"hotovo\",\"email\":\"hotovo@hotovo\",\"age\":\"2\",\"password\":\"$2b$10$YoNrAX3EXgKKZFRMUGrNHOCbSqO4Ra9EYth.1FRnBQ9goXC.Frva2\",\"cart\":\"668602f0b097eb0d423739f5\",\"role\":\"user\"}","timestamp":"2024-07-04T02:03:28.348Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-04T02:09:18.385Z"}
+{"level":"debug","message":"User {\"_id\":\"668602f0b097eb0d423739f7\",\"firstName\":\"hotovo\",\"lastName\":\"hotovo\",\"email\":\"hotovo@hotovo\",\"age\":2,\"password\":\"$2b$10$YoNrAX3EXgKKZFRMUGrNHOCbSqO4Ra9EYth.1FRnBQ9goXC.Frva2\",\"cart\":\"668602f0b097eb0d423739f5\",\"role\":\"user\",\"__v\":0} already registered","timestamp":"2024-07-04T02:09:45.392Z"}
+{"level":"debug","message":"Passport user: {\"_id\":\"665a7965e70b87356735bf7e\",\"firstName\":\"Astrita\",\"lastName\":\"astri\",\"email\":\"astri@dog\",\"age\":2,\"password\":\"$2b$10$UD0avqRsPsZIjRpyg9AoP.gcMDl7n6UNyVdIap8EkEVF2mpd63kra\",\"cart\":\"666c3e675408da8241db20e9\",\"role\":\"user\",\"__v\":0}","timestamp":"2024-07-04T02:10:26.938Z"}
+{"level":"debug","message":"JWT Token generated","timestamp":"2024-07-04T02:10:27.039Z"}

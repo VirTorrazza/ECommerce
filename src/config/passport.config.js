@@ -8,6 +8,7 @@ import cartModel from '../dao/models/cart.model.js';
 import {createHash, extractCookie, generateToken, isValidPassword,JWT_PRIVATE_KEY} from '../utils/utils.js'
 import UsersService from '../services/users.service.js';
 import UserDAOMongo from '../dao/userDAOMongo.js';
+import logger from '../logger/logger.js';
 
 
 const localStrategy= local.Strategy;
@@ -22,9 +23,10 @@ const initializePassport=()=>{
         usernameField:'email'
     }, async (req,username, password, done)=>{
         const{firstName,lastName,email,age} =req.body;
-        try{  // const user= await userModel.findOne({email:username});
+        try{ 
             const user = await service.getByEmail(username); 
             if(user){
+                logger.debug(`User ${JSON.stringify(user)} already registered`);
                 return done(null,false);
             }
 
@@ -33,9 +35,11 @@ const initializePassport=()=>{
                 firstName,lastName,email, age, password: createHash(password), cart:cartForNewUser._id,role:"user"
             }
             const result= await service.save(newUser);
+            logger.debug(`User saved successfully ${JSON.stringify(newUser)}`);
             return done(null,result);
 
         }catch(error){
+            logger.error(`Error ${error} in Passport initialization`);
             return done(error);
 
         }
@@ -47,6 +51,7 @@ const initializePassport=()=>{
     }, async (username, password,done)=>{
         try{
             const user= await service.getByEmail(username);
+            logger.debug(`Passport user: ${JSON.stringify(user)}`);
             if(!user){
                 return done(null,false);
             }
@@ -55,8 +60,10 @@ const initializePassport=()=>{
             }
             const token = generateToken(user);
             user.token=token;
+            logger.debug("JWT Token generated");
             return done(null,user);
         } catch(error){
+            logger.error(`Error ${error} in login`);
             return done(error);
         }
 
@@ -73,16 +80,18 @@ const initializePassport=()=>{
             const user = await userModel.findOne({email:profile._json.email});//await usersModel.findOne({email:profile._json.email});
             if(user) return done(null,user);
 
-            const newUser = await userModel.create({ //await usersModel.create({
+            const newUser = await userModel.create({ 
                 firstName:profile._json.name,
                 lastName:'',
                 email:profile._json.email,
                 password:''
             });
-             
+
+            logger.debug(`User: ${JSON.stringify(newUser)}logged in with Github`); 
             done(null,newUser);
 
         }catch(error){
+            logger.error(`Error to login with Github`);
             return done('Error to login with github');
         }
         
