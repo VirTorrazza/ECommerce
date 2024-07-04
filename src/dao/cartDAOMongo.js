@@ -1,4 +1,5 @@
 import cartModel from "./models/cart.model.js";
+import logger from "../logger/logger.js";
 
 export default class CartDAOMongo{
     constructor(){
@@ -11,8 +12,10 @@ export default class CartDAOMongo{
             let newCart = new cartModel({
                 products: []
             });
+            logger.debug(`Cart created in DAO`);
             return await newCart.save();
         } catch (error) {
+            logger.error(`Error creating cart in DAO: ${error.message}`);
             throw new Error(`Error creating cart in DAO: ${error.message}`);
         }
     }

@@ -1,4 +1,5 @@
 import fs from 'fs'; 
+import logger from '../logger/logger.js';
 
 export default class TicketDAOFile {
     constructor() {
@@ -10,10 +11,10 @@ export default class TicketDAOFile {
         try {
             if (!fs.access(this.path)) {
                 fs.writeFile(this.path, JSON.stringify([]));
-                console.log(`Created empty file: ${this.path}`);
+                logger.debug(`Created empty file in TicketDAOFile: ${this.path}`);
             }
         } catch (error) {
-            console.error('Error initializing ticket data file:', error);
+            logger.error(`Error: ${error}  when initializing ticket data file`);
             throw new Error('Cannot initialize ticket data');
         }
     }
@@ -21,18 +22,20 @@ export default class TicketDAOFile {
     async readFile() {
         try {
             let data = fs.readFile(this.path, 'utf-8'); 
+            logger.debug(`Successfull reading file operation in ticketDAOFile`);
             return JSON.parse(data);
         } catch (error) {
-            console.error('Error reading file:', error);
+            logger.error(`Reading File Error: ${error}`);
             throw new Error('Cannot read file');
         }
     }
 
     async getAll() {
         try {
+            logger.debug(`awaiting getAll tickets operation`);
             return await this.readFile();
         } catch (error) {
-            console.error('Error getting all tickets:', error);
+            logger.error(`Error at getting tickets in DAOFile: ${error}`);
             throw new Error('Cannot get all tickets');
         }
     }
@@ -47,9 +50,10 @@ export default class TicketDAOFile {
             }
             tickets.push(ticket);
             await this.writeFile(tickets);
+            logger.debug(`Successfull save ticket operation`);
             return ticket;
         } catch (error) {
-            console.error('Error saving ticket:', error);
+            logger.error(`Error when saving ticket in DAOFile: ${error}`);
             throw new Error('Cannot save ticket');
         }
     }
@@ -58,7 +62,7 @@ export default class TicketDAOFile {
         try {
             fs.writeFile(this.path, JSON.stringify(data, null, 2));
         } catch (error) {
-            console.error('Error writing file:', error);
+            logger.error(`Error ${error} at writing file operation in TicketDAOFile`);
             throw new Error('Cannot write file');
         }
     }
@@ -69,14 +73,15 @@ export default class TicketDAOFile {
             const indexToDelete = tickets.findIndex(ticket => ticket.id === ticketIdToDelete);
 
             if (indexToDelete === -1) {
+                logger.error(`Ticket with ID ${ticketIdToDelete} not found in delete operation`);
                 throw new Error('Ticket not found');
             }
 
             tickets.splice(indexToDelete, 1);
             await this.writeFile(tickets);
-            console.log(`Ticket with ID ${ticketIdToDelete} deleted successfully.`);
+            logger.debug(`Ticket with ID ${ticketIdToDelete} deleted successfully.`);
         } catch (error) {
-            console.error('Error deleting ticket:', error);
+            logger.error(`Error ${error} at delete ticket operation`);
             throw new Error('Cannot delete ticket');
         }
     }
@@ -87,16 +92,17 @@ export default class TicketDAOFile {
             const indexToUpdate = tickets.findIndex(ticket => ticket.id === id);
 
             if (indexToUpdate === -1) {
+                logger.error(`Ticket with ID ${id} not found in update operation`)
                 throw new Error('Ticket not found');
             }
 
             tickets[indexToUpdate] = newData;
             await this.writeFile(tickets);
 
-            console.log(`Ticket with ID ${id} updated successfully.`);
+            logger.debug(`Ticket with ID ${id} updated successfully.`);
             return newData;
         } catch (error) {
-            console.error('Error updating ticket:', error);
+            logger.error(`Error ${error} when updating ticket in DAOFile`);
             throw new Error('Cannot update ticket');
         }
     }

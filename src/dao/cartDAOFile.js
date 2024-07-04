@@ -11,7 +11,7 @@ export default class CartDAOFile {
         try {
             if (!await fs.access(this.path)) {
                 await fs.writeFile(this.path, JSON.stringify([]));
-                logger.debug(`Created empty file: ${this.path}`);
+                logger.debug(`Created empty file in cartDAOFile: ${this.path}`);
             }
         } catch (error) {
             logger.error(`Error: ${error}  when initializing cart data file`);
@@ -32,7 +32,7 @@ export default class CartDAOFile {
 
     async getAll() {
         try {
-            logger.debug(`Successfull getAll carts operation`);
+            logger.debug(`awaiting getAll carts operation`);
             return await this.readFile(); 
         } catch (error) {
             logger.error(`Error at getting carts: ${error}`);

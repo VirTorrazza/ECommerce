@@ -1,4 +1,5 @@
 import fs from 'fs';
+import logger from '../logger/logger.js';
 
 export default class ProductDAOFile {
     constructor() {
@@ -10,10 +11,10 @@ export default class ProductDAOFile {
         try {
             if (!await fs.access(this.path)) {
                 await fs.writeFile(this.path, JSON.stringify([]));
-                console.log(`Created empty file: ${this.path}`);
+                logger.debug(`Created empty file in ProductDAOFile: ${this.path}`);
             }
         } catch (error) {
-            console.error('Error initializing product data file:', error);
+            logger.error(`Error: ${error}  when initializing product data file`);
             throw new Error('Cannot initialize product data');
         }
     }
@@ -21,18 +22,20 @@ export default class ProductDAOFile {
     async readFile() {
         try {
             let data = await fs.readFile(this.path, 'utf-8'); //'utf-8' ensures string encoding
+            logger.debug(`Successfull reading file operation in productDAOFile`);
             return JSON.parse(data);
         } catch (error) {
-            console.error('Error reading file:', error);
+            logger.error(`Reading File Error: ${error}`);
             throw new Error('Cannot read file');
         }
     }
 
     async getAll() {
         try {
+            logger.debug(`awaiting getAll products operation`);
             return await this.readFile(); 
         } catch (error) {
-            console.error('Error getting all products:', error);
+            logger.error(`Error at getting products in DAOFile: ${error}`);
             throw new Error('Cannot get all products');
         }
     }
@@ -47,9 +50,10 @@ export default class ProductDAOFile {
             }
             products.push(product);
             await this.writeFile(products);
+            logger.debug(`Successfull save product operation`);
             return product;
         } catch (error) {
-            console.error('Error saving product:', error);
+            logger.error(`Error when saving product in DAOFile: ${error}`);
             throw new Error('Cannot save product');
         }
     }
@@ -58,7 +62,7 @@ export default class ProductDAOFile {
         try {
             await fs.writeFile(this.path, JSON.stringify(data, null, 2));
         } catch (error) {
-            console.error('Error writing file:', error);
+            logger.error(`Error ${error} at writing file operation in productDAOFile`);
             throw new Error('Cannot write file');
         }
     }
@@ -69,14 +73,15 @@ export default class ProductDAOFile {
             const indexToDelete = products.findIndex(product => product.id === productIdToDelete);
 
             if (indexToDelete === -1) {
+                logger.error(`Product with ID ${productIdToDelete} not found in delete operation`);
                 throw new Error('Product not found');
             }
 
             products.splice(indexToDelete, 1);
             await this.writeFile(products);
-            console.log(`Product with ID ${productIdToDelete} deleted successfully.`);
+            logger.debug(`Product with ID ${productIdToDelete} deleted successfully.`);
         } catch (error) {
-            console.error('Error deleting product:', error);
+            logger.error(`Error ${error} at delete product operation`);
             throw new Error('Cannot delete product');
         }
     }
@@ -87,16 +92,16 @@ export default class ProductDAOFile {
             const indexToUpdate = products.findIndex(product => product.id === id);
 
             if (indexToUpdate === -1) {
+                logger.error(`Product with ID ${id} not found in update operation`);
                 throw new Error('Product not found');
             }
 
             products[indexToUpdate] = newData;
             await this.writeFile(products);
-
-            console.log(`Product with ID ${id} updated successfully.`);
+            logger.debug(`Product with ID ${id} updated successfully.`);
             return newData;
         } catch (error) {
-            console.error('Error updating product:', error);
+            logger.error(`Error ${error} at update product operation`);
             throw new Error('Cannot update product');
         }
     }
@@ -107,13 +112,14 @@ export default class ProductDAOFile {
             const product = products.find(product => product.code === code);
 
             if (!product) {
+                logger.error(`Product with code ${code} not found`);
                 throw new Error('Product not found');
             }
 
             return product;
         } catch (error) {
-            console.error('Error finding product by code:', error);
-            throw new Error(`Error finding product by code: ${error.message}`);
+            logger.error(`Error ${error} at find product by code operation`);
+            throw new Error(`Error finding product by code: ${error}`);
         }
     }
 }
