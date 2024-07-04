@@ -16,6 +16,7 @@ import initializePassport from './src/config/passport.config.js';
 import config from './src/config/config.js';
 import MessagesService from './src/services/messages.service.js';
 import ProductsService from './src/services/products.service.js';
+import logger from './src/logger/logger.js';
 import loggerRouter from './src/routers/logger.router.js';
 
 const PORT =config.apiserver.port;
@@ -51,7 +52,7 @@ app.use(cors()); // enable CORS for all routes
 try{
     let client =new MongoClient();
     client.connect();
-    const httpServer= app.listen(PORT,()=>console.log("Server Up")); 
+    const httpServer= app.listen(PORT,()=>logger.info("Server Up")); 
     const socketServer= new Server (httpServer);
     let messageService= new MessagesService();
     let productService= new ProductsService();
@@ -79,6 +80,5 @@ try{
 
 
 }catch(error){
-    console.log("Server down")
-    console.log("Error:" + error);
+    logger.error("Server down");
 }

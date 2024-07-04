@@ -4,6 +4,7 @@ import productModel from "../dao/models/product.model.js";
 import ProductsService from "../services/products.service.js";
 import EErros from "../services/errors/EErrors.js";
 import CustomError from "../services/errors/CustomError.js";
+import logger from "../logger/logger.js";
 
 const PORT =config.apiserver.port;
 const dao= new productDAOMongo(productModel);
@@ -22,8 +23,10 @@ export async function getProducts (req, res){
     let productsPaginated= await service.getAll({}, paginateOptions);
     if (productsPaginated){
         status= "success";
+        logger.info(`Products retrieved`);
     }
     else{
+        logger.error(`Resource 'products' not found`);
         status="error"
         return res.status(404).json ({error: "404: Resource not found"})
     }
@@ -82,14 +85,14 @@ export async function getProductById(req,res){
                 code: EErros.DATABASES_ERROR,
                 cause: `Product with id ${pid} does not exists`
             });
+            logger.error(`Product with id ${pid} does not exists`);
             return res.status(400).json( error);
           }
         return res.status(200).json({payload:product});
     }catch(error){
-        console.error("Error fetching product:", error);
+        logger.error(`Error fetching product: ${error}`);
         return res.status(500).json({ error: "Internal Server Error" });
     }
-   
 }
 
 export async function getProductByCode(req,res){
@@ -102,12 +105,13 @@ export async function getProductByCode(req,res){
                 code: EErros.DATABASES_ERROR,
                 cause: `Product with code ${code} not found`
             });
+            logger.error(`Product with code '${code}' not found in database`);
             return res.status(400).json( error);
           }
         
     return res.status(200).json({payload:product});
     }catch(error){
-        console.error("Error fetching product:", error);
+        logger.error(`Error fetching product: ${error}`);
         return res.status(500).json({ error: "Internal Server Error" });
     }
 }
@@ -115,12 +119,6 @@ export async function getProductByCode(req,res){
 export async function createProduct(req, res) {
     try {
         let { title, description, code, price, stock, category, thumbnails } = req.body;
-        console.log("Titulo:"+title)
-        console.log("code:"+code)
-        console.log("price:"+price)
-        console.log("stock:"+stock)
-        console.log("category:"+category)
-        console.log("thumbnails:"+thumbnails)
         
         if (!title || !code || !price || !stock || !category || !description) {
             let error = CustomError.createError({
@@ -128,17 +126,18 @@ export async function createProduct(req, res) {
                 code: EErros.INVALID_TYPES_ERROR,
                 cause: `Product required fields are title, code, price, stock,category and description`
             });
+            logger.error(`Missing required fields in product's creation`);
             return res.status(400).json(error);
         }
         let existingProduct = await service.getByCode(code);
        
-
         if (existingProduct) {
             const error = CustomError.createError({
                 name: "Duplicate Product Error",
                 code: EErros.DATABASES_ERROR,
                 cause: `Product with code '${code}' already exists in the database`
             });
+            logger.error(`Product with code '${code}' already exists in the database`);
             return res.status(400).json( error);
         }
 
@@ -153,10 +152,11 @@ export async function createProduct(req, res) {
         });
 
         await service.save(newProduct);
-        console.log("nuevo producto guardado"+ newProduct)
+        logger.info(`Product '${newProduct}' created successfully`);
         return res.status(201).json({ message: "Product created successfully", product: newProduct });
 
     } catch (error) {
+        logger.error(`Internal Server Error: ${error}`);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
@@ -172,11 +172,9 @@ export async function updateProduct(req, res) {
     if (req.body.thumbnails) updateFields.thumbnails = req.body.thumbnails;
 
     let pid = req.params.pid;
-    console.log("soy pid" +pid)
 
     try {
         let updatedProduct = await service.update(pid, updateFields);
-        console.log("Soy updated p" +updatedProduct)
 
         if (!updatedProduct) {
             const error = CustomError.createError({
@@ -184,12 +182,13 @@ export async function updateProduct(req, res) {
                 code: EErros.DATABASES_ERROR,
                 cause: `Product with id '${pid}' does not exists in the database`
             });
+            logger.error(`Product with id '${pid}' does not exists in the database`);
             return res.status(400).json( error);
         }
+        logger.info(`Product updated successfully`);
         return res.status(200).json({ message: "Product updated successfully", payload: updatedProduct });
     } catch (error) {
-     
-        console.error("Error updating product:", error);
+        logger.error(`Error updating productProduct ${error}`);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
