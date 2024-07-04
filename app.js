@@ -43,6 +43,7 @@ app.use('/api/carts', cartRouter);
 app.use('/',viewsRouter);  
 app.use('/login', sessionViewsRouter);
 app.use('/api/sessions', sessionRouter);
+app.use ('/loggertest', loggerRouter)
 app.use(cors()); // enable CORS for all routes
 
           
