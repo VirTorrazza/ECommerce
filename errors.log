@@ -11,3 +11,8 @@
 {"level":"debug","message":"User {\"_id\":\"668602f0b097eb0d423739f7\",\"firstName\":\"hotovo\",\"lastName\":\"hotovo\",\"email\":\"hotovo@hotovo\",\"age\":2,\"password\":\"$2b$10$YoNrAX3EXgKKZFRMUGrNHOCbSqO4Ra9EYth.1FRnBQ9goXC.Frva2\",\"cart\":\"668602f0b097eb0d423739f5\",\"role\":\"user\",\"__v\":0} already registered","timestamp":"2024-07-04T02:09:45.392Z"}
 {"level":"debug","message":"Passport user: {\"_id\":\"665a7965e70b87356735bf7e\",\"firstName\":\"Astrita\",\"lastName\":\"astri\",\"email\":\"astri@dog\",\"age\":2,\"password\":\"$2b$10$UD0avqRsPsZIjRpyg9AoP.gcMDl7n6UNyVdIap8EkEVF2mpd63kra\",\"cart\":\"666c3e675408da8241db20e9\",\"role\":\"user\",\"__v\":0}","timestamp":"2024-07-04T02:10:26.938Z"}
 {"level":"debug","message":"JWT Token generated","timestamp":"2024-07-04T02:10:27.039Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-04T02:11:57.254Z"}
+{"level":"debug","message":"User {\"_id\":\"668602f0b097eb0d423739f7\",\"firstName\":\"hotovo\",\"lastName\":\"hotovo\",\"email\":\"hotovo@hotovo\",\"age\":2,\"password\":\"$2b$10$YoNrAX3EXgKKZFRMUGrNHOCbSqO4Ra9EYth.1FRnBQ9goXC.Frva2\",\"cart\":\"668602f0b097eb0d423739f5\",\"role\":\"user\",\"__v\":0} already registered","timestamp":"2024-07-04T02:12:20.827Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-04T02:12:54.069Z"}
+{"level":"debug","message":"Passport user: {\"_id\":\"665a7965e70b87356735bf7e\",\"firstName\":\"Astrita\",\"lastName\":\"astri\",\"email\":\"astri@dog\",\"age\":2,\"password\":\"$2b$10$UD0avqRsPsZIjRpyg9AoP.gcMDl7n6UNyVdIap8EkEVF2mpd63kra\",\"cart\":\"666c3e675408da8241db20e9\",\"role\":\"user\",\"__v\":0}","timestamp":"2024-07-04T02:13:02.201Z"}
+{"level":"debug","message":"JWT Token generated","timestamp":"2024-07-04T02:13:02.330Z"}

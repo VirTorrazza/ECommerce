@@ -78,7 +78,10 @@ const initializePassport=()=>{
         
         try{
             const user = await userModel.findOne({email:profile._json.email});//await usersModel.findOne({email:profile._json.email});
-            if(user) return done(null,user);
+            if(user){
+                logger.debug(`User: ${JSON.stringify(user)} already registered`);
+                return done(null,user);
+            } 
 
             const newUser = await userModel.create({ 
                 firstName:profile._json.name,
