@@ -16,6 +16,7 @@ import initializePassport from './src/config/passport.config.js';
 import config from './src/config/config.js';
 import MessagesService from './src/services/messages.service.js';
 import ProductsService from './src/services/products.service.js';
+import loggerRouter from './src/routers/logger.router.js';
 
 const PORT =config.apiserver.port;
 
@@ -43,7 +44,7 @@ app.use('/api/carts', cartRouter);
 app.use('/',viewsRouter);  
 app.use('/login', sessionViewsRouter);
 app.use('/api/sessions', sessionRouter);
-app.use ('/loggertest', loggerRouter)
+app.use ('/logs', loggerRouter)
 app.use(cors()); // enable CORS for all routes
 
           
