@@ -1,4 +1,5 @@
 import PersistenceFactory from "../dao/factory/persistenceFactory.js";
+import logger from "../logger/logger.js";
 
 
 export default class TicketsService {
@@ -11,17 +12,17 @@ export default class TicketsService {
         try {
             this.dao = await PersistenceFactory.getPersistence('TICKET');
         } catch (error) {
-            console.error('Failed to initialize repository:', error);
+            logger.error('Failed to initialize dao in TicketsService');
             throw error;
         }
     }
 
     async create(ticket) {
         try {
-            console.log("soy ticket" + JSON.stringify(ticket))
+            logger.debug("Awaiting for ticket creation");
             return await this.dao.create(ticket);
         } catch (error) {
-            console.error("Error in creating ticket in Ticket Service:", error);
+            logger.error(`Error in creating ticket in Ticket  Service: ${error.message}`);
             throw new Error(`Error in creating ticket in Ticket  Service: ${error.message}`);
         }
     }
