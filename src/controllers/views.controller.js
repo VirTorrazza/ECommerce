@@ -2,6 +2,7 @@ import productDAOMongo from "../dao/productDAOMongo.js";
 import ProductsService from "../services/products.service.js";
 import config from "../config/config.js";
 import { generateMockedProduct } from "../utils/utils.js";
+import logger from "../logger/logger.js";
 
 const PORT =config.apiserver.port;
 const dao= new productDAOMongo();
@@ -21,10 +22,10 @@ export function getMockedProducts(req, res) {
         for (let index = 0; index < numberOfProducts; index++) {
             mockedProducts.push(generateMockedProduct());
         }
-
+        logger.debug("Returning mocked products...");
         return res.status(200).json({ payload: mockedProducts });
     } catch (error) {
-        console.error('Error generating mocked products:', error);
+        logger.error(`Error generating mocked products:${error}`);
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
@@ -39,12 +40,12 @@ export async function getHomePage (req, res){
     const paginateOptions = { lean:true, limit, page };
     if(req.query.sort === 'asc') paginateOptions.sort = {price : 1};
     if(req.query.sort === 'desc') paginateOptions.sort = {price : -1};
-    let productsPaginated= await service.getAll({}, paginateOptions)
-    //await productModel.paginate({}, paginateOptions);
+    let productsPaginated= await service.getAll({}, paginateOptions);
     if (productsPaginated){
         status= "success";
     }
     else{
+        logger.error(`Error retrieving products paginated`);
         status="error"
     }
 
