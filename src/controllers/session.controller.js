@@ -1,11 +1,14 @@
 import { JWT_COOKIE_NAME } from '../utils/utils.js';
+import logger from "../logger/logger.js";
 
 export const registrationFailure = (req, res) => {
-    res.send({ error: 'Registration fails' });
+    logger.error('Registration failed');
+    res.send({ error: 'Registration failed' });
 };
 
 export const loginFailure = (req, res) => {
-    res.send({error: 'Login fails'});
+    logger.error('Login failed');
+    res.send({error: 'Login failed'});
 };
 
 export const redirectToHomePage = (req, res) => {
@@ -18,6 +21,7 @@ export const redirectToLogin = async (req, res) => {
 
 export const handleLogin = async (req, res) => {
     if (!req.user) {
+        logger.error('User not found: invalid credentials error');
         return res.status(400).send({ status: 'error', error: 'Invalid credentials' });
     }
 
@@ -27,6 +31,7 @@ export const handleLogin = async (req, res) => {
 
 
 export const handleLogout = async (req, res) => {
+    logger.debug('Clearing cookie');
     res.clearCookie(JWT_COOKIE_NAME);
     res.redirect('/login');
 };
