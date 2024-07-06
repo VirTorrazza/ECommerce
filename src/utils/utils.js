@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
-import {faker} from'@faker-js/faker'
+import {faker} from'@faker-js/faker';
+import logger from "../logger/logger.js"
 
 export const JWT_PRIVATE_KEY="secret";
 export const JWT_COOKIE_NAME= "userAuthCookie";
@@ -18,7 +19,10 @@ export const passportCall = strategy => {
     return async ( req, res, next ) => {
         passport.authenticate( strategy, function( err, user, info ){
             if (err) return next(err);
-            if (!user) return res.status(401).send('<h1>Error</h1>');
+            if (!user){
+                logger.error("User not found");
+                return res.status(401).send('<h1>Error</h1>');
+            } 
             req.user = user
             next();
         })(req,res,next)
@@ -26,11 +30,10 @@ export const passportCall = strategy => {
 }
 export const handlePolicies = policies => (req, res, next) => {
     if (policies.includes('PUBLIC')) return next();
-
     const user = req.user || null;
-    console.log('user in policies'+user)
-    if( !policies.includes(user.role.toUpperCase()) ) 
-    {
+    logger.debug(`User in policies: ${user}`);
+    if( !policies.includes(user.role.toUpperCase()) ) {
+        logger.error(`${user} not authorized`);
         return res.status(403).send('<h1>Error: Need Auth</h1>');
     }
 
