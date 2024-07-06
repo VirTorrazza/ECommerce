@@ -14,7 +14,7 @@ export default class CartDAOFile {
                 logger.debug(`Created empty file in cartDAOFile: ${this.path}`);
             }
         } catch (error) {
-            logger.error(`Error: ${error}  when initializing cart data file`);
+            logger.error(`Error: ${error}  when initializing cart data file in cartDAOFile`);
             throw new Error('Cannot initialize cart data');
         }
     }
@@ -22,20 +22,20 @@ export default class CartDAOFile {
     async readFile() {
         try {
             let data = await fs.readFile(this.path, 'utf-8'); 
-            logger.debug(`Successfull reading file operation`);
+            logger.debug(`Successfull reading file operation in cartDAOFile`);
             return JSON.parse(data);
         } catch (error) {
-            logger.error(`Reading File Error: ${error}`);
+            logger.error(`Reading File Error: ${error} in cartDAOFile`);
             throw new Error('Cannot read file');
         }
     }
 
     async getAll() {
         try {
-            logger.debug(`awaiting getAll carts operation`);
+            logger.debug(`awaiting getAll carts operation in cartDAOFile`);
             return await this.readFile(); 
         } catch (error) {
-            logger.error(`Error at getting carts: ${error}`);
+            logger.error(`Error at getting carts: ${error} in cartDAOFile`);
             throw new Error('Cannot get all carts');
         }
     }
@@ -49,10 +49,10 @@ export default class CartDAOFile {
             };
             carts.push(newCart);
             await this.writeFile(carts);
-            logger.debug(`Successfull createCart operation`);
+            logger.debug(`Successfull createCart operation in cartDAOFile`);
             return newCart;
         } catch (error) {
-            logger.error(`Error when creating cart: ${error}`);
+            logger.error(`Error when creating cart: ${error} in cartDAOFile`);
             throw new Error('Cannot create cart');
         }
     }
@@ -63,12 +63,12 @@ export default class CartDAOFile {
             const cart = carts.find(cart => cart.id === id);
 
             if (!cart) {
-                logger.error(`Cart not found`);
+                logger.error(`Cart not found in cartDAOFile`);
                 throw new Error('Cart not found');
             }
             return cart;
         } catch (error) {
-            logger.error(`Error getting cart by ID:${id}`);
+            logger.error(`Error getting cart by ID in cartDAOFile:${id}`);
             throw new Error(`Error getting cart by ID: ${error.message}`);
         }
     }
@@ -86,10 +86,10 @@ export default class CartDAOFile {
             carts[indexToUpdate] = { ...carts[indexToUpdate], ...newData };
             await this.writeFile(carts);
 
-            logger.debug(`Cart with ID ${id} updated successfully.`);
+            logger.debug(`Cart with ID ${id} updated successfully in cartDAOFile.`);
             return carts[indexToUpdate];
         } catch (error) {
-            logger.error(`Error updating cart:${error}`);
+            logger.error(`Error updating cart:${error} in cartDAOFile`);
             throw new Error('Cannot update cart');
         }
     }
@@ -99,7 +99,7 @@ export default class CartDAOFile {
             await fs.writeFile(this.path, JSON.stringify(data, null, 2));
             logger.debug(`Writing file...`);
         } catch (error) {
-            logger.error(`Error writing file:${error}`);
+            logger.error(`Error writing file:${error} in cartDAOFile`);
             throw new Error('Cannot write file');
         }
     }
@@ -116,9 +116,9 @@ export default class CartDAOFile {
 
             carts.splice(indexToDelete, 1);
             await this.writeFile(carts);
-            logger.debug(`Cart with ID ${idToDelete} deleted successfully.`);
+            logger.debug(`Cart with ID ${idToDelete} deleted successfully in cartDAOFile.`);
         } catch (error) {
-            logger.error(`Error deleting cart:${error}`);
+            logger.error(`Error deleting cart:${error} in cartDAOFile`);
             throw new Error('Cannot delete cart');
         }
     }

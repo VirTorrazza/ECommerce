@@ -23,7 +23,7 @@ export async function getProducts (req, res){
     let productsPaginated= await service.getAll({}, paginateOptions);
     if (productsPaginated){
         status= "success";
-        logger.info(`Products retrieved`);
+        logger.debug(`Products retrieved`);
     }
     else{
         logger.error(`Resource 'products' not found`);
@@ -185,7 +185,7 @@ export async function updateProduct(req, res) {
             logger.error(`Product with id '${pid}' does not exists in the database`);
             return res.status(400).json( error);
         }
-        logger.info(`Product updated successfully`);
+        logger.debug(`Product updated successfully`);
         return res.status(200).json({ message: "Product updated successfully", payload: updatedProduct });
     } catch (error) {
         logger.error(`Error updating productProduct ${error}`);

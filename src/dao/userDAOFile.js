@@ -35,7 +35,7 @@ export default class userDAOFile{
             logger.debug(`awaiting getAll users operation`);
             return await this.readFile();
         } catch (error) {
-            logger.error(`Error at getting users in DAOFile: ${error}`);
+            logger.error(`Error at getting users in userDAOFile: ${error}`);
             throw new Error('Cannot get all users');
         }
     }
@@ -102,7 +102,7 @@ export default class userDAOFile{
     
             logger.debug(`User with ID ${id} updated successfully.`);
         } catch (error) {
-            logger.error(`Error ${error} when updating user in DAOFile`);
+            logger.error(`Error ${error} when updating user in userDAOFile`);
             throw new Error('Cannot update user');
         }
     }
@@ -119,8 +119,8 @@ export default class userDAOFile{
 
             return user;
         } catch (error) {
-            logger.error(`Error ${error} when finding user by email in DAOFile`);
-            throw new Error(`Error finding user by email: ${error.message} in UserDAOFile`);
+            logger.error(`Error ${error} when finding user by email in userDAOFile`);
+            throw new Error(`Error finding user by email: ${error.message} in userDAOFile`);
         }
     }
 
@@ -131,7 +131,7 @@ export default class userDAOFile{
             const user = users.find(user => user.email === userEmail);
     
             if (!user) {
-                logger.error(`User with email ${userEmail} not found in updateRole operation`)
+                logger.error(`User with email ${userEmail} not found in updateRole operation in userDAOFile`)
                 throw new Error(`User with email ${userEmail} not found.`);
             }
 
@@ -139,11 +139,11 @@ export default class userDAOFile{
             users[index].role = newRole;
 
             await this.writeFile(users);
-            logger.debug(`User with email ${userEmail} role updated to ${newRole} successfully.`);
+            logger.debug(`User with email ${userEmail} role updated to ${newRole} successfully in userDAOFile`);
             return user[index];
             
         } catch (error) {
-            logger.error(`Error ${error} when updating user role in DAOFile`);
+            logger.error(`Error ${error} when updating user role in userDAOFile`);
             throw new Error(`Error updating user role: ${error.message}`);
         }
     }
@@ -167,7 +167,7 @@ export default class userDAOFile{
             logger.debug(`Password updated successfully for user with id ${user.id}.`);
             return users[indexToUpdate];
         } catch (error) {
-            logger.error(`Error ${error} when updating password in DAOFile`);
+            logger.error(`Error ${error} when updating password in userDAOFile`);
             throw new Error(`Error updating password: ${error.message}`);
         }
     }
@@ -179,7 +179,7 @@ export default class userDAOFile{
             const indexToUpdate = users.findIndex(u => u.email === email);
 
             if (indexToUpdate === -1) {
-                logger.error(`User with email ${email} not found in updateLastConnection operation`)
+                logger.error(`User with email ${email} not found in updateLastConnection operation in userDAOFile`)
                 throw new Error(`User with email ${email} not found.`);
             }
 
@@ -190,7 +190,7 @@ export default class userDAOFile{
 
             return users[indexToUpdate];
         } catch (error) {
-            logger.error(`Error ${error} when updating last connection in DAOFile`);
+            logger.error(`Error ${error} when updating last connection in userDAOFile`);
             throw new Error(`Error updating last connection: ${error.message}`);
         }
     }

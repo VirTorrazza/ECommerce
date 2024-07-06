@@ -15,7 +15,7 @@ export default class CartDAOMongo{
             logger.debug(`Cart created in DAO`);
             return await newCart.save();
         } catch (error) {
-            logger.error(`Error creating cart in DAO: ${error.message}`);
+            logger.error(`Error creating cart in cartDAOMongo: ${error.message}`);
             throw new Error(`Error creating cart in DAO: ${error.message}`);
         }
     }

@@ -11,7 +11,7 @@ export default class ProductDAOFile {
         try {
             if (!await fs.access(this.path)) {
                 await fs.writeFile(this.path, JSON.stringify([]));
-                logger.debug(`Created empty file in ProductDAOFile: ${this.path}`);
+                logger.debug(`Created empty file in productDAOFile: ${this.path}`);
             }
         } catch (error) {
             logger.error(`Error: ${error}  when initializing product data file`);
@@ -35,7 +35,7 @@ export default class ProductDAOFile {
             logger.debug(`awaiting getAll products operation`);
             return await this.readFile(); 
         } catch (error) {
-            logger.error(`Error at getting products in DAOFile: ${error}`);
+            logger.error(`Error at getting products in productDAOFile: ${error}`);
             throw new Error('Cannot get all products');
         }
     }
@@ -50,10 +50,10 @@ export default class ProductDAOFile {
             }
             products.push(product);
             await this.writeFile(products);
-            logger.debug(`Successfull save product operation`);
+            logger.debug(`Successfull save product operation in productDAOFile`);
             return product;
         } catch (error) {
-            logger.error(`Error when saving product in DAOFile: ${error}`);
+            logger.error(`Error when saving product in productDAOFile: ${error}`);
             throw new Error('Cannot save product');
         }
     }
@@ -73,15 +73,15 @@ export default class ProductDAOFile {
             const indexToDelete = products.findIndex(product => product.id === productIdToDelete);
 
             if (indexToDelete === -1) {
-                logger.error(`Product with ID ${productIdToDelete} not found in delete operation`);
+                logger.error(`Product with ID ${productIdToDelete} not found in delete operation in productDAOFile`);
                 throw new Error('Product not found');
             }
 
             products.splice(indexToDelete, 1);
             await this.writeFile(products);
-            logger.debug(`Product with ID ${productIdToDelete} deleted successfully.`);
+            logger.debug(`Product with ID ${productIdToDelete} deleted successfully in productDAOFile.`);
         } catch (error) {
-            logger.error(`Error ${error} at delete product operation`);
+            logger.error(`Error ${error} at delete product operation in productDAOFile`);
             throw new Error('Cannot delete product');
         }
     }
@@ -92,16 +92,16 @@ export default class ProductDAOFile {
             const indexToUpdate = products.findIndex(product => product.id === id);
 
             if (indexToUpdate === -1) {
-                logger.error(`Product with ID ${id} not found in update operation`);
+                logger.error(`Product with ID ${id} not found in update operation in productDAOFile`);
                 throw new Error('Product not found');
             }
 
             products[indexToUpdate] = newData;
             await this.writeFile(products);
-            logger.debug(`Product with ID ${id} updated successfully.`);
+            logger.debug(`Product with ID ${id} updated successfully in productDAOFile.`);
             return newData;
         } catch (error) {
-            logger.error(`Error ${error} at update product operation`);
+            logger.error(`Error ${error} at update product operation in productDAOFile`);
             throw new Error('Cannot update product');
         }
     }
@@ -112,13 +112,13 @@ export default class ProductDAOFile {
             const product = products.find(product => product.code === code);
 
             if (!product) {
-                logger.error(`Product with code ${code} not found`);
+                logger.error(`Product with code ${code} not found in productDAOFile`);
                 throw new Error('Product not found');
             }
 
             return product;
         } catch (error) {
-            logger.error(`Error ${error} at find product by code operation`);
+            logger.error(`Error ${error} at find product by code operation in productDAOFile`);
             throw new Error(`Error finding product by code: ${error}`);
         }
     }
