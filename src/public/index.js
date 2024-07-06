@@ -337,7 +337,6 @@ function deleteProduct(pid) {
 }
 
 socket.on("updateProducts",(data) =>{
-  console.log("DATA" +JSON.stringify(data))
   let table= document.getElementById("real-time-products-table");
   let HTMLTable=`
   <thead>

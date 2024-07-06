@@ -19,7 +19,6 @@ sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRed
 
 
 /*sessionRouter.get('/googlecallback', passport.authenticate('google', {failureRedirect: '/login', successRedirect: '/'}), (req,res)=>{
-    console.log("Inside google callback" + req.user);
     req.session.user= req.user;
     res.redirect('/');
 

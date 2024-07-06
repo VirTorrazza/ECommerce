@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import config from "../config/config.js";
+import logger from "../logger/logger.js";
 
 class MongoClient {
   constructor() {
@@ -13,9 +14,10 @@ class MongoClient {
         dbName: config.mongo.dbName,
       });
       this.connected = true;
-      console.log("Connected to MongoDB!");
+   
+      logger.info("Connected to MongoDB");
     } catch (error) {
-      console.error("Error connecting to MongoDB:", error);
+      logger.error(`Error connecting to MongoDB:${error}`);
       throw new Error("Cannot connect to database");
     }
   };
@@ -24,9 +26,9 @@ class MongoClient {
     try {
       await this.client.disconnect();
       this.connected = false; // Disconnected 
-      console.log("Disconnected from MongoDB");
+      logger.info("Disconnected from MongoDB");
     } catch (error) {
-      console.error("Error disconnecting from MongoDB:", error);
+      logger.error(`Error disconnecting from MongoDB:${error}`);
       throw new Error("Cannot disconnect from database");
     }
   };
