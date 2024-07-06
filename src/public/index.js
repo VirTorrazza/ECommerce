@@ -1,3 +1,5 @@
+import logger from '../logger/logger.js';
+
 const socket = io();
 let form = document.getElementById("add-product-form");
 function addProduct() {
@@ -181,7 +183,6 @@ function addProductToTable(event) {
     category: document.getElementById("category").value
   };
 
-  console.log("soy el body"+ JSON.stringify(body))
   fetch('/api/products', {
     method: 'POST',
     body: JSON.stringify(body),
@@ -190,18 +191,15 @@ function addProductToTable(event) {
     }
   })
   .then(async result =>  {
-    const r = await result.json()
-    console.log("soy el resultado" + JSON.stringify(r) )
-
+    const r = await result.json();
     return r
   })
   .then(result => {
     if (result.message === 'Internal Server Error') {
-      console.log ("Soy result 2" + result)
+      logger.error(`Error ${result.message}`);
       throw new Error(result.message);
     }
     let r= result;
-    console.log("segundo episodio" + r);
   return r
   })
   .then(()=>fetch(
@@ -211,14 +209,11 @@ function addProductToTable(event) {
   ))
   .then (async result=> {
     const r = await result.json()
-    console.log("soy el resultado 2episodio2" + JSON.stringify(r) )
-
-    
    return r
   })
   .then(result => {
-    console.log("Soy result" + result)
     if (result.message === ' Internal Server Error') {
+      logger.error(`Error ${result.message}`);
       throw new Error(result.message);
     }
     socket.emit('productsList', result.payload);
@@ -244,13 +239,12 @@ function addProductToTable(event) {
     });
   })
   .catch(err => {
-    //console.log('Error:'+ err);
+    logger.error(`Error ${err.message}`);
     alert('Error: ' + err.message);
   });
 }
 
 function deleteProduct(pid) {
-  console.log("soy el pid" +pid)
   Swal.fire({ // Ask for confirmation before deleting
     title: "Are you sure you want to delete this product?",
     text: "This action cannot be undone.",
