@@ -9,6 +9,10 @@ export const showLoginPage= (req,res)=>{
     res.render('sessions/login');
 }
 
+export const showForgetPasswordPage= (req,res)=>{
+    res.render('sessions/forget-password');
+}
+
 export const showProfilePage = (req, res) => {
     if (req.user) {
         const userDTO = new UserDTO(req.user);

@@ -132,3 +132,12 @@
 {"level":"debug","message":"Successfull retrieval of user with ID 668b293247ee0602256c4e35","timestamp":"2024-07-07T23:48:26.296Z"}
 {"level":"error","message":"Login failed","timestamp":"2024-07-07T23:48:26.297Z"}
 {"level":"debug","message":"Successfull retrieval of user with ID 668b293247ee0602256c4e35","timestamp":"2024-07-07T23:48:29.252Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-08T23:39:54.441Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-08T23:39:54.456Z"}
+{"level":"debug","message":"Products retrieved","timestamp":"2024-07-08T23:40:15.305Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-08T23:42:16.526Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-08T23:42:16.539Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-08T23:44:30.007Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-08T23:44:30.026Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-08T23:44:49.449Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-08T23:44:49.464Z"}
