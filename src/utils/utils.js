@@ -21,7 +21,7 @@ export const passportCall = strategy => {
             if (err) return next(err);
             if (!user){
                 logger.error("User not found");
-                return res.status(401).send(`
+                return res.status(404).send(`
                   <!DOCTYPE html>
                   <html lang="en">
                   <head>
@@ -144,3 +144,11 @@ export const generateMockedProduct=()=>{
 
 }
 
+export const generateRandomString = (num) => {
+  return [...Array(num)].map(() => {
+      const randomNum = ~~(Math.random() * 36);
+      return randomNum.toString(36);
+  })
+      .join('')
+      .toUpperCase();
+}

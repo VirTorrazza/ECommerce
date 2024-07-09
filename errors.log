@@ -141,3 +141,19 @@
 {"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-08T23:44:30.026Z"}
 {"level":"info","message":"Server Up","timestamp":"2024-07-08T23:44:49.449Z"}
 {"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-08T23:44:49.464Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-09T00:51:53.246Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-09T00:51:53.261Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-09T00:54:07.292Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-09T00:54:07.313Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-09T00:54:30.792Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-09T00:54:30.810Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-09T01:02:03.440Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-09T01:02:03.466Z"}
+{"level":"error","message":"User with email  not found in passwordRecovery operation","timestamp":"2024-07-09T01:02:18.916Z"}
+{"level":"error","message":"User with email  not found in passwordRecovery operation","timestamp":"2024-07-09T01:02:37.785Z"}
+{"level":"error","message":"User with email  not found in passwordRecovery operation","timestamp":"2024-07-09T01:02:44.522Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-09T01:14:17.151Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-09T01:14:17.173Z"}
+{"level":"error","message":"User with email  not found in passwordRecovery operation","timestamp":"2024-07-09T01:14:25.377Z"}
+{"level":"error","message":"Login failed","timestamp":"2024-07-09T01:14:31.859Z"}
+{"level":"error","message":"User with email  not found in passwordRecovery operation","timestamp":"2024-07-09T01:14:50.137Z"}

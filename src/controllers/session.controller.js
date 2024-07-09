@@ -1,5 +1,7 @@
-import { JWT_COOKIE_NAME } from '../utils/utils.js';
+import { generateRandomString, JWT_COOKIE_NAME } from '../utils/utils.js';
 import logger from "../logger/logger.js";
+import userModel from '../dao/models/user.model.js';
+import userPasswordModel from '../dao/models/user-password.model.js';
 
 export const registrationFailure = (req, res) => {
     logger.error('Registration failed');
@@ -178,3 +180,94 @@ export const handleLogout = async (req, res) => {
     res.clearCookie(JWT_COOKIE_NAME);
     res.redirect('/login');
 };
+
+export const passwordRecovery= async(req,res)=>{
+  console.log("Holaaa")
+  const email= req.body.email;
+  const user= await userModel.findOne({email});
+  if(!user){
+    logger.error(`User with email ${email} not found in passwordRecovery operation`);
+     return res.status(404).send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Error</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+          body {
+            background-color: #f8f9fa;
+          }
+          .error-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .error-card {
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            text-align: center;
+          }
+          .error-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 20px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="error-container">
+          <div class="error-card">
+            <h1 class="error-title">Error</h1>
+            <p class="text-muted">User not found. Please check your credentials.</p>
+            <a href="/login" class="btn btn-primary">Login</a>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);      
+} 
+  const token = generateRandomString(16);
+
+  await userPasswordModel.create({email,token});
+
+  const nodeMailerConfig = {
+    service: 'gmail',
+    auth: { user: config.nodemailer.user, pass: config.nodemailer.password },
+    tls: {
+      rejectUnauthorized: false
+  }
+}
+  let transporter = nodemailer.createTransport(nodeMailerConfig);
+
+  let message = {
+    from: config.nodemailer.user,
+    to: email,
+    subject: '[E-Commerce] Reset your password',
+    html: `
+        <h1>[E-Commerce] Reset your password</h1>
+        <hr />
+        <p>You have requested to reset your password.</p>
+        <p>You can do it here:</p>
+        <p><a href="http://${req.hostname}:${PORT}/reset-password/${token}">http://${req.hostname}:${PORT}/reset-password/${token}</a></p>
+        <hr />
+        <p>Best regards,</p>
+        <p><strong>The E-Commerce API team</strong></p>
+    `
+};
+
+    try {
+      await transporter.sendMail(message)
+      logger.debug(`Email successfully sent to ${email} in order to reset password`);
+      res.json({ status: 'success', message: `Email successfully sent to ${email} in order to reset password` })
+    } catch (error) {
+      logger.error(`error: ${error.message}`);
+      res.status(500).send({ status: 'error', error: error.message })
+    }
+  }

@@ -14,6 +14,10 @@ const config = {
     },
     environment:{
         env: process.env.ENVIR
+    },
+    nodemailer: {
+        user: process.env.NODEMAILER_USER,
+        password: process.env.NODEMAILER_PASS
     }
 };
 
