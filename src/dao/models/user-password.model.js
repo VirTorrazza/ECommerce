@@ -4,6 +4,7 @@ const userPasswordCollection = 'userPasswords';
 const userPasswordSchema = new mongoose.Schema({
 	email: {
         type: String,
+        required:true,
         ref: 'users'
     },
     token: {
