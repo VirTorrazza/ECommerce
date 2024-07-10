@@ -14,12 +14,12 @@ const ticketSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "products"
             },
-            price: Number,
-            quantity: Number
+            price:{type: Number,required :true},
+            quantity: {type: Number,required :true},
         }]
     },
     purchaser:{ type: String, ref: "users" },
-    amount: { type: Number }, 
+    amount: {type: Number,required :true},
 }, 
 {
     timestamps: {

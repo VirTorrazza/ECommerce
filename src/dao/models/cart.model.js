@@ -10,7 +10,7 @@ const cartSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId, // I cannot access mongoDB reserved words type and
                 ref: "products" // Reference schema
             },
-            quantity: Number // Quantity that user wants
+            quantity: {type: Number,required :true},// Quantity that user wants
         }],
         default: []
     }
