@@ -3,17 +3,18 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 
 const productsCollection= 'products';
 const productSchema= new mongoose.Schema({
-    title: String,
-    description: String,
+    title: {type: String,required :true},
+    description: {type: String,required :true},
     code: {
         type: String,
         required: true,
         unique : true
     },
-    price: Number,
-    stock: Number,
-    category: String,
-    thumbnails: [String], //An array of strings
+    price: {type: Number,required :true},
+    stock: {type: Number,required :true},
+    category: {type: String,required :true},
+    thumbnails: {type: [String],default: []}, //An array of strings
+    owner:{type:String, required: true, default:'admin', ref: "users"}
 });
 
 productSchema.plugin(mongoosePaginate);
