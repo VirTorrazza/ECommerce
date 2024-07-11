@@ -76,6 +76,13 @@ export async function addToCart(req, res) {
             logger.error(`Error getting product by ID: ${pid} in cartscontroller`);
             return res.status(400).json( error);
         }
+
+        if(product.owner ===req.user.email){
+            logger.error(`User with email: ${req.user.email} cannot buy its own products`);
+            return res.status(400).json( error);
+        }
+
+
         let updatedProductIndex = cart.products.findIndex(prod => prod.product.toString() === pid);
 
         if (updatedProductIndex === -1) {

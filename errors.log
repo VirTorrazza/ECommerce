@@ -157,3 +157,5 @@
 {"level":"error","message":"User with email  not found in passwordRecovery operation","timestamp":"2024-07-09T01:14:25.377Z"}
 {"level":"error","message":"Login failed","timestamp":"2024-07-09T01:14:31.859Z"}
 {"level":"error","message":"User with email  not found in passwordRecovery operation","timestamp":"2024-07-09T01:14:50.137Z"}
+{"level":"info","message":"Server Up","timestamp":"2024-07-11T12:36:33.098Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-07-11T12:36:33.121Z"}
