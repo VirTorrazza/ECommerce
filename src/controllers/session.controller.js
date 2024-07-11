@@ -2,6 +2,8 @@ import { generateRandomString, JWT_COOKIE_NAME } from '../utils/utils.js';
 import logger from "../logger/logger.js";
 import userModel from '../dao/models/user.model.js';
 import userPasswordModel from '../dao/models/user-password.model.js';
+import config from '../config/config.js';
+import NodeMailer from 'nodemailer';
 
 export const registrationFailure = (req, res) => {
     logger.error('Registration failed');
@@ -244,7 +246,7 @@ export const passwordRecovery= async(req,res)=>{
       rejectUnauthorized: false
   }
 }
-  let transporter = nodemailer.createTransport(nodeMailerConfig);
+  let transporter = NodeMailer.createTransport(nodeMailerConfig)
 
   let message = {
     from: config.nodemailer.user,
@@ -255,7 +257,7 @@ export const passwordRecovery= async(req,res)=>{
         <hr />
         <p>You have requested to reset your password.</p>
         <p>You can do it here:</p>
-        <p><a href="http://${req.hostname}:${PORT}/reset-password/${token}">http://${req.hostname}:${PORT}/reset-password/${token}</a></p>
+        <p><a href="http://${req.hostname}:${config.apiserver.port}/reset-password//${token}">http://${req.hostname}:${config.apiserver.port}/reset-password//${token}</a></p>
         <hr />
         <p>Best regards,</p>
         <p><strong>The E-Commerce API team</strong></p>
@@ -270,4 +272,18 @@ export const passwordRecovery= async(req,res)=>{
       logger.error(`error: ${error.message}`);
       res.status(500).send({ status: 'error', error: error.message })
     }
+  }
+
+  export const resetPassword = (req,res)=>{
+    res.redirect(`/verify-token/${req.params.token}`);
+  }
+
+  export const verifyToken = async (req,res)=>{
+    const userPassword= await userPasswordModel.findOne({token:req.params.token});
+    if(!userPassword){
+      return res.status(500).send({ status: 'error', error: "Expired token" })
+    }
+
+    const user= userPassword.email;
+    res.render('/reset-password', {user})
   }

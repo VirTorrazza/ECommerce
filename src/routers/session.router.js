@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import passport from 'passport';
-import { handleLogin, handleLogout, loginFailure, redirectToLogin, registrationFailure, redirectToHomePage, passwordRecovery } from '../controllers/session.controller.js';
+import { handleLogin, handleLogout, loginFailure, redirectToLogin, registrationFailure, redirectToHomePage, passwordRecovery, resetPassword, verifyToken } from '../controllers/session.controller.js';
 
 const sessionRouter= Router();
 
@@ -15,6 +15,10 @@ sessionRouter.get('/github', passport.authenticate('github',{scope:['user:email'
 sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), redirectToHomePage);
 
 sessionRouter.post('/forget-password', passwordRecovery);
+
+sessionRouter.post('/reset-password/:token', resetPassword);
+
+sessionRouter.post('/verify-token/:token', verifyToken);
 
 /*sessionRouter.get('/google', passport.authenticate('github',{scope:['profile','email']}), (req,res) => {
 });/ Implementation example  //TODO
