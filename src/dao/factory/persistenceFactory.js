@@ -14,6 +14,9 @@ import ticketModel from "../models/ticket.model.js";
 import TicketDAOMongo from "../TicketDAOMongo.js";
 import MessageDAOMongo from "../messageDAOMongo.js";
 import MessageDAOFile from "../messageDAOFile.js";
+import UserPasswordDAOMongo from "../userPasswordDAOMongo.js";
+import UserPasswordDAOFile from "../models/userPasswordDAOFile.js";
+import userPasswordModel from "../models/user-password.model.js";
 
 export default class PersistenceFactory {
     static getPersistence = async (entityType) => {
@@ -31,6 +34,8 @@ export default class PersistenceFactory {
                             return new TicketDAOFile();
                         case 'MESSAGE':
                             return new MessageDAOFile();
+                        case 'USERPASSWORD':
+                            return new UserPasswordDAOFile();
                         default:
                             throw new Error(`Unsupported entity type for FILE persistence: ${entityType}`);
                     }
@@ -47,6 +52,9 @@ export default class PersistenceFactory {
                             return new TicketDAOMongo(ticketModel);
                         case 'MESSAGE':
                             return new MessageDAOMongo(messageModel);
+                        
+                        case 'USERPASSWORD':
+                            return new UserPasswordDAOMongo(userPasswordModel);
                         default:
                             throw new Error(`Unsupported entity type for MONGO persistence: ${entityType}`);
                     }

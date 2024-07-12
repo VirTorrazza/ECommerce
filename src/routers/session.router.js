@@ -14,11 +14,11 @@ sessionRouter.get('/github', passport.authenticate('github',{scope:['user:email'
 
 sessionRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), redirectToHomePage);
 
-sessionRouter.post('/forget-password', passwordRecovery);
+sessionRouter.post('/forget-password', passwordRecovery);//FUNCIONA
 
-sessionRouter.post('/reset-password/:token', resetPassword);
+sessionRouter.post('/reset-password/:user', resetPassword); 
 
-sessionRouter.post('/verify-token/:token', verifyToken);
+sessionRouter.get('/reset-password/:token', verifyToken);//ENTRA ACA BIEN
 
 /*sessionRouter.get('/google', passport.authenticate('github',{scope:['profile','email']}), (req,res) => {
 });/ Implementation example  //TODO

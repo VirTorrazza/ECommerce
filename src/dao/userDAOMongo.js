@@ -17,6 +17,7 @@ export default class UserDAOMongo {
     }
 
     async getById(id) {
+        console.log("El id es" + id)
         try {
             const user = await this.model.findById(id);
             if (!user) {

@@ -1,9 +1,10 @@
-import { generateRandomString, JWT_COOKIE_NAME } from '../utils/utils.js';
+import { createHash, generateRandomString, JWT_COOKIE_NAME } from '../utils/utils.js';
 import logger from "../logger/logger.js";
 import userModel from '../dao/models/user.model.js';
 import userPasswordModel from '../dao/models/user-password.model.js';
 import config from '../config/config.js';
 import NodeMailer from 'nodemailer';
+import UserPasswordsService from '../services/user-passwords.service.js';
 
 export const registrationFailure = (req, res) => {
     logger.error('Registration failed');
@@ -257,7 +258,7 @@ export const passwordRecovery= async(req,res)=>{
         <hr />
         <p>You have requested to reset your password.</p>
         <p>You can do it here:</p>
-        <p><a href="http://${req.hostname}:${config.apiserver.port}/reset-password//${token}">http://${req.hostname}:${config.apiserver.port}/reset-password//${token}</a></p>
+        <p><a href="http://${req.hostname}:${config.apiserver.port}/api/sessions/reset-password/${token}">Reset Your Password</a></p>
         <hr />
         <p>Best regards,</p>
         <p><strong>The E-Commerce API team</strong></p>
@@ -274,16 +275,36 @@ export const passwordRecovery= async(req,res)=>{
     }
   }
 
-  export const resetPassword = (req,res)=>{
-    res.redirect(`/verify-token/${req.params.token}`);
-  }
 
-  export const verifyToken = async (req,res)=>{
-    const userPassword= await userPasswordModel.findOne({token:req.params.token});
-    if(!userPassword){
-      return res.status(500).send({ status: 'error', error: "Expired token" })
+  export const verifyToken = async (req, res) => {
+    const { token } = req.params;
+    try {
+      const userPassword = await userPasswordModel.findOne({ token });
+      if (!userPassword) {
+        return res.status(400).json({ status: 'error', message: 'Invalid or expired token' });
+      }
+      res.render('sessions/reset-password', { user: userPassword.email });
+    } catch (err) {
+      logger.error(err);
+      res.status(500).json({ status: 'error', error: err.message });
     }
-
-    const user= userPassword.email;
-    res.render('/reset-password', {user})
+  };
+  
+export const resetPassword= async(req,res)=>{
+  try{
+    console.log("En reset password :)")
+    const user= await userModel.findOne({email:req.params.user});
+    await userModel.findByIdAndUpdate(user._id, {password:createHash(req.body.newPassword)});
+    res.render('sessions/password-change-success');
+    let service= new UserPasswordsService();
+    logger.debug("Deleting userpassword ...")
+    await service.delete(user._id);
+  }catch (err) {
+    logger.error("Error at password reset operation");
+    res.status(500).json({ status: 'error', error: err.message });
   }
+  
+  
+
+}
+
