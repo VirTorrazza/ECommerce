@@ -5,7 +5,6 @@ import userPasswordModel from '../dao/models/user-password.model.js';
 import config from '../config/config.js';
 import NodeMailer from 'nodemailer';
 import UserPasswordsService from '../services/user-passwords.service.js';
-import UserPasswordDAOMongo from '../dao/userPasswordDAOMongo.js';
 
 export const registrationFailure = (req, res) => {
     logger.error('Registration failed');
@@ -186,7 +185,6 @@ export const handleLogout = async (req, res) => {
 };
 
 export const passwordRecovery= async(req,res)=>{
-  console.log("Holaaa")
   const email= req.body.email;
   const user= await userModel.findOne({email});
   if(!user){
@@ -293,15 +291,12 @@ export const passwordRecovery= async(req,res)=>{
   
 export const resetPassword= async(req,res)=>{
   try{
-    console.log("En reset password")
     const user= await userModel.findOne({email:req.params.user});
     await userModel.findByIdAndUpdate(user._id, {password:createHash(req.body.newPassword)});
+    logger.debug("Deleting user password...");
+    await userPasswordModel.deleteOne({email:req.params.user})
     res.render('sessions/password-change-success');
-
-    let dao = new UserPasswordDAOMongo(userPasswordModel);
-    let service= new UserPasswordsService(dao);
-    logger.debug("Deleting userpassword ...")
-    await service.delete(req.params.user);
+    
   }catch (err) {
     logger.error("Error at password reset operation");
     res.status(500).json({ status: 'error', error: err.message });

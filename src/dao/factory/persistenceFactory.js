@@ -34,7 +34,7 @@ export default class PersistenceFactory {
                             return new TicketDAOFile();
                         case 'MESSAGE':
                             return new MessageDAOFile();
-                        case 'USERPASSWORD':
+                        case 'PASSWORD':
                             return new UserPasswordDAOFile();
                         default:
                             throw new Error(`Unsupported entity type for FILE persistence: ${entityType}`);
@@ -52,8 +52,7 @@ export default class PersistenceFactory {
                             return new TicketDAOMongo(ticketModel);
                         case 'MESSAGE':
                             return new MessageDAOMongo(messageModel);
-                        
-                        case 'USERPASSWORD':
+                        case 'PASSWORD':
                             return new UserPasswordDAOMongo(userPasswordModel);
                         default:
                             throw new Error(`Unsupported entity type for MONGO persistence: ${entityType}`);

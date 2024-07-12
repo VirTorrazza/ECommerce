@@ -1,21 +1,25 @@
 import mongoose from "mongoose";
 
-const userPasswordCollection = 'userPasswords'; 
+const userPasswordCollection = 'userpasswords'; // Nombre de la colleccion
+
 const userPasswordSchema = new mongoose.Schema({
-	email: {
+	
+    email: { 
         type: String,
-        required:true,
-        ref: 'users'
+        ref: "users"
     },
     token: {
         type: String,
         required: true
     },
-
+    isUsed: {
+        type: Boolean,
+        default: false
+    },
     createdAt: {
         type: Date,
-        default: Date.now(),
-        expireAfterSeconds:3000
+        default: Date.now, 
+        expireAfterSeconds: 3600
     }
 });
 

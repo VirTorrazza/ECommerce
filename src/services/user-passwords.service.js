@@ -7,7 +7,7 @@ export default class UserPasswordsService {
 
     init = async () => {
         try {
-            this.dao = await PersistenceFactory.getPersistence('USERPASSWORD')
+            this.dao = await PersistenceFactory.getPersistence('PASSWORD');
         } catch (error) {
             console.error('Failed to initialize repository:', error);
             throw error;
@@ -15,17 +15,25 @@ export default class UserPasswordsService {
     }
 
     save = async (userToken) => {
-        return await this.dao.save(userToken);
+        try {
+            const result = await this.dao.save(userToken);
+            console.log("Saved user token. Result:", result);
+            return result;
+        } catch (error) {
+            console.error('Error saving user token:', error);
+            throw error;
+        }
     }
 
-    async delete(email) {
+    delete = async (email) => {
         try {
-            const result = await this.dao.delete(email)
+            console.log("Deleting user with email:", email);
+            const result = await this.dao.delete(email);
             console.log(`Deleted user with email ${email}. Result:`, result);
             return result;
         } catch (error) {
             console.error(`Error deleting user with email ${email}:`, error);
-            throw error; 
+            throw error;
         }
     }
 }
