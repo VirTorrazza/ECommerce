@@ -15,7 +15,7 @@ import TicketDAOMongo from "../TicketDAOMongo.js";
 import MessageDAOMongo from "../messageDAOMongo.js";
 import MessageDAOFile from "../messageDAOFile.js";
 import UserPasswordDAOMongo from "../userPasswordDAOMongo.js";
-import UserPasswordDAOFile from "../models/userPasswordDAOFile.js";
+import UserPasswordDAOFile from "../userPasswordDAOFile.js";
 import userPasswordModel from "../models/user-password.model.js";
 
 export default class PersistenceFactory {

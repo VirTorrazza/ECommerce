@@ -10,13 +10,15 @@ export default class UserPasswordDAOMongo {
         return result;
     }
 
-    delete= async (id) => {
+    delete = async (email) => {
         try {
-            const result = await this.model.findByIdAndDelete(id);
-            console.log(result); 
+            const result = await this.model.findOneAndDelete({ email });
+            console.log(result);
         } catch (error) {
             console.error("Error deleting user password:", error);
+            throw error; 
         }
     };
+    
 
 }

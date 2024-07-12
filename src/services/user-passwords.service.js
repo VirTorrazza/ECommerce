@@ -18,13 +18,13 @@ export default class UserPasswordsService {
         return await this.dao.save(userToken);
     }
 
-    async delete(id) {
+    async delete(email) {
         try {
-            const result = await this.dao.delete(id)
-            console.log(`Deleted user with ID ${id}. Result:`, result);
+            const result = await this.dao.delete(email)
+            console.log(`Deleted user with email ${email}. Result:`, result);
             return result;
         } catch (error) {
-            console.error(`Error deleting user with ID ${id}:`, error);
+            console.error(`Error deleting user with email ${email}:`, error);
             throw error; 
         }
     }
