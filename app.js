@@ -10,7 +10,6 @@ import sessionRouter from './src/routers/session.router.js';
 import {Server} from 'socket.io';
 import handlebars from 'express-handlebars';
 import cors from 'cors';
-import ProductManager from './src/data/productManager.js';
 import passport from 'passport';
 import initializePassport from './src/config/passport.config.js';
 import config from './src/config/config.js';
@@ -18,6 +17,22 @@ import MessagesService from './src/services/messages.service.js';
 import ProductsService from './src/services/products.service.js';
 import logger from './src/logger/logger.js';
 import loggerRouter from './src/routers/logger.router.js';
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info: {
+            title: 'ECommerce Application',
+            description: 'Ecommerce app where users can browse, shop, and manage purchases, enhancing their online shopping experience'
+        }
+    },
+    apis: ['./docs/**/*.yaml']
+}
+
+const specs = swaggerJSDoc(swaggerOptions);
 
 const PORT =config.apiserver.port;
 
@@ -26,6 +41,7 @@ app.use(express.static('src/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use('/documentation', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use(session({
     secret:"secret",
     resave:true,
