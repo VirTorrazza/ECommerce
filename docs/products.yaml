@@ -1,0 +1,375 @@
+api/products:
+  get:
+    summary: Retrieves all products with pagination
+    tags:
+      - Products
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: limit
+        in: query
+        description: Number of products per page (default is 10)
+        schema:
+          type: integer
+          minimum: 1
+          default: 10
+      - name: page
+        in: query
+        description: Page number (default is 1)
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: category
+        in: query
+        description: Filter products by category
+        schema:
+          type: string
+      - name: stock
+        in: query
+        description: Filter products by stock availability
+        schema:
+          type: boolean
+      - name: sort
+        in: query
+        description: Sort products by price ('asc' or 'desc')
+        schema:
+          type: string
+          enum: [asc, desc]
+    responses:
+      "200":
+        description: "Products retrieval was successful"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: Status of the request
+                products:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+                  description: List of products
+                paginateInfo:
+                  type: object
+                  properties:
+                    totalPages:
+                      type: integer
+                      description: Total number of pages
+                    page:
+                      type: integer
+                      description: Current page number
+                    hasPrevPage:
+                      type: boolean
+                      description: Indicates if there is a previous page
+                    hasNextPage:
+                      type: boolean
+                      description: Indicates if there is a next page
+                    prevLink:
+                      type: string
+                      description: Link to the previous page
+                    nextLink:
+                      type: string
+                      description: Link to the next page
+                pages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        description: Page number
+                      link:
+                        type: string
+                        description: Link to the page
+                      isActive:
+                        type: boolean
+                        description: Indicates if this page is currently active
+      "500":
+        description: "Error in product's retrieval"
+
+  post:
+    summary: Creates a new product in the database
+    tags:
+      - Products
+    security: 
+      -bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Title of the product
+              description:
+                type: string
+                description: Description of the product
+              code:
+                type: string
+                description: Unique code for the product
+              price:
+                type: number
+                description: Price of the product
+              stock:
+                type: number
+                description: Stock quantity of the product
+              category:
+                type: string
+                description: Category of the product
+              thumbnails:
+                type: array
+                items:
+                  type: string
+                  description: URLs of product thumbnails
+            required:
+              - title
+              - description
+              - code
+              - price
+              - stock
+              - category
+    responses:
+      "201":
+        description: "Product created successfully"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: Confirmation message
+                product:
+                  $ref: '#/components/schemas/Product'
+      "400":
+        description: "Bad request, missing required fields or invalid data"
+      "500":
+        description: "Internal Server Error"
+
+api/products/code/{code}:
+  get:
+    summary: Retrieves a product by its unique code
+    tags:
+      - Products
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: code
+        in: path
+        required: true
+        description: Unique code of the product to retrieve
+        schema:
+          type: string
+    responses:
+      "200":
+        description: "Product retrieved successfully"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  $ref: '#/components/schemas/Product'
+      "400":
+        description: "Bad request, product with the given code not found"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Error message indicating product not found
+      "500":
+        description: "Internal Server Error"
+
+
+api/products/{pid}:
+  get:
+    summary: Retrieves a product by its ID
+    tags:
+      - Products
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: pid
+        in: path
+        required: true
+        description: ID of the product to retrieve
+        schema:
+          type: string
+    responses:
+      "200":
+        description: "Product retrieved successfully"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  $ref: '#/components/schemas/Product'
+      "400":
+        description: "Bad request, product with the given ID not found"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Error message indicating product not found
+      "500":
+        description: "Internal Server Error"
+
+  put:
+    summary: Updates an existing product
+    tags:
+      - Products
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: pid
+        in: path
+        required: true
+        description: ID of the product to update
+        schema:
+          type: string
+      - in: body
+        name: product
+        required: true
+        description: Updated product information
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Updated title of the product
+            description:
+              type: string
+              description: Updated description of the product
+            code:
+              type: string
+              description: Updated unique code for the product
+            price:
+              type: number
+              description: Updated price of the product
+            stock:
+              type: number
+              description: Updated stock quantity of the product
+            category:
+              type: string
+              description: Updated category of the product
+            thumbnails:
+              type: array
+              items:
+                type: string
+                description: Updated URLs of product thumbnails
+    responses:
+      "200":
+        description: "Product updated successfully"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: Confirmation message
+                payload:
+                  $ref: '#/components/schemas/Product'
+      "400":
+        description: "Bad request, product with the given ID not found"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Error message indicating product not found or invalid update
+      "500":
+        description: "Internal Server Error"
+
+  delete:
+    summary: Deletes a product by its ID
+    tags:
+      - Products
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: pid
+        in: path
+        required: true
+        description: ID of the product to delete
+        schema:
+          type: string
+    responses:
+      "200":
+        description: "Product deleted successfully"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: Confirmation message
+      "400":
+        description: "Bad request, product with the given ID not found"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Error message indicating product not found or deletion failed
+      "403":
+        description: "Forbidden, user not authorized to delete the product"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Error message indicating user is not authorized to delete the product
+      "500":
+        description: "Internal Server Error"
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the product
+        title:
+          type: string
+          description: Title of the product
+        description:
+          type: string
+          description: Description of the product
+        code:
+          type: string
+          description: Unique code for the product
+        price:
+          type: number
+          description: Price of the product
+        stock:
+          type: integer
+          description: Stock quantity of the product
+        category:
+          type: string
+          description: Category of the product
+        thumbnails:
+          type: array
+          items:
+            type: string
+            description: URLs of product thumbnails
