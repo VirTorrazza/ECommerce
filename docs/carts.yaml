@@ -92,3 +92,62 @@ paths:
                   error:
                     type: string
                     example: Internal Server Error
+
+
+/cart/{cid}/product/{pid}:
+  post:
+    summary: Add a product to a cart
+    tags:
+      - Cart
+    parameters:
+      - in: path
+        name: cid
+        required: true
+        schema:
+          type: string
+        description: The ID of the cart to which the product will be added
+      - in: path
+        name: pid
+        required: true
+        schema:
+          type: string
+        description: The ID of the product to add to the cart
+    security:
+      - publicRoutes: []
+    responses:
+      '200':
+        description: Product added to cart successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: object
+                  description: The updated cart object after adding the product
+      '400':
+        description: Error adding product to cart
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Cart Get By ID Error
+                code:
+                  type: number
+                  example: 400
+                cause:
+                  type: string
+                  example: Cart with id {cid} does not exist or Product with id {pid} does not exist
+      '500':
+        description: Internal Server Error
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: Internal Server Error
