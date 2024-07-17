@@ -22,7 +22,7 @@ paths:
                 type: object
                 properties:
                   payload:
-                    type: object  # Adjust the type based on what 'newCart' structure is
+                    type: object  
                     description: The newly created cart object
         '500':
           description: Internal Server Error
@@ -141,6 +141,79 @@ paths:
                 cause:
                   type: string
                   example: Cart with id {cid} does not exist or Product with id {pid} does not exist
+      '500':
+        description: Internal Server Error
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: Internal Server Error
+
+  delete:
+    summary: Remove a product from a cart
+    tags:
+      - Cart
+    parameters:
+      - in: path
+        name: cid
+        required: true
+        schema:
+          type: string
+        description: The ID of the cart from which the product will be removed
+      - in: path
+        name: pid
+        required: true
+        schema:
+          type: string
+        description: The ID of the product to remove from the cart
+    security:
+      - publicRoutes: []  
+    responses:
+      '200':
+        description: Product removed from cart successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: object  
+                  description: The updated cart object after removing the product
+      '404':
+        description: Product not found
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Product Get By ID Error
+                code:
+                  type: number
+                  example: 404
+                cause:
+                  type: string
+                  example: Product with id {pid} does not exist
+      '400':
+        description: Error removing product from cart
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Cart Get By ID Error
+                code:
+                  type: number
+                  example: 400
+                cause:
+                  type: string
+                  example: Cart with id {cid} does not exist
       '500':
         description: Internal Server Error
         content:
