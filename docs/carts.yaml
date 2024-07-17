@@ -203,68 +203,68 @@ paths:
                     type: string
                     example: Internal Server Error
 
-  put:
-    summary: Update a cart
-    tags:
-      - Cart
-    parameters:
-      - in: path
-        name: cid
-        required: true
-        schema:
-          type: string
-        description: The ID of the cart to be updated
-      - in: body
-        name: body
-        required: true
-        description: Updated cart data
-        schema:
-          type: object
-          properties:
-            products:
-              type: array
-              items:
+    put:
+      summary: Update a cart
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart to be updated
+        - in: body
+          name: body
+          required: true
+          description: Updated cart data
+          schema:
+            type: object
+            properties:
+              products:
+                type: array
+                items:
+                  type: object
+                example: []  
+      security:
+        - publicRoutes: []  
+      responses:
+        '200':
+          description: Cart updated successfully
+          content:
+            application/json:
+              schema:
                 type: object
-              example: []  
-    security:
-      - publicRoutes: []  
-    responses:
-      '200':
-        description: Cart updated successfully
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                payload:
-                  type: object  
-                  description: The updated cart object
-      '400':
-        description: Error updating cart
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: Cart Get By ID Error
-                code:
-                  type: number
-                  example: 400
-                cause:
-                  type: string
-                  example: Cart with id {cid} does not exist
-      '500':
-        description: Internal Server Error
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                error:
-                  type: string
-                  example: Internal Server Error
+                properties:
+                  payload:
+                    type: object  
+                    description: The updated cart object
+        '400':
+          description: Error updating cart
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Cart Get By ID Error
+                  code:
+                    type: number
+                    example: 400
+                  cause:
+                    type: string
+                    example: Cart with id {cid} does not exist
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal Server Error
 
 
 /cart/{cid}/product/{pid}:
