@@ -41,6 +41,65 @@ paths:
                     type: string
                     example: Internal Server Error
 
+  /cart/{cid}/purchase:
+    get:
+      summary: Purchase items in a cart
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart containing the items to purchase
+      security:
+        - publicRoutes: [] 
+      responses:
+        '201':
+          description: Items purchased successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object  
+                    description: Details of the purchase transaction
+        '400':
+          description: Error purchasing items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Cart Get By ID Error
+                  code:
+                    type: number
+                    example: 400
+                  cause:
+                    type: string
+                    example: Cart with id {cid} does not exist
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Internal Server Error
+
+
   /cart/{cid}:
     get:
       summary: Retrieve a cart by ID
@@ -339,6 +398,87 @@ paths:
                   type: string
                   example: Internal Server Error
 
+  
+
+  /cart/{cid}/products/{pid}:
+  put:
+    summary: Update quantity of a product in a cart
+    tags:
+      - Cart
+    parameters:
+      - in: path
+        name: cid
+        required: true
+        schema:
+          type: string
+        description: The ID of the cart containing the product
+      - in: path
+        name: pid
+        required: true
+        schema:
+          type: string
+        description: The ID of the product to update in the cart
+      - in: body
+        name: body
+        required: true
+        description: Updated quantity of the product in the cart
+        schema:
+          type: object
+          properties:
+            quantity:
+              type: integer
+              example: 3
+              description: New quantity of the product in the cart
+    security:
+      - publicRoutes: []  
+    responses:
+      '200':
+        description: Cart item updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  $ref: '#/components/schemas/Cart'
+      '400':
+        description: Error updating cart item
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Cart Get By ID Error
+                code:
+                  type: number
+                  example: 400
+                cause:
+                  type: string
+                  example: Cart with id {cid} does not exist or Product with id {pid} does not exist
+      '404':
+        description: Product not found in cart
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: Product with id {pid} not found in cart with id {cid}
+      '500':
+        description: Internal Server Error
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: Internal Server Error
+
+
 
 components:
   schemas:
@@ -362,3 +502,4 @@ components:
                 type: integer
                 example: 2
                 description: Quantity of the product in the cart
+
