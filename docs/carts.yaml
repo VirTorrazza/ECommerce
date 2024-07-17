@@ -144,6 +144,68 @@ paths:
                   type: string
                   example: Internal Server Error
 
+  put:
+    summary: Update a cart
+    tags:
+      - Cart
+    parameters:
+      - in: path
+        name: cid
+        required: true
+        schema:
+          type: string
+        description: The ID of the cart to be updated
+      - in: body
+        name: body
+        required: true
+        description: Updated cart data
+        schema:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                type: object
+              example: []  
+    security:
+      - publicRoutes: []  
+    responses:
+      '200':
+        description: Cart updated successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: object  
+                  description: The updated cart object
+      '400':
+        description: Error updating cart
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Cart Get By ID Error
+                code:
+                  type: number
+                  example: 400
+                cause:
+                  type: string
+                  example: Cart with id {cid} does not exist
+      '500':
+        description: Internal Server Error
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: Internal Server Error
 
 
 /cart/{cid}/product/{pid}:
@@ -276,3 +338,27 @@ paths:
                 error:
                   type: string
                   example: Internal Server Error
+
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 60f8c52f59a09a001f6f1ff7
+          description: Unique identifier for the cart
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+                example: 609c6f37f7f385001fd06b1d
+                description: ID of the product in the cart
+              quantity:
+                type: integer
+                example: 2
+                description: Quantity of the product in the cart
