@@ -1,0 +1,94 @@
+paths:
+  /cart:
+    post:
+      summary: Create a new cart
+      tags:
+        - Cart
+      security:
+        - publicRoutes: [] 
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {} 
+      responses:
+        '201':
+          description: Cart created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object  # Adjust the type based on what 'newCart' structure is
+                    description: The newly created cart object
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Cart Creation Attempt Failed Error
+                  code:
+                    type: number
+                    example: 500
+                  cause:
+                    type: string
+                    example: Internal Server Error
+
+  /cart/{cid}:
+    get:
+      summary: Retrieve a cart by ID
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart to retrieve
+      security:
+        - publicRoutes: []
+      responses:
+        '200':
+          description: Successful retrieval of the cart
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object 
+                    description: The cart object
+        '400':
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Cart Get By ID Error
+                  code:
+                    type: number
+                    example: 400
+                  cause:
+                    type: string
+                    example: Cart with id {cid} does not exists
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal Server Error
