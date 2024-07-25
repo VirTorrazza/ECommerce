@@ -4,7 +4,7 @@ import { publicRoutes,handlePolicies} from '../middlewares/auth.middleware.js';
 
 const productRouter = Router();
 
-productRouter.get('/',publicRoutes, getProducts);
+productRouter.get('/',publicRoutes,getProducts);
 
 productRouter.get('/code/:code',publicRoutes,handlePolicies(['USER', 'ADMIN','PREMIUM']),getProductByCode); 
 
